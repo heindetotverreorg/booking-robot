@@ -1,5 +1,5 @@
 import { Page } from 'puppeteer';
-import { Action } from '@/types/flow'
+import type { Action } from '@/types/flow'
 import { doInput, doClick, doSelect, doWait } from '@/server/scraping/utils';
 import { isDynamicSelector, createSelector } from '@/utils';
 

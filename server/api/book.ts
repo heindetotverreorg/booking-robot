@@ -1,5 +1,5 @@
 import flowsJson from '@/flows/index.json'
-import { Flow } from '@/types/flow'
+import type { Flow } from '@/types/flow'
 import { runFlow } from '@/server/scraping/runFlow';
 
 export default defineEventHandler(async (event) => {

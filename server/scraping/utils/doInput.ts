@@ -1,5 +1,5 @@
 import { Page } from 'puppeteer';
-import { Action } from '@/types/flow'
+import type { Action } from '@/types/flow'
 
 export default async (page: Page, action: Action) => {
     const {
@@ -8,8 +8,10 @@ export default async (page: Page, action: Action) => {
     } = action
 
     await page.$eval(selector, (el, value) => {
-        el.value = value
+        const inputEl = el as HTMLInputElement
 
-        return el.value
+        inputEl.value = value as string
+
+        return inputEl.value
     }, value);
 }
