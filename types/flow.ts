@@ -16,8 +16,9 @@ interface Action {
     type: string,
     key: string,
     selector: string,
-    value?: string | number,
-    wait?: string,
+    value?: string | number | string[],
+    waitSelector?: string,
+    delay?: number,
     format?: string
 }
 

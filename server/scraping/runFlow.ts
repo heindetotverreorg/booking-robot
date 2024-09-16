@@ -38,7 +38,7 @@ const runFlowSteps = async ({
         const { actions } = step
 
         for (const action of actions) {
-            await doAction(page, action, payload)
+            await doAction(page, { ...action }, payload)
         }
     }
 }

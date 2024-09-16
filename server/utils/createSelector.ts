@@ -5,17 +5,25 @@ type FunctionMap = {
 };
 
 export default (action : Action) => {
-    const { selector, value, format } = action
+    let { value, format, selector } = action
 
-    const extractedFunctionName = extractValue(selector)
-    const selectorCreationFunction = validateExtractedValue(extractedFunctionName) as Function
-    const newSelector = selectorCreationFunction(value, format)
+    const occurences = action.selector.match(/{(.*?)}/g) || []
 
-    if (selector.includes(`{${selectorCreationFunction.name}}`)) {
-        action.selector = action.selector.replace(`{${selectorCreationFunction.name}}`, newSelector);
+    if (!Array.isArray(value)) {
+        value = [value as string]
     }
 
-    return action.selector
+    occurences.forEach((_, index) => {
+        const extractedFunctionName = extractValue(selector)
+        const selectorCreationFunction = validateExtractedValue(extractedFunctionName) as Function
+        const newSelector = selectorCreationFunction(value[index], format)
+    
+        if (selector.includes(`{${selectorCreationFunction.name}}`)) {
+            selector = selector.replace(`{${selectorCreationFunction.name}}`, newSelector);
+        }
+    })
+
+    return selector
 }
 
 function extractValue(inputString : string) {
@@ -35,5 +43,7 @@ function validateExtractedValue(functionName: string) {
 }
 
 const functionMap: FunctionMap = {
-    convertDateToRequiredFormat
+    convertDateToRequiredFormat,
+    getBookingTime,
+    getBookingCourt
 };

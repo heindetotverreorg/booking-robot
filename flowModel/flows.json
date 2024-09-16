@@ -1,4 +1,4 @@
-[
+[ 
     {
         "name": "Bent Sports Padel Robot",
         "id": "bent-sports-padel-robot",
@@ -23,7 +23,7 @@
                         "type": "click",
                         "key": "loginSubmit",
                         "selector": ".button3",
-                        "wait": "#matrix-sport"
+                        "waitSelector": "#matrix-sport"
                     }
                 ]
             },
@@ -43,8 +43,20 @@
                     {
                         "type": "click",
                         "key": "dateSelect",
-                        "selector": "cal_{convertDateToRequiredFormat}",
-                        "format": "YYYY_MM_DD"
+                        "selector": "#cal_{convertDateToRequiredFormat} a",
+                        "format": "YYYY_MM_DD",
+                        "delay": 1000
+                    }
+                ]
+            },
+            {
+                "name": "select court and time",
+                "actions": [
+                    {
+                        "type": "click",
+                        "key": "timeCourtSelect",
+                        "selector": "tr[data-time=\"{getBookingTime}\"] [title=\"Padel Buiten {getBookingCourt}\"]",
+                        "waitSelector": ".lightbox"
                     }
                 ]
             }
