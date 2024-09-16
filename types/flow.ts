@@ -17,7 +17,8 @@ interface Action {
     key: string,
     selector: string,
     value?: string | number,
-    wait?: string
+    wait?: string,
+    format?: string
 }
 
 export type { Flow, Step, Action }

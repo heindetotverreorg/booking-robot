@@ -2,15 +2,13 @@ import { Page } from 'puppeteer';
 import type { Action } from '@/types/flow'
 
 export const doAction = async (page: Page, action: Action, payload: Record<string, Action> ) => {
-    console.log(action.key)
+    console.log(action)
     if (action && payload[action.key]) {
         action.value = payload[action.key].value
     }
 
-    if (isDynamicSelector(action)) {
+    if (action.value && isDynamicSelector(action)) {
         action.selector = createSelector(action)
-
-        return
     }
 
     if (action.type === 'click') {

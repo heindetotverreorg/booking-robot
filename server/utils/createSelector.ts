@@ -1,16 +1,39 @@
 import type { Action } from '@/types/flow'
 
+type FunctionMap = {
+    [key: string]: Function;
+};
+
 export default (action : Action) => {
-    const { selector } = action
+    const { selector, value, format } = action
 
-    const value = action.value as string
+    const extractedFunctionName = extractValue(selector)
+    const selectorCreationFunction = validateExtractedValue(extractedFunctionName) as Function
+    const newSelector = selectorCreationFunction(value, format)
 
-    console.log(action)
+    if (selector.includes(`{${selectorCreationFunction.name}}`)) {
+        action.selector = action.selector.replace(`{${selectorCreationFunction.name}}`, newSelector);
+    }
 
-    const regex = /cal_\{([^}]+)\}/;
-    const match = value.match(regex);
-
-    console.log(match, selector)
-
-    return ''
+    return action.selector
 }
+
+function extractValue(inputString : string) {
+    const match = inputString.match(/\{(.*?)\}/);
+    if (match) {
+        return match[1];
+    }
+    return '';
+}
+
+function validateExtractedValue(functionName: string) {
+    if (functionMap[functionName]) {
+        return functionMap[functionName];
+    } else {
+        throw new Error(`selectorCreationFunction ${functionName} not found`);
+    }
+}
+
+const functionMap: FunctionMap = {
+    convertDateToRequiredFormat
+};

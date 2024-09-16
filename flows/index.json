@@ -43,7 +43,8 @@
                     {
                         "type": "click",
                         "key": "dateSelect",
-                        "selector": "cal_{dateOfBooking}"
+                        "selector": "cal_{convertDateToRequiredFormat}",
+                        "format": "YYYY_MM_DD"
                     }
                 ]
             }
