@@ -9,17 +9,25 @@
   const response = ref(null)
 
   const onClick = async () => {
-    console.log('Boek baan');
-    const { data, error } = await fetch('http://localhost:3000/api/book', {
+    response.value  = await $fetch('http://localhost:3000/api/book', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ name: 'Padel' })
+      body: JSON.stringify({
+        targetFlow: 'bent-sports-padel-robot',
+        flowParams: {
+          email: {
+            value: 'mpoortvliet8570'
+          },
+          password:  {
+            value: '10*Matthias'
+          },
+          sportSelect: {
+            value: 'sport/1280'
+          }
+        }
+      })
     })
-
-    if(!error) {
-      response.value = data
-    }
   }
 </script>

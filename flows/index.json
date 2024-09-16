@@ -1,0 +1,52 @@
+[
+    {
+        "name": "Bent Sports Padel Robot",
+        "id": "bent-sports-padel-robot",
+        "type": "robot",
+        "url": "https://bent.baanreserveren.nl/reservations",
+        "bookingThreshold": 3,
+        "steps": [
+            {
+                "name": "login",
+                "actions": [
+                    {
+                        "type": "input",
+                        "key": "email",
+                        "selector": "input[type='email']"
+                    },
+                    {
+                        "type": "input",
+                        "key": "password",
+                        "selector": "input[type='password']"
+                    },
+                    {
+                        "type": "click",
+                        "key": "loginSubmit",
+                        "selector": ".button3",
+                        "wait": "#matrix-sport"
+                    }
+                ]
+            },
+            {
+                "name": "select sport",
+                "actions": [
+                    {
+                        "type": "select",
+                        "key": "sportSelect",
+                        "selector": "#matrix-sport"
+                    }
+                ]
+            },
+            {
+                "name": "select date",
+                "actions": [
+                    {
+                        "type": "click",
+                        "key": "dateSelect",
+                        "selector": "cal_{dateOfBooking}"
+                    }
+                ]
+            }
+        ]
+    }
+]
