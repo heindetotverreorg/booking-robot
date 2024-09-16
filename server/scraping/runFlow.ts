@@ -1,6 +1,5 @@
 import puppeteer, { Page } from 'puppeteer';
 import type { Flow, Action, Step } from '@/types/flow'
-import { doDelay } from '@/server/scraping/utils';
 import { doAction } from '@/server/scraping/doAction';
 
 export const runFlow = async (

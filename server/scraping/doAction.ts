@@ -1,7 +1,5 @@
 import { Page } from 'puppeteer';
 import type { Action } from '@/types/flow'
-import { doInput, doClick, doSelect, doWait } from '@/server/scraping/utils';
-import { isDynamicSelector, createSelector } from '@/utils';
 
 export const doAction = async (page: Page, action: Action, payload: Record<string, Action> ) => {
     console.log(action.key)
