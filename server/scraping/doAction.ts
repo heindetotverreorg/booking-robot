@@ -4,6 +4,12 @@ import type { Action } from '@/types/flow'
 export const doAction = async (page: Page, action: Action ) => {
     console.log(action.value)
 
+    if (action.key === 'confirmBooking') {
+        console.log('no submit, is test mode')
+        await doDelay(1000)
+        return
+    }
+
     if (isDynamicSelector(action)) {
         action.selector = createSelector(action)
     }
@@ -23,6 +29,4 @@ export const doAction = async (page: Page, action: Action ) => {
     if (action.waitSelector || action.delay) {
         await doWait(page, action)
     }
-
-    console.log(action.selector)
 }

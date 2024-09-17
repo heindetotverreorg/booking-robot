@@ -16,6 +16,7 @@ interface Action {
     type: string,
     key: string,
     selector: string,
+    parentSelector?: string,
     value?: string | number | (string | number)[],
     waitSelector?: string,
     delay?: number,

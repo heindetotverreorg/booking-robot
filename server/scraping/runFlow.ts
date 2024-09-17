@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer';
 import type { Flow, Action } from '@/types/flow'
-import { runFlowSteps } from './runSteps';
+import { runFlowSteps } from './runFlowSteps';
 
 export const runFlow = async (
     flow : Flow, 

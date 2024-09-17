@@ -70,6 +70,63 @@
                         "format": "lastInArray"
                     }
                 ]
+            },
+            {
+                "name": "selectPeople",
+                "actions": [
+                    {
+                        "type": "input",
+                        "key": "personOne",
+                        "selector": "input",
+                        "parentSelector": "[name=\"players[2]\"]"
+                    },
+                    {
+                        "type": "input",
+                        "key": "personTwo",
+                        "selector": "input",
+                        "parentSelector": "[name=\"players[3]\"]"
+                    },
+                    {
+                        "type": "input",
+                        "key": "personThree",
+                        "selector": "input",
+                        "parentSelector": "[name=\"players[4]\"]"
+                    },
+                    {
+                        "type": "select",
+                        "key": "personOne",
+                        "selector": "[name=\"players[2]\"]",
+                        "format": "selectFromTextInElement"
+                    },
+                    {
+                        "type": "select",
+                        "key": "personTwo",
+                        "selector": "[name=\"players[3]\"]",
+                        "format": "selectFromTextInElement"
+                    },
+                    {
+                        "type": "select",
+                        "key": "personThree",
+                        "selector": "[name=\"players[4]\"]",
+                        "format": "selectFromTextInElement"
+                    },
+                    {
+                        "type": "click",
+                        "key": "selectPeopleSubmit",
+                        "selector": "#__make_submit",
+                        "waitSelector": "#__make_submit2"
+                    }
+                ]
+            },
+            {
+                "name": "confirmBooking",
+                "actions": [
+                    {
+                        "type": "click",
+                        "key": "confirmBooking",
+                        "selector": "#__make_submit2"
+                    }
+                ]
             }
         ]
     }
