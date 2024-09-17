@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer';
 import type { Flow, Action } from '@/types/flow'
-import { runSteps } from './runSteps';
+import { runFlowSteps } from './runSteps';
 
 export const runFlow = async (
     flow : Flow, 
@@ -14,7 +14,7 @@ export const runFlow = async (
 
     await page.goto(flow.url);
 
-    const message = await runSteps({ steps: flow.steps, page, payload })
+    const message = await runFlowSteps({ steps: flow.steps, page, payload })
 
     console.log('delay 10 seconds before closing')
     await doDelay(10000)

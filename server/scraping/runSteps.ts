@@ -3,7 +3,7 @@ import { StepNames } from '@/types/flow'
 import { doAction } from '@/server/scraping/doAction';
 import { Page } from 'puppeteer';
 
-export const runSteps = async ({
+export const runFlowSteps = async ({
     steps,
     page,
     payload
