@@ -1,5 +1,5 @@
 interface Flow {
-    name: string,
+    name: StepNames,
     id: string,
     type: string,
     url: string,
@@ -22,4 +22,13 @@ interface Action {
     format?: string
 }
 
+enum StepNames {
+    login ='login',
+    selectSport = 'selectSport',
+    selectDate = 'selectDate',
+    selectCourtAndTime = 'selectCourtAndTime',
+    selectLongestPlaytime = 'selectLongestPlaytime'
+}
+
 export type { Flow, Step, Action }
+export { StepNames }

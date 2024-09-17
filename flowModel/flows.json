@@ -28,7 +28,7 @@
                 ]
             },
             {
-                "name": "select sport",
+                "name": "selectSport",
                 "actions": [
                     {
                         "type": "select",
@@ -38,7 +38,7 @@
                 ]
             },
             {
-                "name": "select date",
+                "name": "selectDate",
                 "actions": [
                     {
                         "type": "click",
@@ -50,7 +50,7 @@
                 ]
             },
             {
-                "name": "select court and time",
+                "name": "selectCourtAndTime",
                 "actions": [
                     {
                         "type": "click",
@@ -61,7 +61,7 @@
                 ]
             },
             {
-                "name": "select longest playtime",
+                "name": "selectLongestPlaytime",
                 "actions": [
                     {
                         "type": "select",
