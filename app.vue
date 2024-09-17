@@ -39,7 +39,7 @@
     const timeOptions = computed(() => generateTimeOptions());
 
     const onClick = async () => {
-        response.value  = await $fetch('http://localhost:3000/api/book', {
+        response.value  = await $fetch('http://localhost:8000/api/book', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -60,7 +60,7 @@
                         value: unref(date)
                     },
                     timeCourtSelect: {
-                        value: [unref(time), 4]
+                        value: [unref(time), unref(court)]
                     }
                 }
             })

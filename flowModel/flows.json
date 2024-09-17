@@ -59,6 +59,17 @@
                         "waitSelector": ".lightbox"
                     }
                 ]
+            },
+            {
+                "name": "select longest playtime",
+                "actions": [
+                    {
+                        "type": "select",
+                        "key": "timeBlockSelect",
+                        "selector": ".lightbox [name=\"end_time\"]",
+                        "format": "lastInArray"
+                    }
+                ]
             }
         ]
     }

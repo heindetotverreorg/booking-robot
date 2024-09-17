@@ -1,11 +1,8 @@
 import { Page } from 'puppeteer';
 import type { Action } from '@/types/flow'
 
-export const doAction = async (page: Page, action: Action, payload: Record<string, Action> ) => {
-    console.log(payload[action.key])
-    if (payload[action.key]) {
-        action.value = payload[action.key].value
-    }
+export const doAction = async (page: Page, action: Action ) => {
+    console.log(action.value)
 
     if (isDynamicSelector(action)) {
         action.selector = createSelector(action)
