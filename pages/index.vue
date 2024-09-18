@@ -6,7 +6,7 @@
     const response = ref(null)
 
     const onSubmit = async (form : Record<string, any>) => {
-        response.value  = await $fetch('http://localhost:8000/api/book', {
+        response.value  = await $fetch(`/api/book`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
