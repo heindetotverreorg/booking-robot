@@ -1,33 +1,35 @@
 <template>
-  <div>
-    <h1>Padel boeken</h1>
-    <PeopleInput
-      :login-name="loginName"
-      :login-password="loginPassword"
-      :people="people"
-    />
     <div>
-      <label for="date">Datum waarop je wilt spelen</label>
-      <input id="date" type="date" v-model="date">
+        <h1>Padel boeken</h1>
+        <PeopleInput
+            :login-name="loginName"
+            :login-password="loginPassword"
+            :people="people"
+        />
+        <div>
+            <label for="date">Datum waarop je wilt spelen</label>
+            <input id="date" type="date" v-model="date">
+        </div>
+        <div>
+            <label for="time">Tijd waarop je wilt spelen</label>
+            <select id="time" v-model="time">
+              <option v-for="timeOption in timeOptions" :key="timeOption" :value="timeOption">
+                  {{ timeOption }}
+              </option>
+            </select>
+        </div>
+        <div>
+            <label for="court">Baan waarop je wilt spelen</label>
+            <select id="court" v-model="court">
+          <option v-for="courtOption in courtOptions" :key="courtOption" :value="courtOption">
+              {{ courtOption }}
+          </option>
+            </select>
+        </div>
+        <div>
+            <button @click="$emit('submit', form)">Boek baan</button>
+        </div>
     </div>
-    <div>
-      <label for="time">Tijd waarop je wilt spelen</label>
-      <select id="time" v-model="time">
-        <option v-for="timeOption in timeOptions" :key="timeOption" :value="timeOption">
-          {{ timeOption }}
-        </option>
-      </select>
-    </div>
-    <div>
-      <label for="court">Baan waarop je wilt spelen</label>
-      <select id="court" v-model="court">
-        <option v-for="courtOption in courtOptions" :key="courtOption" :value="courtOption">
-          {{ courtOption }}
-        </option>
-      </select>
-    </div>
-    <button @click="$emit('submit', form)">Boek baan</button>
-  </div>
 </template>
 
 <script lang="ts" setup>
