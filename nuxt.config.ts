@@ -4,5 +4,8 @@ export default defineNuxtConfig({
     port: parseInt(process.env.PORT as string) || 3001
   },
   compatibilityDate: '2024-04-03',
-  devtools: { enabled: true }
+  devtools: { enabled: true },
+  modules: [
+    './modules/mesh-ui-components'
+  ]
 })
