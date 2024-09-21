@@ -6,10 +6,16 @@
         :people="people"
         @input="form[$event.key] = $event.value"
     />
-    <div>
-        <label for="date">Datum waarop je wilt spelen</label>
-        <input id="date" type="date" v-model="date">
-    </div>
+    <MeshInput
+        id="date"
+        name="date"
+        :required="true"
+        type="date"
+        :validators="[notempty]"
+        v-model="date"
+    >
+        <template #label>Datum waarop je wilt spelen</template>
+    </MeshInput>
     <MeshSelect 
         id="time"
         :default="time"
