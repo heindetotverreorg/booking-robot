@@ -5,8 +5,7 @@
         :required="true"
         type="text"
         :validators="[notempty]"
-        :model-value="loginName"
-        @input="emit('input', { key: 'loginName', value: $event.target.value })"
+        v-model="loginName"
     >
         <template #label>Account naam</template>
     </MeshInput>
@@ -16,20 +15,20 @@
         :required="true"
         type="password"
         :validators="[notempty]"
-        :model-value="loginPassword"
-        @input="emit('input', { key: 'loginPassword', value: $event.target.value })"
+        v-model="loginPassword"
     >
         <template #label>Account password</template>
     </MeshInput>
-    <div v-for="person, index of proxyPeople" :key="person">
+    <br />
+    <div v-for="person, index of people" :key="`person_${index + 1}`">
         <MeshInput
             :id="`person_${index + 1}`"
             :name="`person_${index + 1}`"
             :required="true"
             type="text"
-            :validators="[notempty]"
-            :model-value="people[index]"
-            @input="onInput(index, $event.target.value)"
+            :validators="[notempty, nospecialchar, nonumber]"
+            :model-value="person"
+            @input="onInput($event, index)"
         >
             <template #label>Medespeler {{ index + 1 }}</template>
         </MeshInput>
@@ -40,9 +39,10 @@
     import { validators } from "mesh-ui-components"
 
     const {
-        notempty
+        notempty,
+        nonumber,
+        nospecialchar
     } = validators
-
 
     const props = defineProps<{
         loginName: string,
@@ -50,21 +50,23 @@
         people: string[]
     }>()
 
-    // const loginNameValue = computed({ 
-    //     get: () => props.loginName, 
-    //     set: (value  :string) => [emit('update:loginName', value)]
-    // })
+    const loginName = computed({
+        get: () => props.loginName,
+        set: (value: string) => emit('input', { key: 'loginName', value })
+    })
+
+    const loginPassword = computed({
+        get: () => props.loginPassword,
+        set: (value: string) => emit('input', { key: 'loginPassword', value })
+    })
 
     const emit = defineEmits([
         'input'
     ])
 
-    const onInput = (index : number, value : string) =>    {
-        props.people[index] = value
-
-        emit('input', { key: 'people', value: props.people})
+    const onInput = (event: Event, index: number) => {
+        const value = (event.target as HTMLInputElement).value
+        emit('input', { key: 'people', value, index })
     }
-
-    const proxyPeople : string[] = [...props.people]
 
 </script>

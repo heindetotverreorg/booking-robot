@@ -4,8 +4,9 @@
         :login-name="loginName"
         :login-password="loginPassword"
         :people="people"
-        @input="form[$event.key] = $event.value"
+        @input="onInput"
     />
+    <br />
     <MeshInput
         id="date"
         name="date"
@@ -40,6 +41,7 @@
     >
         <template #label>Baan waarop je wilt spelen</template>
     </MeshSelect>
+    <br />
     <MeshButton
         id="submit"
         label="Boek baan"
@@ -50,7 +52,7 @@
 
 <script lang="ts" setup>
     import { validators } from "mesh-ui-components"
-import type { Reactive } from "vue";
+    import type { Reactive } from "vue";
 
     const {
         notempty
@@ -89,6 +91,38 @@ import type { Reactive } from "vue";
         return times;
     };
 
+    const onInput = (event : { key : string, value : any, index: number }) => {
+        const {
+            key,
+            value,
+            index
+        } = event
+
+        if (Array.isArray(form[key]) && index !== undefined) { 
+            form[key][index] = value
+            return
+        }
+        form[key] = value
+    }
+
     const courtOptions = computed(() => ['1', '2', '3', '4', '5', '6', '7', '8']);
     const timeOptions = computed(() => generateTimeOptions());
 </script>
+<style lang="scss">
+    .input.input__text input,
+    .input.input__password input,
+    .input.input__date input,
+    .select select {
+        border-width: 1px;
+        border-top: 0;
+        padding: .75rem .5rem;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+
+        &::before, 
+        &::after {
+            display: none;
+        }
+    }
+
+</style>

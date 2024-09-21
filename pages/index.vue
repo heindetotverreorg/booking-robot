@@ -1,5 +1,7 @@
 <template>
-    <SetBookingData @submit="onSubmit"/>
+    <div class="main">
+        <SetBookingData @submit="onSubmit"/>
+    </div>
     <p>{{ response }}</p>
 </template>
 <script setup lang="ts">
@@ -64,6 +66,13 @@ div {
 
 input, select {
     padding: 4px;
-    width: 300px;
+    width: 100%;
+}
+
+.main {
+    margin: 0 auto;
+    max-width: 380px;
+    padding: 2rem 0;
+
 }
 </style>
