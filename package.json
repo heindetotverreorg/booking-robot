@@ -10,7 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "mesh-ui-components": "^0.3.16",
+    "mesh-ui-components": "^0.3.18",
     "nuxt": "^3.13.0",
     "puppeteer": "^23.3.0",
     "sass": "^1.79.3",

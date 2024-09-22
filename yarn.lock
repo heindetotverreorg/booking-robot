@@ -3900,10 +3900,10 @@ merge2@^1.3.0:
   resolved "https://registry.npmjs.org/merge2/-/merge2-1.4.1.tgz"
   integrity sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==
 
-mesh-ui-components@^0.3.16:
-  version "0.3.16"
-  resolved "https://registry.yarnpkg.com/mesh-ui-components/-/mesh-ui-components-0.3.16.tgz#dadf2bdf9f0c0611d8cd39313c2a249ab967e183"
-  integrity sha512-MnjxQU2AhQIZ8PSWbRhKNa10qNZ96uZQGWzTcj3zHPpIvZDjJP3Vi4oTC4/i/eFAX3P48sYjMjFIC3ixKs3qDg==
+mesh-ui-components@^0.3.18:
+  version "0.3.18"
+  resolved "https://registry.yarnpkg.com/mesh-ui-components/-/mesh-ui-components-0.3.18.tgz#945ec37827cf80e3b89775254446b31c5688029d"
+  integrity sha512-z4UddxX500+OzLquOWMbNKG8za3B5WEYtbHIFkcbg4u5yT/2bi6AlgdCTBkXXiDZPnUHe/xCNraPyBjCn6AxvA==
   dependencies:
     rollup-plugin-typescript2 "^0.36.0"
     vite-plugin-dts "^4.2.1"

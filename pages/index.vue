@@ -1,13 +1,21 @@
 <template>
-    <div class="main">
+    <div 
+        :class="[
+            'main',
+            isLoading ? 'main--loading' : ''
+        ]"
+    >
         <SetBookingData @submit="onSubmit"/>
     </div>
+    <Loader class="spinner" v-if="isLoading"/>
     <p>{{ response }}</p>
 </template>
 <script setup lang="ts">
     const response = ref(null)
+    const isLoading = ref(false)
 
     const onSubmit = async (form : Record<string, any>) => {
+        isLoading.value = true
         response.value  = await $fetch(`/api/book`, {
             method: 'POST',
             headers: {
@@ -43,9 +51,10 @@
                 }
             })
         })
+        isLoading.value = false
     }
 </script>
-<style>
+<style lang="scss">
 * {
     box-sizing: border-box;
     font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
@@ -71,8 +80,23 @@ input, select {
 
 .main {
     margin: 0 auto;
+    position: relative;
+    transition: all 0.5s;
     max-width: 380px;
-    padding: 2rem 0;
 
+    &--loading {
+        filter: blur(3px);
+    }
+
+}
+
+.spinner {
+    display: block;
+    height: 60px;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    width: 60px;
 }
 </style>

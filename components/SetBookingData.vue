@@ -6,42 +6,14 @@
         :people="people"
         @input="onInput"
     />
-    <br />
-    <MeshInput
-        id="date"
-        name="date"
-        :required="true"
-        type="date"
-        :validators="[notempty]"
-        v-model="date"
-    >
-        <template #label>Datum waarop je wilt spelen</template>
-    </MeshInput>
-    <MeshSelect 
-        id="time"
-        :default="time"
-        name="time"
-        :options="timeOptions"
-        :required="true"
-        type="select"
-        v-model="time"
-        :validators="[notempty]"
-    >
-        <template #label>Tijd waarop je wilt spelen</template>
-    </MeshSelect>
-    <MeshSelect 
-        id="court"
-        :default="court"
-        name="court"
-        :options="courtOptions"
-        :required="true"
-        type="select"
-        v-model="court"
-        :validators="[notempty]"
-    >
-        <template #label>Baan waarop je wilt spelen</template>
-    </MeshSelect>
-    <br />
+    <BookingInput
+        :courtOptions="courtOptions"
+        :timeOptions="timeOptions"
+        :date="date"
+        :court="court"
+        :time="time"
+        @input="onInput"
+    />
     <MeshButton
         id="submit"
         label="Boek baan"
@@ -51,12 +23,9 @@
 </template>
 
 <script lang="ts" setup>
-    import { validators } from "mesh-ui-components"
     import type { Reactive } from "vue";
+    import BookingInput from "./BookingInput.vue";
 
-    const {
-        notempty
-    } = validators
 
     const emit = defineEmits([
         'submit',
@@ -123,6 +92,11 @@
         &::after {
             display: none;
         }
+    }
+
+    .button-wrapper,
+    button {
+        width: 100%;;
     }
 
 </style>

@@ -1,6 +1,7 @@
 <template>
     <MeshInput
         id="loginName"
+        :highlight-validation="true"
         name="loginName"
         :required="true"
         type="text"
@@ -11,6 +12,7 @@
     </MeshInput>
     <MeshInput
         id="loginPassword"
+        :highlight-validation="true"
         name="loginPassword"
         :required="true"
         type="password"
@@ -19,10 +21,10 @@
     >
         <template #label>Account password</template>
     </MeshInput>
-    <br />
     <div v-for="person, index of people" :key="`person_${index + 1}`">
         <MeshInput
             :id="`person_${index + 1}`"
+            :highlight-validation="true"
             :name="`person_${index + 1}`"
             :required="true"
             type="text"
