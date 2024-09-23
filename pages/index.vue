@@ -16,6 +16,7 @@
 
     const onSubmit = async (form : Record<string, any>) => {
         isLoading.value = true
+        response.value = null
         response.value  = await $fetch(`/api/book`, {
             method: 'POST',
             headers: {
