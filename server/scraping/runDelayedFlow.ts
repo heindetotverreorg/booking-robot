@@ -12,9 +12,11 @@ export const runDelayedFlow = async (
     bookingThreshold: number
 ) => {
     const { value : bookingDate } = payload.dateSelect;
+    const { value : timeCourtSelect } = payload.timeCourtSelect;
 
     const jobStartDate = dayjs(bookingDate as string).subtract(bookingThreshold - 1, 'day');
-    const [time, court] = payload.timeCourtSelect.value as string[];
+    const [time, court] = timeCourtSelect as string[];
+    
     const message = `flow will run at ${jobStartDate.toISOString()} at ${payload.dateSelect.value} : ${time} on court ${court}`;
 
     if (job) {
