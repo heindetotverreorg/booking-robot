@@ -1,15 +1,30 @@
-import type { ScheduledTask } from 'node-cron';
+import { schedule, type ScheduledTask } from 'node-cron';
 
-var job : ScheduledTask
+let job : ScheduledTask | null
 
-const initJob = ({ get, stop } : { get?: boolean, stop?: boolean }) : ScheduledTask | void => {
-    if (get) {
-        return job
-    }
-    if (stop) {
-        return job.stop()
+const setJob = ({
+    set
+} : {
+    set?: { callBack: () => void, expression: string }
+}) : ScheduledTask | null => {
+    if (set) {
+        job = schedule(set.expression, set.callBack, {
+            scheduled: true,
+            timezone: "UTC"
+        });
     }
     return job
 }
 
-export default initJob
+const stopJob = () => {
+    if (job) {
+        job.stop()
+        job = null
+    }
+}
+
+export {
+    job,
+    setJob,
+    stopJob,
+}

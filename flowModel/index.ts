@@ -1,5 +1,5 @@
 import type { Flow } from '@/types/flow'
-import flowJson from './flows.json'
+import flowJson from '@/flowModel/flows.json'
 
 const flows = flowJson as Flow[]
 

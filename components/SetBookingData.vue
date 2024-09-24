@@ -6,6 +6,7 @@
         :people="people"
         @input="onInput"
     />
+    <Divider />
     <BookingInput
         :courtOptions="courtOptions"
         :timeOptions="timeOptions"
@@ -14,6 +15,7 @@
         :time="time"
         @input="onInput"
     />
+    <Divider />
     <MeshButton
         id="submit"
         label="Boek baan"

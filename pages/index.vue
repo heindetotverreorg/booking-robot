@@ -6,17 +6,60 @@
         ]"
     >
         <SetBookingData @submit="onSubmit"/>
+        <p v-if="isJobRunning">Boeking informatie: {{ jobInfo }}</p>
+        <p v-else>Er is geen actieve boeking</p>
+        <MeshButton
+            v-if="isJobRunning"
+            id="jobCheck"
+            label="Annuleer boeking"
+            name="jobCheck"
+            variant="secondary"
+            @click="stopJob"
+        />
     </div>
-    <Loader class="spinner" v-if="isLoading"/>
     <p>{{ response }}</p>
+    <Loader class="spinner" v-if="isLoading"/>
 </template>
 <script setup lang="ts">
-    const response = ref(null)
+    const response = ref('')
     const isLoading = ref(false)
+    const isJobRunning = ref(false)
+    const jobInfo = ref('')
+
+    const checkJob = async ({ noResponse } : { noResponse?: boolean }) => {
+        isLoading.value = true
+        if(!noResponse) {
+            response.value = ''
+        }
+        const data : string = await $fetch(`/api/check-job`, {
+            method: 'GET'
+        })
+        if (data.includes('no job')) {
+            isJobRunning.value = false
+        }
+        if (data.includes('job information')) {
+            isJobRunning.value = true
+        }
+        if (!noResponse) {
+            response.value = data
+        }
+        jobInfo.value = data
+        isLoading.value = false
+    }
+
+    const stopJob = async () => {
+        isLoading.value = true
+        response.value = ''
+        response.value = await $fetch(`/api/stop-job`, {
+            method: 'DELETE'
+        })
+        await checkJob({ noResponse: true })
+        isLoading.value = false
+    }
 
     const onSubmit = async (form : Record<string, any>) => {
         isLoading.value = true
-        response.value = null
+        response.value = ''
         response.value  = await $fetch(`/api/book`, {
             method: 'POST',
             headers: {
@@ -52,8 +95,13 @@
                 }
             })
         })
+        await checkJob({ noResponse: true })
         isLoading.value = false
     }
+
+    onMounted(() => {
+        checkJob({ noResponse: true })
+    })
 </script>
 <style lang="scss">
 * {

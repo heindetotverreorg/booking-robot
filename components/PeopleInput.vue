@@ -5,7 +5,7 @@
         name="loginName"
         :required="true"
         type="text"
-        :validators="[notempty]"
+        :validators="[notempty, nospecialchar]"
         v-model="loginName"
     >
         <template #label>Account naam</template>
@@ -21,7 +21,8 @@
     >
         <template #label>Account password</template>
     </MeshInput>
-    <div v-for="person, index of people" :key="`person_${index + 1}`">
+    <Divider />
+    <div v-for="_, index of people" :key="`person_${index + 1}`">
         <MeshInput
             :id="`person_${index + 1}`"
             :highlight-validation="true"
@@ -29,7 +30,7 @@
             :required="true"
             type="text"
             :validators="[notempty, nospecialchar, nonumber]"
-            :model-value="person"
+            :model-value="people[index]"
             @input="onInput($event, index)"
         >
             <template #label>Medespeler {{ index + 1 }}</template>

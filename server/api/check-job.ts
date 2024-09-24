@@ -1,10 +1,8 @@
-import initJob from '@/server/cron/job.js'
+import { job } from '@/server/cron/job.js'
 
 export default defineEventHandler(async (event) => {
-    const job = initJob({ get: true })
-
     if (job) {
-        return `job information: ${JSON.stringify(job)}`
+        return `job information: ${job}`
     }
 
     return 'no job running'

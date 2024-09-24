@@ -1,11 +1,9 @@
-import initJob from '@/server/cron/job.js'
+import { job, stopJob } from '@/server/cron/job.js'
 
-export default defineEventHandler(async (event) => {
-    const job = initJob({ get: true })
-
+export default defineEventHandler(async () => {
     if (job) {
-        initJob({ stop: true })
-
+        stopJob()
+        
         return 'job stopped'
     }
 

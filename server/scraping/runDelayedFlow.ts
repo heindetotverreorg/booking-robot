@@ -1,10 +1,7 @@
 import dayjs, { Dayjs } from 'dayjs';
-import { schedule } from 'node-cron';
 import type { Flow, Action } from '@/types/flow'
 import { runFlow } from '@/server/scraping/runFlow';
-import initJob from '@/server/cron/job.js'
-
-let job = initJob({ get: true })
+import { job, setJob, stopJob } from '@/server/cron/job.js'
 
 export const runDelayedFlow = async (
     flow : Flow, 
@@ -19,11 +16,11 @@ export const runDelayedFlow = async (
     
     const message = `flow will run at ${jobStartDate.toISOString()} at ${payload.dateSelect.value} : ${time} on court ${court}`;
 
-
-
     if (job) {
         console.log('flow stopped at', new Date());
-        initJob({ stop: true })
+        stopJob()
+
+        console.log(job)
     }
 
     scheduleJob(jobStartDate, async () => {
@@ -38,8 +35,5 @@ export const runDelayedFlow = async (
 
 const scheduleJob = (date: Dayjs, callback: () => void) => {
     const cronExpression = `${date.minute()} ${date.hour()} ${date.date()} ${date.month() + 1} *`;
-    job = schedule(cronExpression, callback, {
-        scheduled: true,
-        timezone: "UTC"
-    });
+    setJob({ set: { callBack: callback, expression: cronExpression } });
 };
