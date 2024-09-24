@@ -1,0 +1,11 @@
+services:
+  bookingservice:
+    platform: linux/arm64
+    image: heindetotverre/booking-robot:latest
+    restart: unless-stopped
+    environment:
+      - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+    ports:
+      - 3000:3000
+    command: node .output/server/index.mjs

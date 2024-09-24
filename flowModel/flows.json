@@ -96,19 +96,19 @@
                         "type": "select",
                         "key": "personOne",
                         "selector": "[name=\"players[2]\"]",
-                        "format": "selectFromTextInElement"
+                        "format": "selectFromTextInOption"
                     },
                     {
                         "type": "select",
                         "key": "personTwo",
                         "selector": "[name=\"players[3]\"]",
-                        "format": "selectFromTextInElement"
+                        "format": "selectFromTextInOption"
                     },
                     {
                         "type": "select",
                         "key": "personThree",
                         "selector": "[name=\"players[4]\"]",
-                        "format": "selectFromTextInElement"
+                        "format": "selectFromTextInOption"
                     },
                     {
                         "type": "click",

@@ -4,9 +4,20 @@ import type { Flow } from '@/types/flow'
 export const init = async (
     flow: Flow,
 ) => {
-    const browser = await puppeteer.launch({
-        headless: false
-    });
+    const browserConfig = {
+        headless: true,
+        args: [
+            '--no-sandbox', 
+            '--disable-setuid-sandbox',
+            '--disable-gpu',
+            '--disable-dev-shm-usage'
+        ],
+        env: {
+            DISPLAY: ":10.0"
+        }
+    }
+
+    const browser = await puppeteer.launch(browserConfig);
 
     const page = await browser.newPage();
 

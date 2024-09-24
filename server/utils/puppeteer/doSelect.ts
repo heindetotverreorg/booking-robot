@@ -19,7 +19,7 @@ export default async (page: Page, action: Action) => {
         });
     }
 
-    if (format === 'selectFromTextInElement') {
+    if (format === 'selectFromTextInOption') {
         value = await page.$eval(selector, (el, value) => {
             const selectEl = el as HTMLSelectElement
     

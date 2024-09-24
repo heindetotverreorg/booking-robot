@@ -2,7 +2,9 @@ import { Page } from 'puppeteer';
 import type { Action } from '@/types/flow'
 
 export const doAction = async (page: Page, action: Action ) => {
-    console.log(action.value)
+    if (action.value) {
+        console.log(`- ${action.value}`)
+    }
 
     if (action.key === 'confirmBooking') {
         console.log('no submit, is test mode')

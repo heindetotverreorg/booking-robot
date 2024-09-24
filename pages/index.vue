@@ -6,13 +6,12 @@
         ]"
     >
         <SetBookingData @submit="onSubmit"/>
-        <p v-if="isJobRunning">Boeking informatie: {{ jobInfo }}</p>
+        <p v-if="isJobRunning">Actieve boeking: {{ jobInfo }}</p>
         <p v-else>Er is geen actieve boeking</p>
         <MeshButton
             v-if="isJobRunning"
             id="jobCheck"
             label="Annuleer boeking"
-            name="jobCheck"
             variant="secondary"
             @click="stopJob"
         />

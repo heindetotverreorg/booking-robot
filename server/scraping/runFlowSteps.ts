@@ -32,7 +32,7 @@ const doSteps = async ({
     payload: Record<string, Action>
 }) => {
     for (const step of steps) {
-        console.log(step.name)
+        console.log(`Step: ${step.name}`)
         const { actions } = step
 
         try {
