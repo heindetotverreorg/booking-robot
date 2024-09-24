@@ -1,10 +1,10 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { schedule } from 'node-cron';
-import type { ScheduledTask } from 'node-cron';
 import type { Flow, Action } from '@/types/flow'
 import { runFlow } from '@/server/scraping/runFlow';
+import initJob from '@/server/cron/job.js'
 
-let job : ScheduledTask
+let job = initJob({ get: true })
 
 export const runDelayedFlow = async (
     flow : Flow, 
@@ -19,9 +19,11 @@ export const runDelayedFlow = async (
     
     const message = `flow will run at ${jobStartDate.toISOString()} at ${payload.dateSelect.value} : ${time} on court ${court}`;
 
+
+
     if (job) {
         console.log('flow stopped at', new Date());
-        job.stop();
+        initJob({ stop: true })
     }
 
     scheduleJob(jobStartDate, async () => {

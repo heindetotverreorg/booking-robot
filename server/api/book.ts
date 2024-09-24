@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
     if (isDateOutsideOfBookingThreshold(flowParams.dateSelect, selectedFlow.bookingThreshold)) {
         return await runDelayedFlow(selectedFlow, flowParams, selectedFlow.bookingThreshold)
     }
-
+    
     return await runFlow(selectedFlow, flowParams)
 });
 
