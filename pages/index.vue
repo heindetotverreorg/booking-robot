@@ -7,13 +7,18 @@
     >
         <SetBookingData @submit="onSubmit"/>
         <p v-if="isJobRunning">Actieve boeking: {{ jobInfo }}</p>
-        <p v-else>Er is geen actieve boeking</p>
         <MeshButton
             v-if="isJobRunning"
             id="jobCheck"
             label="Annuleer boeking"
             variant="secondary"
             @click="stopJob"
+        />
+        <MeshInput
+            id="isTest"
+            name="isTest"
+            type="checkbox"
+            v-model="isTest"
         />
     </div>
     <p>{{ response }}</p>
@@ -24,6 +29,7 @@
     const isLoading = ref(false)
     const isJobRunning = ref(false)
     const jobInfo = ref('')
+    const isTest = ref(false)
 
     const checkJob = async ({ noResponse } : { noResponse?: boolean }) => {
         isLoading.value = true
@@ -66,6 +72,9 @@
             },
             body: JSON.stringify({
                 targetFlow: 'bent-sports-padel-robot',
+                config: {
+                    isTest: isTest.value
+                },
                 flowParams: {
                     email: {
                         value: form.loginName

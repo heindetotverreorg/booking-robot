@@ -1,13 +1,14 @@
 import { Page } from 'puppeteer';
 import type { Action } from '@/types/flow'
+import { config } from '@/server/config'
 
 export const doAction = async (page: Page, action: Action ) => {
     if (action.value) {
         console.log(`- ${action.value}`)
     }
 
-    if (action.key === 'confirmBooking') {
-        console.log('no submit, is test mode')
+    if (action.key === 'confirmBooking' && config.isTest) {
+        console.log('no booking, is test mode')
         await doDelay(1000)
         return
     }

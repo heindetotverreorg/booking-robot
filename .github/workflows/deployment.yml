@@ -5,14 +5,13 @@ on:
       - main
   workflow_dispatch:
 env:
-  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   REPO: https://github.com/${{ github.repository }}.git
   IMAGE_PATH: ${{ secrets.DOCKER_NAMESPACE }}/booking-robot:latest
   IMAGE_NAME: booking-robot
   USER_NAME: ${{ secrets.DOCKER_NAMESPACE }}
 jobs: 
-  build-push-image:
-    name: Build and push image
+  build-image:
+    name: Build image
     runs-on: self-hosted
     steps:
       - name: Setup ssh
@@ -36,11 +35,9 @@ jobs:
           ssh ${{ env.USER_NAME }}@${{ secrets.SERVER_HOST }} -p 22 -o ConnectTimeout="10" -o StrictHostKeyChecking=no <<'ENDSSH'
           cd ~/${{ env.IMAGE_NAME }}
           docker build -t ${{ env.IMAGE_PATH }} .
-          docker login -u ${{ github.actor }} -p ${{ env.DOCKER_PASSWORD }}
-          docker push ${{ env.IMAGE_PATH }}
           ENDSSH
   restart-service:
-    needs: build-push-image
+    needs: build-image
     name: Restart the docker service
     runs-on: self-hosted
     steps:

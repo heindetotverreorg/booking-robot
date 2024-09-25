@@ -1,9 +1,12 @@
 import { createFlow } from '@/flowModel'
 import { runFlow, runDelayedFlow } from '@/server/scraping';
 import dayjs from 'dayjs';
+import { setConfig } from '@/server/config';
 
 export default defineEventHandler(async (event) => {
-    const { targetFlow, flowParams } = await readBody(event)
+    const { targetFlow, flowParams, config } = await readBody(event)
+    console.log('incoming config', config)
+    setConfig(config)
     const selectedFlow = createFlow(targetFlow)
 
     if (!selectedFlow) {
