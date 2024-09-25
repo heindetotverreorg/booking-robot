@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 env:
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-  REPO: git@github.com:${{ github.repository }}.git
+  REPO: https://${{ secrets.DOCKER_NAMESPACE }}:${{ secrets.SERVER_PASSWORD }}@github.com/${{ github.repository }}.git
   IMAGE_PATH: ${{ secrets.DOCKER_NAMESPACE }}/booking-robot:latest
   IMAGE_NAME: booking-robot
   USER_NAME: ${{ secrets.DOCKER_NAMESPACE }}
