@@ -1,5 +1,5 @@
 services:
-  bookingservice:
+  booking-robot:
     platform: linux/arm64
     image: heindetotverre/booking-robot:latest
     restart: unless-stopped
