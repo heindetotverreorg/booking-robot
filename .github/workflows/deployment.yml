@@ -34,6 +34,8 @@ jobs:
         run: |
           ssh ${{ env.USER_NAME }}@${{ secrets.SERVER_HOST }} -p 22 -o ConnectTimeout="10" -o StrictHostKeyChecking=no <<'ENDSSH'
           cd ~/${{ env.IMAGE_NAME }}
+          docker compose down
+          docker system prune -af
           docker build -t ${{ env.IMAGE_PATH }} .
           ENDSSH
   restart-service:
@@ -50,8 +52,6 @@ jobs:
         run: |
           ssh ${{ env.USER_NAME }}@${{ secrets.SERVER_HOST }} -p 22 -o ConnectTimeout="10" -o StrictHostKeyChecking=no <<'ENDSSH'
           cd ~/${{ env.IMAGE_NAME }}
-          docker compose down
-          docker system prune -af
           docker compose up -d
           find . -mindepth 1 ! -name 'compose.yml' -exec rm -rf {} +
           ENDSSH
