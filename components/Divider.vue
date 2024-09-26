@@ -11,6 +11,6 @@ export default {
 <style scoped>
 .divider {
     background-color: transparent;
-    padding: .5rem 0;
+    padding: .4rem 0;
 }
 </style>

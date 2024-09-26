@@ -5,15 +5,12 @@
             isLoading ? 'main--loading' : ''
         ]"
     >
-        <SetBookingData @submit="onSubmit"/>
-        <p v-if="isJobRunning">Actieve boeking: {{ jobInfo }}</p>
-        <MeshButton
-            v-if="isJobRunning"
-            id="jobCheck"
-            label="Annuleer boeking"
-            variant="secondary"
-            @click="stopJob"
+        <SetBookingData
+            :is-job-running="isJobRunning"  
+            @cancel="stopJob"  
+            @submit="onSubmit"
         />
+        <p v-if="isJobRunning">Actieve boeking: {{ jobInfo }}</p>
         <MeshInput
             id="isTest"
             name="isTest"

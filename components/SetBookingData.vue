@@ -15,24 +15,35 @@
         :time="time"
         @input="onInput"
     />
-    <Divider />
-    <MeshButton
-        id="submit"
-        label="Boek baan"
-        name="submit"
-        @click="$emit('submit', form)"
-    />
+    <div class="buttons">
+        <MeshButton
+            id="submit"
+            label="Boek baan"
+            name="submit"
+            @click="$emit('submit', form)"
+        />
+        <MeshButton
+            v-if="isJobRunning"
+            id="jobCheck"
+            label="Annuleer boeking"
+            variant="secondary"
+            @click="$emit('cancel')"
+        />
+    </div>
 </template>
 
 <script lang="ts" setup>
     import type { Reactive } from "vue";
     import BookingInput from "./BookingInput.vue";
 
+    const props = defineProps<{
+        isJobRunning: boolean
+    }>()
 
     const emit = defineEmits([
+        'cancel',
         'submit',
     ])
-
 
     const court : Ref<string> = ref('4')
     const date : Ref<string> = ref(new Date().toISOString().split('T')[0])
@@ -99,6 +110,15 @@
     .button-wrapper,
     button {
         width: 100%;;
+    }
+
+    .buttons {
+        display: flex;
+        justify-content: space-between;
+
+        .button-wrapper:nth-of-type(2) {
+            margin-left: 10px;
+        }
     }
 
 </style>
