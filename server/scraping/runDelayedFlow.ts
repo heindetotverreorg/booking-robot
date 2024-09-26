@@ -1,7 +1,7 @@
 import dayjs, { Dayjs } from 'dayjs';
 import type { Flow, Action } from '@/types/flow'
 import { runFlow } from '@/server/scraping/runFlow';
-import { job, setJob, stopJob } from '@/server/cron/job.js'
+import { job, setJob, stopJob, setJobStatus } from '@/server/cron/job.js'
 
 export const runDelayedFlow = async (
     flow : Flow, 
@@ -15,12 +15,11 @@ export const runDelayedFlow = async (
     const [time, court] = timeCourtSelect as string[];
     
     const message = `flow will run at ${jobStartDate.toISOString()} at ${payload.dateSelect.value} : ${time} on court ${court}`;
+    const status = `${payload.dateSelect.value} : ${time} op baan ${court}`
 
     if (job) {
         console.log('flow stopped at', new Date());
         stopJob()
-
-        console.log(job)
     }
 
     scheduleJob(jobStartDate, async () => {
@@ -29,6 +28,7 @@ export const runDelayedFlow = async (
     });
 
     console.log(message)
+    setJobStatus(status);
 
     return message;
 }

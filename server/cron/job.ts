@@ -1,6 +1,7 @@
 import { schedule, type ScheduledTask } from 'node-cron';
 
 let job : ScheduledTask | null
+let jobStatus : string
 
 const setJob = ({
     set
@@ -23,8 +24,14 @@ const stopJob = () => {
     }
 }
 
+const setJobStatus = (status: string) => {
+    jobStatus = status
+}
+
 export {
     job,
+    jobStatus,
+    setJobStatus,
     setJob,
     stopJob,
 }
