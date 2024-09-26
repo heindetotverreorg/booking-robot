@@ -22,20 +22,39 @@
         <template #label>Account password</template>
     </MeshInput>
     <Divider />
-    <div v-for="_, index of people" :key="`person_${index + 1}`">
-        <MeshInput
-            :id="`person_${index + 1}`"
-            :highlight-validation="true"
-            :name="`person_${index + 1}`"
-            :required="true"
-            type="text"
-            :validators="[notempty, nospecialchar, nonumber]"
-            :model-value="people[index]"
-            @input="onInput($event, index)"
-        >
-            <template #label>Medespeler {{ index + 1 }}</template>
-        </MeshInput>
-    </div>
+    <MeshInput
+        id="personOne`"
+        :highlight-validation="true"
+        name="personOne"
+        :required="true"
+        type="text"
+        :validators="[notempty, nospecialchar, nonumber]"
+        v-model="personOne"
+    >
+        <template #label>Medespeler 1</template>
+    </MeshInput>
+    <MeshInput
+        id="personTwo"
+        :highlight-validation="true"
+        name="personTwo"
+        :required="true"
+        type="text"
+        :validators="[notempty, nospecialchar, nonumber]"
+        v-model="personTwo"
+    >
+        <template #label>Medespeler 2</template>
+    </MeshInput>
+    <MeshInput
+        id="personThree"
+        :highlight-validation="true"
+        name="personThree"
+        :required="true"
+        type="text"
+        :validators="[notempty, nospecialchar, nonumber]"
+        v-model="personThree"
+    >
+        <template #label>Medespeler 3</template>
+    </MeshInput>
 </template>
 
 <script setup lang="ts">
@@ -50,8 +69,14 @@
     const props = defineProps<{
         loginName: string,
         loginPassword: string,
-        people: string[]
+        personOne: string,
+        personTwo: string,
+        personThree: string,
     }>()
+
+    const emit = defineEmits([
+        'input'
+    ])
 
     const loginName = computed({
         get: () => props.loginName,
@@ -63,16 +88,19 @@
         set: (value: string) => emit('input', { key: 'loginPassword', value })
     })
 
-    const emit = defineEmits([
-        'input'
-    ])
+    const personOne = computed({
+        get: () => props.personOne,
+        set: (value: string) => emit('input', { key: 'personOne', value })
+    })
 
-    const onInput = (event: Event, index: number) => {
-        const value = (event.target as HTMLInputElement).value
-        emit('input', { key: 'people', value, index })
-    }
+    const personTwo = computed({
+        get: () => props.personTwo,
+        set: (value: string) => emit('input', { key: 'personTwo', value })
+    })
+
+    const personThree = computed({
+        get: () => props.personThree,
+        set: (value: string) => emit('input', { key: 'personThree', value })
+    })
 
 </script>
-<style lang="scss">
-
-</style>

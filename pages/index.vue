@@ -89,13 +89,13 @@
                         value: [form.time, form.court]
                     },
                     personOne: {
-                        value: form.people[0]
+                        value: form.personOne
                     },
                     personTwo: {
-                        value: form.people[1]
+                        value: form.personTwo
                     },
                     personThree: {
-                        value: form.people[2]
+                        value: form.personThree
                     }
                 }
             })

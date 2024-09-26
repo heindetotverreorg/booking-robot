@@ -3,7 +3,9 @@
     <PeopleInput
         :login-name="loginName"
         :login-password="loginPassword"
-        :people="people"
+        :person-one="personOne"
+        :person-two="personTwo"
+        :person-three="personThree"
         @input="onInput"
     />
     <Divider />
@@ -49,7 +51,9 @@
     const date : Ref<string> = ref(new Date().toISOString().split('T')[0])
     const loginName : Ref<string> = ref('mpoortvliet8570')
     const loginPassword : Ref<string> = ref('10*Matthias')
-    const people : Ref<string[]> = ref(['Jonathan Ouwehand', 'Patrick Gieling', 'Ricky de Haan'])
+    const personOne : Ref<string> = ref('Jonathan Ouwehand')
+    const personTwo : Ref<string> = ref('Patrick Gieling')
+    const personThree : Ref<string> = ref('Ricky de Haan')
     const time: Ref<string> = ref('20:30');
 
     const form : Reactive<Record<string, any>> = reactive({
@@ -57,7 +61,9 @@
         date,
         loginName,
         loginPassword,
-        people,
+        personOne,
+        personTwo,
+        personThree,
         time
     });
 
@@ -73,17 +79,12 @@
         return times;
     };
 
-    const onInput = (event : { key : string, value : any, index: number }) => {
+    const onInput = (event : { key : string, value : any }) => {
         const {
             key,
-            value,
-            index
+            value
         } = event
 
-        if (Array.isArray(form[key]) && index !== undefined) { 
-            form[key][index] = value
-            return
-        }
         form[key] = value
     }
 
@@ -91,34 +92,31 @@
     const timeOptions = computed(() => generateTimeOptions());
 </script>
 <style lang="scss">
-    .input.input__text input,
-    .input.input__password input,
-    .input.input__date input,
-    .select select {
-        border-width: 1px;
-        border-top: 0;
-        padding: .75rem .5rem;
-        border-bottom-left-radius: 5px;
-        border-bottom-right-radius: 5px;
+.input input,
+.select select {
+    border-width: 1px;
+    border-top: 0;
+    padding: .75rem .5rem;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 
-        &::before, 
-        &::after {
-            display: none;
-        }
+    &::before, 
+    &::after {
+        display: none;
     }
+}
 
-    .button-wrapper,
-    button {
-        width: 100%;;
+.button-wrapper,
+button {
+    width: 100%;;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+
+    .button-wrapper:nth-of-type(2) {
+        margin-left: 10px;
     }
-
-    .buttons {
-        display: flex;
-        justify-content: space-between;
-
-        .button-wrapper:nth-of-type(2) {
-            margin-left: 10px;
-        }
-    }
-
+}
 </style>
