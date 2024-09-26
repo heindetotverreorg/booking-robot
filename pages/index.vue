@@ -42,7 +42,7 @@
         if (data.includes('no job')) {
             isJobRunning.value = false
         }
-        if (data.includes('job information')) {
+        if (data.includes(' : ')) {
             isJobRunning.value = true
         }
         if (!noResponse) {
