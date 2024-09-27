@@ -1,5 +1,5 @@
 import dayjs, { Dayjs } from 'dayjs';
-import timezone from 'dayjs/plugin/timezone';
+import timezone from 'dayjs/plugin/timezone.js';
 import type { Flow, Action } from '@/types/flow'
 import { runFlow } from '@/server/scraping/runFlow';
 import { job, setJob, stopJob, setJobStatus } from '@/server/cron/job.js'
