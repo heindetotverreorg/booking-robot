@@ -10,17 +10,20 @@ export const runDelayedFlow = async (
     bookingThreshold: number
 ) => {
     dayjs.extend(timezone);
+    const assumedTimezone = dayjs.tz.guess()
+    dayjs.tz.setDefault(assumedTimezone);
 
     const { value : bookingDate } = payload.dateSelect;
     const { value : timeCourtSelect } = payload.timeCourtSelect;
 
-    const assumedTimezone = dayjs.tz.guess()
-    dayjs.tz.setDefault(assumedTimezone);
-
     const jobStartDate = dayjs(bookingDate as string)
         .subtract(bookingThreshold - 1, 'day')
 
-    console.log(jobStartDate.toISOString())
+
+    console.log('bookingDate', dayjs(bookingDate as string))
+    console.log('threshold', bookingThreshold)
+    console.log('bookingDate - threshold', dayjs(bookingDate as string).subtract(bookingThreshold - 1, 'day'))
+    console.log('jobstartdate', jobStartDate.toISOString())
 
     const [time, court] = timeCourtSelect as string[];
     
