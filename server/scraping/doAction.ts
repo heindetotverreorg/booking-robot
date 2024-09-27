@@ -1,5 +1,6 @@
 import { Page } from 'puppeteer';
 import type { Action } from '@/types/flow'
+import { ActionNames, StepNames } from '@/types/flow';
 import { config } from '@/server/config'
 
 export const doAction = async (page: Page, action: Action ) => {
@@ -7,7 +8,7 @@ export const doAction = async (page: Page, action: Action ) => {
         console.log(`- ${action.value}`)
     }
 
-    if (action.key === 'confirmBooking' && config.isTest) {
+    if (action.key === StepNames.confirmBooking && config.isTest) {
         console.log('no booking, is test mode')
         await doDelay(1000)
         return
@@ -17,15 +18,15 @@ export const doAction = async (page: Page, action: Action ) => {
         action.selector = createSelector(action)
     }
 
-    if (action.type === 'click') {
+    if (action.type === ActionNames.click) {
         await doClick(page, action)
     }
 
-    if (action.type === 'select') {
+    if (action.type === ActionNames.select) {
         await doSelect(page, action)
     }
 
-    if (action.type === 'input') {
+    if (action.type === ActionNames.input) {
         await doInput(page, action)
     }
 

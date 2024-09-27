@@ -28,8 +28,15 @@ enum StepNames {
     selectSport = 'selectSport',
     selectDate = 'selectDate',
     selectCourtAndTime = 'selectCourtAndTime',
-    selectLongestPlaytime = 'selectLongestPlaytime'
+    selectLongestPlaytime = 'selectLongestPlaytime',
+    confirmBooking = 'confirmBooking'
+}
+
+enum ActionNames {
+    input ='input',
+    select = 'select',
+    click = 'click'
 }
 
 export type { Flow, Step, Action }
-export { StepNames }
+export { StepNames, ActionNames }
