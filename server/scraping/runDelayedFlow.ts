@@ -11,7 +11,7 @@ export const runDelayedFlow = async (
     const { value : bookingDate } = payload.dateSelect;
     const { value : timeCourtSelect } = payload.timeCourtSelect;
 
-    const jobStartDate = dayjs(bookingDate as string).subtract(bookingThreshold - 1, 'day');
+    const jobStartDate = dayjs(bookingDate as string).subtract(bookingThreshold, 'day');
     const [time, court] = timeCourtSelect as string[];
     
     const message = `flow will run at ${jobStartDate.toISOString()} at ${payload.dateSelect.value} : ${time} on court ${court}`;
@@ -25,6 +25,7 @@ export const runDelayedFlow = async (
     scheduleJob(jobStartDate, async () => {
         await runFlow(flow, payload);
         console.log('flow executed at', new Date());
+        stopJob()
     });
 
     console.log(message)
