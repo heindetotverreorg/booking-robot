@@ -2,7 +2,6 @@ import type { Action, Step } from '@/types/flow'
 import { StepNames } from '@/types/flow'
 import { doAction } from '@/server/scraping/doAction';
 import { Page } from 'puppeteer';
-import { stopJob } from '@/server/cron/job.js'
 
 export const runFlowSteps = async ({
     steps,

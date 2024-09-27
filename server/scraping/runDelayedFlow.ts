@@ -10,12 +10,16 @@ export const runDelayedFlow = async (
     bookingThreshold: number
 ) => {
     dayjs.extend(timezone);
-    dayjs.tz.setDefault('Europe/Amsterdam');
 
     const { value : bookingDate } = payload.dateSelect;
     const { value : timeCourtSelect } = payload.timeCourtSelect;
 
-    const jobStartDate = dayjs(bookingDate as string).subtract(bookingThreshold - 1, 'day')
+    const assumedTimezone = dayjs.tz.guess()
+    dayjs.tz.setDefault(assumedTimezone);
+
+    const jobStartDate = dayjs(bookingDate as string)
+        .subtract(bookingThreshold - 1, 'day')
+
     const [time, court] = timeCourtSelect as string[];
     
     const message = `flow will run at ${jobStartDate.toISOString()} at ${payload.dateSelect.value} : ${time} on court ${court}`;
