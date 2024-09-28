@@ -27,18 +27,20 @@ export const runDelayedFlow = async (
     const [time, court] = timeCourtSelect as string[];
 
     if (job) {
-        console.log('flow stopped at', new Date());
+        console.log('flow stopped at', dayjs().toISOString());
         stopJob()
     }
 
     if (config.cronTestTime) {
+        // this is location sensitive code, not timezoned correctly, only works in Europe/Amsterdam
         jobStartDate = dayjs(`${payload.dateSelect.value}T${config.cronTestTime}:00.000Z`)
             .utc()
+            .subtract(2, 'hour')
     }
 
     scheduleJob(jobStartDate, async () => {
+        console.log('flow executed at', dayjs().toISOString());
         await runFlow(flow, payload);
-        console.log('flow executed at', new Date());
         stopJob()
     });
 
