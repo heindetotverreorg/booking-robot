@@ -8,12 +8,14 @@ export default defineEventHandler(async (event) => {
 
     setConfig(config)
     const selectedFlow = createFlow(targetFlow)
+    const isDelayedFlow = isDateOutsideOfBookingThreshold(flowParams.dateSelect, selectedFlow?.bookingThreshold) ||
+        config.isTest && config.cronTestTime
 
     if (!selectedFlow) {
         return 'no flow to run'
     }
 
-    if (isDateOutsideOfBookingThreshold(flowParams.dateSelect, selectedFlow.bookingThreshold)) {
+    if (isDelayedFlow) {
         return await runDelayedFlow(selectedFlow, flowParams, selectedFlow.bookingThreshold)
     }
     

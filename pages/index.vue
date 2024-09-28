@@ -17,16 +17,26 @@
             type="checkbox"
             v-model="isTest"
         />
+        <MeshInput
+            v-if="isTest"
+            id="cronTestTime"
+            name="cronTestTime"
+            type="time"
+            v-model="cronTestTime"
+        />
     </div>
     <p>{{ response }}</p>
     <Loader class="spinner" v-if="isLoading"/>
 </template>
 <script setup lang="ts">
+import { MeshInput } from 'mesh-ui-components';
+
     const response = ref('')
     const isLoading = ref(false)
     const isJobRunning = ref(false)
     const jobInfo = ref('')
     const isTest = ref(false)
+    const cronTestTime = ref('')
 
     const checkJob = async ({ noResponse } : { noResponse?: boolean }) => {
         isLoading.value = true
@@ -70,7 +80,8 @@
             body: JSON.stringify({
                 targetFlow: 'bent-sports-padel-robot',
                 config: {
-                    isTest: isTest.value
+                    isTest: isTest.value,
+                    cronTestTime: cronTestTime.value || ''
                 },
                 flowParams: {
                     email: {

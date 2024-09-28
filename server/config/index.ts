@@ -1,13 +1,17 @@
 const config = {
-    isTest: true
+    isTest: true,
+    cronTestTime: ''
 }
 
 const setConfig = ({
-    isTest = true
+    isTest = true,
+    cronTestTime = ''
 } : {
-    isTest : boolean
+    isTest : boolean,
+    cronTestTime : string
 }) => {
     config.isTest = isTest
+    config.cronTestTime = cronTestTime
 }
 
 export {
