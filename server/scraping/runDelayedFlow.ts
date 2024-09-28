@@ -11,10 +11,7 @@ export const runDelayedFlow = async (
     payload : Record<string, Action>,
     bookingThreshold: number
 ) => {
-    dayjs.extend(utc);
-    dayjs.extend(timezone);
-    const assumedTimezone = dayjs.tz.guess()
-    dayjs.tz.setDefault(assumedTimezone);
+    dayjs.extend(utc)
 
     const { value : bookingDate } = payload.dateSelect;
     const { value : timeCourtSelect } = payload.timeCourtSelect;
