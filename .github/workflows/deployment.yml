@@ -29,6 +29,7 @@ jobs:
           git remote add origin ${{ env.REPO }}
           git fetch origin
           git checkout main
+          ls
           ENDSSH
       - name: Build image
         run: |
