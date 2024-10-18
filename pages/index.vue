@@ -30,7 +30,17 @@
                 name="report"
                 @click="getReport"
             />
-            <img :src="report" alt="report" />
+            <MeshInput
+                v-if="report"
+                id="showRapport"
+                name="showRapport"
+                type="checkbox"
+                :model-value="!!report"
+                @input="report = ''"
+            >
+            <template #label>Toon rapport</template>
+            </MeshInput>
+            <img v-if="report" :src="report" alt="report" />
         </div>
     </div>
     <p>{{ response }}</p>
