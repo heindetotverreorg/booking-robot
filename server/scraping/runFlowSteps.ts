@@ -18,6 +18,7 @@ export const runFlowSteps = async ({
         return 'Flow completed'
     } catch (e) {
         console.log(e)
+        await page.screenshot({ path: 'server/screenshots/error.png' })
         return e
     }
 }

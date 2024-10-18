@@ -17,19 +17,27 @@
             type="checkbox"
             v-model="isTest"
         />
-        <MeshInput
-            v-if="isTest"
-            id="cronTestTime"
-            name="cronTestTime"
-            type="time"
-            v-model="cronTestTime"
-        />
+        <div v-if="isTest">
+            <MeshInput
+                id="cronTestTime"
+                name="cronTestTime"
+                type="time"
+                v-model="cronTestTime"
+            />
+            <MeshButton
+                id="report"
+                label="Haal rapport op"
+                name="report"
+                @click="getReport"
+            />
+            <img :src="report" alt="report" />
+        </div>
     </div>
     <p>{{ response }}</p>
     <Loader class="spinner" v-if="isLoading"/>
 </template>
 <script setup lang="ts">
-import { MeshInput } from 'mesh-ui-components';
+    import { MeshInput } from 'mesh-ui-components';
 
     const response = ref('')
     const isLoading = ref(false)
@@ -37,6 +45,17 @@ import { MeshInput } from 'mesh-ui-components';
     const jobInfo = ref('')
     const isTest = ref(false)
     const cronTestTime = ref('')
+    const report = ref('')
+
+    const getReport = async () => {
+        const data = await $fetch(`/api/get-report`, {
+            method: 'GET'
+        })
+
+        report.value = `data:image/png;base64,${data}`
+
+        console.log(report)
+    }
 
     const checkJob = async ({ noResponse } : { noResponse?: boolean }) => {
         isLoading.value = true
