@@ -48,7 +48,10 @@ export const runDelayedFlow = async (
 
 const scheduleJob = (date: moment.Moment, runFlow: () => void) => {
     const timeZoneOffset = date.utcOffset() / 60;
-    const cronExpression = `${date.minute()} ${date.hour() - timeZoneOffset} ${date.date()} ${date.month() + 1} *`;
+    const cronExpression = process.env.NODE_ENV === 'development' 
+        ? `${date.minute()} ${date.hour() - timeZoneOffset} ${date.date()} ${date.month() + 1} *`
+        : `${date.minute()} ${date.hour()} ${date.date()} ${date.month() + 1} *`
+    console.log('env', process.env.NODE_ENV);
     console.log('cron expression', cronExpression);
     setJob({ set: { callBack: runFlow, expression: cronExpression } });
 };
