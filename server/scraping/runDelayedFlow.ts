@@ -13,7 +13,10 @@ export const runDelayedFlow = async (
     const { value : timeCourtSelect } = payload.timeCourtSelect;
     let jobStartDate : moment.Moment;
 
-    console.log('flow started at ', moment());
+    if (job) {
+        console.log('flow stopped at', moment());
+        stopJob()
+    }
 
     jobStartDate = moment(bookingDate)
         .set({ hours: 0, minutes: 0 })
@@ -21,10 +24,7 @@ export const runDelayedFlow = async (
 
     const [time, court] = timeCourtSelect as string[];
 
-    if (job) {
-        console.log('flow stopped at', moment());
-        stopJob()
-    }
+    console.log('flow started at ', moment());
 
     if (config.cronTestTime) {
         const [hours, minutes] = config.cronTestTime.split(':')
