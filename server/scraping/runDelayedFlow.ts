@@ -13,16 +13,16 @@ export const runDelayedFlow = async (
     const { value : timeCourtSelect } = payload.timeCourtSelect;
     let jobStartDate : moment.Moment;
 
-    console.log('NOW momentjs', moment().tz('Europe/Amsterdam'));
+    console.log('flow started at ', moment());
 
-    jobStartDate = moment(`${bookingDate}T00:00:00.000Z`)
-        .subtract(bookingThreshold, 'day')
-        .tz('Europe/Amsterdam');
+    jobStartDate = moment(bookingDate)
+        .set({ hours: 0, minutes: 0 })
+        .subtract(bookingThreshold, 'day');
 
     const [time, court] = timeCourtSelect as string[];
 
     if (job) {
-        console.log('flow stopped at', moment().toLocaleString());
+        console.log('flow stopped at', moment());
         stopJob()
     }
 
@@ -32,12 +32,12 @@ export const runDelayedFlow = async (
     }
 
     scheduleJob(jobStartDate, async () => {
-        console.log('flow executed at', moment().toLocaleString());
+        console.log('flow executed at', moment());
         await runFlow(flow, payload);
         stopJob()
     });
 
-    const message = `flow will run at ${jobStartDate.toLocaleString()} at ${payload.dateSelect.value} : ${time} on court ${court}`;
+    const message = `flow will run at ${jobStartDate} at ${payload.dateSelect.value} : ${time} on court ${court}`;
     const status = `${payload.dateSelect.value} : ${time} op baan ${court}`
 
     console.log(message)
@@ -47,11 +47,7 @@ export const runDelayedFlow = async (
 }
 
 const scheduleJob = (date: moment.Moment, runFlow: () => void) => {
-    const timeZoneOffset = date.utcOffset() / 60;
-    const cronExpression = process.env.NODE_ENV === 'development' 
-        ? `${date.minute()} ${date.hour() - timeZoneOffset} ${date.date()} ${date.month() + 1} *`
-        : `${date.minute()} ${date.hour()} ${date.date()} ${date.month() + 1} *`
-    console.log('env', process.env.NODE_ENV);
+    const cronExpression = `${date.minute()} ${date.hour()} ${date.date()} ${date.month() + 1} *`
     console.log('cron expression', cronExpression);
     setJob({ set: { callBack: runFlow, expression: cronExpression } });
 };
