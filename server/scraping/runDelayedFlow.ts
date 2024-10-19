@@ -11,12 +11,15 @@ export const runDelayedFlow = async (
 ) => {
     const { value : bookingDate } = payload.dateSelect;
     const { value : timeCourtSelect } = payload.timeCourtSelect;
+    const timeZoneOffset = moment().tz('Europe/Amsterdam').utcOffset() / 60;
+    console.log('timeZoneOffset', timeZoneOffset)
+
     let jobStartDate : moment.Moment;
 
     console.log('flow started at ', moment());
 
     jobStartDate = moment(bookingDate)
-        .set({ hours: 0, minutes: 0 })
+        .set({ hours: 0 - timeZoneOffset, minutes: 0 })
         .subtract(bookingThreshold, 'day');
 
     const [time, court] = timeCourtSelect as string[];
@@ -28,8 +31,6 @@ export const runDelayedFlow = async (
 
     if (config.cronTestTime) {
         const [hours, minutes] = config.cronTestTime.split(':')
-        const timeZoneOffset = moment().tz('Europe/Amsterdam').utcOffset() / 60;
-        console.log('timeZoneOffset', timeZoneOffset)
         jobStartDate = moment(bookingDate).set({ hours: parseInt(hours) - timeZoneOffset, minutes: parseInt(minutes) })
     }
 
