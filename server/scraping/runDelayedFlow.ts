@@ -17,6 +17,7 @@ export const runDelayedFlow = async (
 
     jobStartDate = moment(`${bookingDate}T00:00:00.000Z`)
         .subtract(bookingThreshold, 'day')
+        .tz('Europe/Amsterdam');
 
     const [time, court] = timeCourtSelect as string[];
 
