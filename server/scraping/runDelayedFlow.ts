@@ -28,7 +28,8 @@ export const runDelayedFlow = async (
 
     if (config.cronTestTime) {
         const [hours, minutes] = config.cronTestTime.split(':')
-        const timeZoneOffset = moment().utcOffset() / 60;
+        const timeZoneOffset = moment().tz('Europe/Amsterdam').utcOffset() / 60;
+        console.log('timeZoneOffset', timeZoneOffset)
         jobStartDate = moment(bookingDate).set({ hours: parseInt(hours) - timeZoneOffset, minutes: parseInt(minutes) })
     }
 
