@@ -1,6 +1,4 @@
-import dayjs, { Dayjs } from 'dayjs';
-import utc from 'dayjs/plugin/utc.js'
-import timezone from 'dayjs/plugin/timezone.js';
+import moment from 'moment-timezone';
 import type { Flow, Action } from '@/types/flow'
 import { runFlow } from '@/server/scraping/runFlow';
 import { job, setJob, stopJob, setJobStatus } from '@/server/cron/job.js'
@@ -11,37 +9,37 @@ export const runDelayedFlow = async (
     payload : Record<string, Action>,
     bookingThreshold: number
 ) => {
-    dayjs.extend(utc)
-
     const { value : bookingDate } = payload.dateSelect;
     const { value : timeCourtSelect } = payload.timeCourtSelect;
-    let jobStartDate : Dayjs;
+    let jobStartDate : moment.Moment;
 
-    jobStartDate = dayjs(`${bookingDate}T00:00:00.000Z`)
+    console.log('NOW momentjs', moment());
+
+    jobStartDate = moment(`${bookingDate}T00:00:00.000Z`)
         .subtract(bookingThreshold, 'day')
-        .utc()
 
     const [time, court] = timeCourtSelect as string[];
 
     if (job) {
-        console.log('flow stopped at', dayjs().toISOString());
+        console.log('flow stopped at', moment().toLocaleString());
         stopJob()
     }
 
     if (config.cronTestTime) {
-        // this is location sensitive code, not timezoned correctly, only works in Europe/Amsterdam
-        jobStartDate = dayjs(`${payload.dateSelect.value}T${config.cronTestTime}:00.000Z`)
-            .utc()
-            .subtract(2, 'hour')
+        const [hours, minutes] = config.cronTestTime.split(':')
+        jobStartDate = moment(bookingDate).set({ hours: parseInt(hours), minutes: parseInt(minutes) })
+        console.log('bookingDate', bookingDate)
+        console.log('cronTestTime', config.cronTestTime)
+        console.log(jobStartDate)
     }
 
     scheduleJob(jobStartDate, async () => {
-        console.log('flow executed at', dayjs().toISOString());
+        console.log('flow executed at', moment().toLocaleString());
         await runFlow(flow, payload);
         stopJob()
     });
 
-    const message = `flow will run at ${jobStartDate.toISOString()} at ${payload.dateSelect.value} : ${time} on court ${court}`;
+    const message = `flow will run at ${jobStartDate.toLocaleString()} at ${payload.dateSelect.value} : ${time} on court ${court}`;
     const status = `${payload.dateSelect.value} : ${time} op baan ${court}`
 
     console.log(message)
@@ -50,7 +48,7 @@ export const runDelayedFlow = async (
     return message;
 }
 
-const scheduleJob = (date: Dayjs, runFlow: () => void) => {
+const scheduleJob = (date: moment.Moment, runFlow: () => void) => {
     const cronExpression = `${date.minute()} ${date.hour()} ${date.date()} ${date.month() + 1} *`;
     console.log('cron expression', cronExpression);
     setJob({ set: { callBack: runFlow, expression: cronExpression } });
