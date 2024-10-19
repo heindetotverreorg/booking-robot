@@ -1,6 +1,5 @@
 import type { Flow, Action } from '@/types/flow'
 import { runFlowSteps, init, close } from './';
-import { stopJob } from '@/server/cron/job.js'
 
 export const runFlow = async (
     flow : Flow, 
@@ -18,8 +17,6 @@ export const runFlow = async (
     })
 
     await close(browser)
-
-    stopJob()
 
     return message
 }
