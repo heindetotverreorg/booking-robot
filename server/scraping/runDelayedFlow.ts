@@ -13,7 +13,7 @@ export const runDelayedFlow = async (
     const { value : timeCourtSelect } = payload.timeCourtSelect;
     let jobStartDate : moment.Moment;
 
-    console.log('NOW momentjs', moment());
+    console.log('NOW momentjs', moment().tz('Europe/Amsterdam'));
 
     jobStartDate = moment(`${bookingDate}T00:00:00.000Z`)
         .subtract(bookingThreshold, 'day')
@@ -28,9 +28,6 @@ export const runDelayedFlow = async (
     if (config.cronTestTime) {
         const [hours, minutes] = config.cronTestTime.split(':')
         jobStartDate = moment(bookingDate).set({ hours: parseInt(hours), minutes: parseInt(minutes) })
-        console.log('bookingDate', bookingDate)
-        console.log('cronTestTime', config.cronTestTime)
-        console.log(jobStartDate)
     }
 
     scheduleJob(jobStartDate, async () => {
