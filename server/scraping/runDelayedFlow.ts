@@ -11,30 +11,21 @@ export const runDelayedFlow = async (
 ) => {
     const { value : bookingDate } = payload.dateSelect;
     const { value : timeCourtSelect } = payload.timeCourtSelect;
-    const timeZoneOffset = moment().tz('Europe/Amsterdam').utcOffset() / 60;
     const [time, court] = timeCourtSelect as string[];
 
-    let jobStartDate : moment.Moment;
-
-    jobStartDate = moment(bookingDate)
-        .set({ hours: 0 - timeZoneOffset, minutes: 0 })
-        .subtract(bookingThreshold, 'day');
+    const jobStartDate : moment.Moment = createBookingMoment(bookingDate as string, bookingThreshold);
+    const jobStartTestDate = createTestBookingMoment(bookingDate as string);
 
     if (job) {
         stopJob()
     }
 
-    if (config.cronTestTime) {
-        const [hours, minutes] = config.cronTestTime.split(':')
-        jobStartDate = moment(bookingDate).set({ hours: parseInt(hours) - timeZoneOffset, minutes: parseInt(minutes) })
-    }
-
-    scheduleJob(jobStartDate, async () => {
+    scheduleJob(!config.cronTestTime ? jobStartDate : jobStartTestDate, async () => {
         await runFlow(flow, payload);
         stopJob()
     });
 
-    const message = `job will run at ${jobStartDate} at ${payload.dateSelect.value} : ${time} on court ${court}`;
+    const message = `job will run at ${!config.cronTestTime ? jobStartDate : jobStartTestDate} at ${payload.dateSelect.value} : ${time} on court ${court}`;
     const status = `${payload.dateSelect.value} : ${time} op baan ${court}`
 
     console.log(message)

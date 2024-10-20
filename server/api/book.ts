@@ -1,6 +1,6 @@
 import { createFlow } from '@/flowModel'
 import { runFlow, runDelayedFlow } from '@/server/scraping';
-import dayjs from 'dayjs';
+import moment from 'moment-timezone';
 import { setConfig } from '@/server/config';
 
 export default defineEventHandler(async (event) => {
@@ -27,22 +27,3 @@ export default defineEventHandler(async (event) => {
     
     return await runFlow(selectedFlow, flowParams)
 });
-
-const isDateOutsideOfBookingThreshold = (dateSelect : { value : string }, bookingThreshold: number = 0) => {
-    const now = dayjs()
-    const bookingDate = dayjs(dateSelect.value);
-    const thresholdDate = now.add(bookingThreshold, 'day');
-
-    return bookingDate.isAfter(thresholdDate)
-}
-
-const isBookingInPast = (dateSelect : { value : string }, timeCourtSelect : { value : string }) => {
-    const now = dayjs()
-    const [time] = timeCourtSelect.value
-    const [hours, minutes] = time.split(':')
-    const bookingDate = dayjs(dateSelect.value)
-        .set('hour', parseInt(hours))
-        .set('minute', parseInt(minutes));
-
-    return bookingDate.isBefore(now) || bookingDate.isSame(now)
-}
