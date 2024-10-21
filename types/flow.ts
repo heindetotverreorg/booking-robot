@@ -20,7 +20,7 @@ interface Action {
     value?: string | number | (string | number)[],
     waitSelector?: string,
     delay?: number,
-    format?: string
+    replaceValue?: string
 }
 
 enum StepNames {

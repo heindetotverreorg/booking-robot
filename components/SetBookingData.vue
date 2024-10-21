@@ -28,6 +28,7 @@
             v-if="isJobRunning"
             id="jobCheck"
             label="Annuleer boeking"
+            name="jobCheck"
             variant="secondary"
             @click="$emit('cancel')"
         />

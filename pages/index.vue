@@ -64,8 +64,6 @@
         })
 
         report.value = `data:image/png;base64,${data}`
-
-        console.log(report)
     }
 
     const checkJob = async ({ noResponse } : { noResponse?: boolean }) => {

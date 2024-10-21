@@ -3,12 +3,12 @@ import type { Action } from '@/types/flow'
 
 export default async (page: Page, action: Action) => {
     let {
-        format,
+        replaceValue,
         value,
         selector
     } = action
 
-    if (format === 'lastInArray') {
+    if (replaceValue === 'lastInArray') {
         value = await page.$eval(selector, (el) => {
             const selectEl = el as HTMLSelectElement
     
@@ -19,7 +19,7 @@ export default async (page: Page, action: Action) => {
         });
     }
 
-    if (format === 'selectFromTextInOption') {
+    if (replaceValue === 'selectFromTextInOption') {
         value = await page.$eval(selector, (el, value) => {
             const selectEl = el as HTMLSelectElement
     

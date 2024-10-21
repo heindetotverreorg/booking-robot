@@ -5,7 +5,7 @@ type FunctionMap = {
 };
 
 export default (action : Action) => {
-    let { value, format, selector } = action
+    let { value, replaceValue, selector } = action
 
     const occurences = action.selector.match(/{(.*?)}/g) || []
 
@@ -16,7 +16,7 @@ export default (action : Action) => {
     occurences.forEach((_, index) => {
         const extractedFunctionName = extractValue(selector)
         const selectorCreationFunction = validateExtractedValue(extractedFunctionName) as Function
-        const newSelector = selectorCreationFunction(value[index], format)
+        const newSelector = selectorCreationFunction(value[index], replaceValue)
     
         if (selector.includes(`{${selectorCreationFunction.name}}`)) {
             selector = selector.replace(`{${selectorCreationFunction.name}}`, newSelector);

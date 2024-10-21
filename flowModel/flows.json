@@ -44,7 +44,7 @@
                         "type": "click",
                         "key": "dateSelect",
                         "selector": "#cal_{convertDateToRequiredFormat} a",
-                        "format": "YYYY_MM_DD",
+                        "replaceValue": "YYYY_MM_DD",
                         "delay": 1000
                     }
                 ]
@@ -67,7 +67,7 @@
                         "type": "select",
                         "key": "timeBlockSelect",
                         "selector": ".lightbox [name=\"end_time\"]",
-                        "format": "lastInArray"
+                        "replaceValue": "lastInArray"
                     }
                 ]
             },
@@ -96,19 +96,19 @@
                         "type": "select",
                         "key": "personOne",
                         "selector": "[name=\"players[2]\"]",
-                        "format": "selectFromTextInOption"
+                        "replaceValue": "selectFromTextInOption"
                     },
                     {
                         "type": "select",
                         "key": "personTwo",
                         "selector": "[name=\"players[3]\"]",
-                        "format": "selectFromTextInOption"
+                        "replaceValue": "selectFromTextInOption"
                     },
                     {
                         "type": "select",
                         "key": "personThree",
                         "selector": "[name=\"players[4]\"]",
-                        "format": "selectFromTextInOption"
+                        "replaceValue": "selectFromTextInOption"
                     },
                     {
                         "type": "click",
