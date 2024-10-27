@@ -5,6 +5,8 @@ import { runFlow } from '@/server/scraping/runFlow';
 import { job, setJob, stopJob, setJobStatus } from '@/server/cron/job.js'
 import { config } from '@/server/config';
 
+const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+
 export const runDelayedFlow = async (
     flow : Flow, 
     payload : Record<string, Action>,
@@ -12,7 +14,6 @@ export const runDelayedFlow = async (
 ) => {
     const { value : bookingDate } = payload.dateSelect;
     const { value : timeCourtSelect } = payload.timeCourtSelect;
-    const { value : isRepeating} = payload.isRepeating;
     const [time, court] = timeCourtSelect as string[];
 
     const jobStartDate : moment.Moment = createBookingMoment(bookingDate as string, bookingThreshold);
@@ -34,8 +35,8 @@ export const runDelayedFlow = async (
         }
     });
 
-    const message = `job will run at ${!config.cronTestTime ? jobStartDate : jobStartTestDate} at ${payload.dateSelect.value} : ${time} on court ${court}`;
-    const status = `${payload.dateSelect.value} : ${time} op baan ${court}`
+    const message = `job will run at ${getJobStartInfo(jobStartDate, jobStartTestDate)} at ${payload.dateSelect.value} : ${time} on court ${court}`;
+    const status = `${getJobStatusInfo(payload.dateSelect.value as string)} : ${time} op baan ${court}`
 
     console.log(message)
     setJobStatus(status);
@@ -65,3 +66,27 @@ const scheduleJob = ({
 
     setJob({ set: { callBack: runFlow, expression: cronExpression } });
 };
+
+const getJobStartInfo = (jobStartDate : Moment, jobStartTestDate : Moment) => {
+    const { isWeeklyRepeatedFlow } = config;
+
+    if (isWeeklyRepeatedFlow) {
+        return `every ${weekdays[jobStartDate.weekday()]}: ${jobStartDate.hour()}:${jobStartDate.minute()}`
+    }
+
+    return !config.cronTestTime
+        ? jobStartDate 
+        : jobStartTestDate
+}
+
+const getJobStatusInfo = (selectedDateString : string) => {
+    const { isWeeklyRepeatedFlow } = config;
+
+    const selectedDate = moment(selectedDateString);
+
+    if (isWeeklyRepeatedFlow) {
+        return `Elke ${weekdays[selectedDate.weekday()]}`
+    }
+
+    return selectedDate
+}
