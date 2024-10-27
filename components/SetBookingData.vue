@@ -17,6 +17,15 @@
         :time="time"
         @input="onInput"
     />
+    <MeshInput
+        id="repeatBooking"
+        name="repeatBooking"
+        type="checkbox"
+        :model-value="repeat"
+        @input="repeat = !repeat"
+    >
+        <template #label>Herhaal boeking</template>
+    </MeshInput>
     <div class="buttons">
         <MeshButton
             id="submit"
@@ -56,6 +65,7 @@
     const personTwo : Ref<string> = ref('Patrick Gieling')
     const personThree : Ref<string> = ref('Ricky de Haan')
     const time: Ref<string> = ref('20:30');
+    const repeat: Ref<boolean> = ref(false);
 
     const form : Reactive<Record<string, any>> = reactive({
         court,
@@ -65,7 +75,8 @@
         personOne,
         personTwo,
         personThree,
-        time
+        time,
+        repeat
     });
 
     const generateTimeOptions = () => {

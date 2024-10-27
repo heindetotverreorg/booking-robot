@@ -11,19 +11,26 @@
             @submit="onSubmit"
         />
         <p v-if="isJobRunning">Actieve boeking: {{ jobInfo }}</p>
-        <MeshInput
-            id="isTest"
-            name="isTest"
-            type="checkbox"
-            v-model="isTest"
-        />
+        <div>
+            <MeshInput
+                id="isTest"
+                name="isTest"
+                type="checkbox"
+                :model-value="isTest"
+                @input="isTest = !isTest"
+            >
+                <template #label>Toon configuratie</template>
+            </MeshInput>
+        </div>
         <div v-if="isTest">
             <MeshInput
                 id="cronTestTime"
                 name="cronTestTime"
                 type="time"
                 v-model="cronTestTime"
-            />
+            >
+                <template #label>Test tijd voor geplande boeking</template>
+            </MeshInput>
             <MeshButton
                 id="report"
                 label="Haal rapport op"
@@ -39,7 +46,7 @@
                 :model-value="!!report"
                 @input="report = ''"
             >
-            <template #label>Toon rapport</template>
+                <template #label>Toon rapport</template>
             </MeshInput>
             <img v-if="report" :src="report" alt="report" />
         </div>
@@ -109,7 +116,8 @@
                 targetFlow: 'bent-sports-padel-robot',
                 config: {
                     isTest: isTest.value,
-                    cronTestTime: cronTestTime.value || ''
+                    cronTestTime: cronTestTime.value || '',
+                    isRepeatedFlow: form.repeat
                 },
                 flowParams: {
                     email: {
@@ -169,6 +177,10 @@ div {
 input, select {
     padding: 4px;
     width: 100%;
+}
+
+input[type="checkbox"] {
+    width: auto;
 }
 
 .main {
