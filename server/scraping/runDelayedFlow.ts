@@ -1,4 +1,5 @@
 import moment from 'moment-timezone';
+import type { Moment } from 'moment-timezone';
 import type { Flow, Action } from '@/types/flow'
 import { runFlow } from '@/server/scraping/runFlow';
 import { job, setJob, stopJob, setJobStatus } from '@/server/cron/job.js'
@@ -11,6 +12,7 @@ export const runDelayedFlow = async (
 ) => {
     const { value : bookingDate } = payload.dateSelect;
     const { value : timeCourtSelect } = payload.timeCourtSelect;
+    const { value : isRepeating} = payload.isRepeating;
     const [time, court] = timeCourtSelect as string[];
 
     const jobStartDate : moment.Moment = createBookingMoment(bookingDate as string, bookingThreshold);
@@ -20,9 +22,16 @@ export const runDelayedFlow = async (
         stopJob()
     }
 
-    scheduleJob(!config.cronTestTime ? jobStartDate : jobStartTestDate, async () => {
-        await runFlow(flow, payload);
-        stopJob()
+    scheduleJob({
+        bookingDate: jobStartDate,
+        testBookingDate: jobStartTestDate, 
+        runFlow: async () => {
+            await runFlow(flow, payload);
+
+            if (!config.isWeeklyRepeatedFlow) {
+                stopJob()
+            }
+        }
     });
 
     const message = `job will run at ${!config.cronTestTime ? jobStartDate : jobStartTestDate} at ${payload.dateSelect.value} : ${time} on court ${court}`;
@@ -34,7 +43,25 @@ export const runDelayedFlow = async (
     return message;
 }
 
-const scheduleJob = (date: moment.Moment, runFlow: () => void) => {
+const scheduleJob = ({
+    bookingDate,
+    testBookingDate,
+    runFlow
+} : {
+    bookingDate: Moment,
+    testBookingDate: Moment,
+    runFlow : () => void
+}) => {
+    const date = config.isTest ? testBookingDate : bookingDate;
+
     const cronExpression = `${date.minute()} ${date.hour()} ${date.date()} ${date.month() + 1} *`
+    const weeklyRepeatingExpression = `${date.minute()} ${date.hour()} * * ${date.subtract(1, 'day').weekday()}`
+
+    if (config.isWeeklyRepeatedFlow) {
+        console.log('set weekly job with expression: ', weeklyRepeatingExpression)
+        setJob({ set: { callBack: runFlow, expression: weeklyRepeatingExpression } });
+        return;
+    }
+
     setJob({ set: { callBack: runFlow, expression: cronExpression } });
 };

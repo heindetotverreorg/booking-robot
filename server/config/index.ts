@@ -1,17 +1,21 @@
 const config = {
     isTest: true,
-    cronTestTime: ''
+    cronTestTime: '',
+    isWeeklyRepeatedFlow: false
 }
 
 const setConfig = ({
     isTest = true,
-    cronTestTime = ''
+    cronTestTime = '',
+    isWeeklyRepeatedFlow = false
 } : {
     isTest : boolean,
-    cronTestTime : string
+    cronTestTime : string,
+    isWeeklyRepeatedFlow : boolean
 }) => {
     config.isTest = isTest
-    config.cronTestTime = cronTestTime
+    config.cronTestTime = cronTestTime,
+    config.isWeeklyRepeatedFlow = isWeeklyRepeatedFlow
 }
 
 export {

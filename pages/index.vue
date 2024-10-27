@@ -117,7 +117,7 @@
                 config: {
                     isTest: isTest.value,
                     cronTestTime: cronTestTime.value || '',
-                    isRepeatedFlow: form.repeat
+                    isWeeklyRepeatedFlow: form.repeat
                 },
                 flowParams: {
                     email: {

@@ -24,7 +24,7 @@
         :model-value="repeat"
         @input="repeat = !repeat"
     >
-        <template #label>Herhaal boeking</template>
+        <template #label>Herhaal boeking wekelijks</template>
     </MeshInput>
     <div class="buttons">
         <MeshButton
