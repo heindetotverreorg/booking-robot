@@ -55,7 +55,7 @@ const scheduleJob = ({
     const date = config.isTest ? testBookingDate : bookingDate;
 
     const cronExpression = `${date.minute()} ${date.hour()} ${date.date()} ${date.month() + 1} *`
-    const weeklyRepeatingExpression = `${date.minute()} ${date.hour()} * * ${date.subtract(1, 'day').weekday()}`
+    const weeklyRepeatingExpression = `${date.minute()} ${date.hour()} * * ${date.weekday()}`
 
     if (config.isWeeklyRepeatedFlow) {
         console.log('set weekly job with expression: ', weeklyRepeatingExpression)
