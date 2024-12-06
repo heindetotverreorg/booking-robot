@@ -6,6 +6,7 @@ import { job, setJob, stopJob, setJobStatus } from '@/server/cron/job.js'
 import { config } from '@/server/config';
 
 const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+let iteration = 0;
 
 export const runDelayedFlow = async (
     flow : Flow, 
@@ -27,6 +28,13 @@ export const runDelayedFlow = async (
         bookingDate: jobStartDate,
         testBookingDate: jobStartTestDate, 
         runFlow: async () => {
+            if (!config.isWeeklyRepeatedFlow) {
+                const date = payload.dateSelect.value as string
+                iteration++
+                const interval = 7 * iteration
+                payload.dateSelect.value = moment(date).add(interval, 'days').format('YYYY-MM-DD')
+            }
+
             await runFlow(flow, payload);
 
             if (!config.isWeeklyRepeatedFlow) {
