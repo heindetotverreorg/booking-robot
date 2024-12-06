@@ -1,5 +1,6 @@
 <template>
     <MeshInput
+        :force-validation="{}"
         id="loginName"
         :highlight-validation="true"
         name="loginName"
@@ -23,6 +24,7 @@
     </MeshInput>
     <Divider />
     <MeshInput
+        :force-validation="{}"
         id="personOne`"
         :highlight-validation="true"
         name="personOne"
@@ -34,6 +36,7 @@
         <template #label>Medespeler 1</template>
     </MeshInput>
     <MeshInput
+        :force-validation="{}"
         id="personTwo"
         :highlight-validation="true"
         name="personTwo"
@@ -45,6 +48,7 @@
         <template #label>Medespeler 2</template>
     </MeshInput>
     <MeshInput
+        :force-validation="{}"
         id="personThree"
         :highlight-validation="true"
         name="personThree"

@@ -48,7 +48,7 @@
     import type { Reactive } from "vue";
     import BookingInput from "./BookingInput.vue";
 
-    const props = defineProps<{
+    defineProps<{
         isJobRunning: boolean
     }>()
 
@@ -59,13 +59,27 @@
 
     const court : Ref<string> = ref('4')
     const date : Ref<string> = ref(new Date().toISOString().split('T')[0])
-    const loginName : Ref<string> = ref('mpoortvliet8570')
-    const loginPassword : Ref<string> = ref('10*Matthias')
-    const personOne : Ref<string> = ref('Jonathan Ouwehand')
-    const personTwo : Ref<string> = ref('Patrick Gieling')
-    const personThree : Ref<string> = ref('Ricky de Haan')
-    const time: Ref<string> = ref('20:30');
+    const loginName : Ref<string> = ref('')
+    const loginPassword : Ref<string> = ref('')
+    const personOne : Ref<string> = ref('')
+    const personTwo : Ref<string> = ref('')
+    const personThree : Ref<string> = ref('')
+    const time: Ref<string> = ref('20:00');
     const repeat: Ref<boolean> = ref(false);
+
+    onMounted(() => {
+        const form = localStorage.getItem('form');
+
+        if (form) {
+            const parsedForm = JSON.parse(form);
+
+            loginName.value = parsedForm.loginName;
+            personOne.value = parsedForm.personOne;
+            personTwo.value = parsedForm.personTwo;
+            personThree.value = parsedForm.personThree;
+            repeat.value = parsedForm.repeat;
+        }
+    })
 
     const form : Reactive<Record<string, any>> = reactive({
         court,

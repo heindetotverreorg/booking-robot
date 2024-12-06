@@ -107,48 +107,56 @@
     const onSubmit = async (form : Record<string, any>) => {
         isLoading.value = true
         response.value = ''
+        
+        const payload = {
+            targetFlow: 'bent-sports-padel-robot',
+            config: {
+                isTest: isTest.value,
+                cronTestTime: cronTestTime.value || '',
+                isWeeklyRepeatedFlow: form.repeat
+            },
+            flowParams: {
+                email: {
+                    value: form.loginName
+                },
+                password:  {
+                    value: form.loginPassword
+                },
+                sportSelect: {
+                    value: 'sport/1280'
+                },
+                dateSelect: {
+                    value: form.date
+                },
+                timeCourtSelect: {
+                    value: [form.time, form.court]
+                },
+                personOne: {
+                    value: form.personOne
+                },
+                personTwo: {
+                    value: form.personTwo
+                },
+                personThree: {
+                    value: form.personThree
+                }
+            }
+        }
+
         response.value  = await $fetch(`/api/book`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                targetFlow: 'bent-sports-padel-robot',
-                config: {
-                    isTest: isTest.value,
-                    cronTestTime: cronTestTime.value || '',
-                    isWeeklyRepeatedFlow: form.repeat
-                },
-                flowParams: {
-                    email: {
-                        value: form.loginName
-                    },
-                    password:  {
-                        value: form.loginPassword
-                    },
-                    sportSelect: {
-                        value: 'sport/1280'
-                    },
-                    dateSelect: {
-                        value: form.date
-                    },
-                    timeCourtSelect: {
-                        value: [form.time, form.court]
-                    },
-                    personOne: {
-                        value: form.personOne
-                    },
-                    personTwo: {
-                        value: form.personTwo
-                    },
-                    personThree: {
-                        value: form.personThree
-                    }
-                }
-            })
+            body: JSON.stringify(payload)
         })
+
         await checkJob({ noResponse: true })
         isLoading.value = false
+
+        delete form.loginPassword
+
+        localStorage.setItem('form', JSON.stringify(form));
     }
 
     onMounted(() => {
@@ -208,7 +216,7 @@ input[type="checkbox"] {
 .input input,
 .select select {
     border-width: 1px;
-    border-bottom-width: 3px;
+    border-bottom-width: 4px;
     border-top: 0;
     padding: .75rem .5rem;
     border-bottom-left-radius: 5px;
