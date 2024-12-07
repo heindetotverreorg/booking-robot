@@ -193,6 +193,7 @@ input[type="checkbox"] {
 
 .main {
     margin: 0 auto;
+    padding: 0 1rem;
     position: relative;
     transition: all 0.5s;
     max-width: 380px;
@@ -221,11 +222,40 @@ input[type="checkbox"] {
     padding: .75rem .5rem;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
+}
 
-    &::before, 
+.input, .select {
+    position: relative;
+
     &::after {
-        display: none;
+        border-radius: 50%;;
+        bottom: 19px;
+        content: '';
+        left: calc(100%  + 12px);
+        display: block;
+        position: absolute;
+        height: 5px;
+        width: 5px;
     }
+
+    &--validated {
+        &::after {
+            background-color: green;
+        }
+    }
+
+    &--warning {
+        &::after {
+            background-color: orange;
+        }
+    }
+
+    &--error {
+        &::after {
+            background-color: red;
+        }
+    }
+
 }
 
 .button-wrapper,
