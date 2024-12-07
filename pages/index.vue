@@ -152,11 +152,11 @@
         })
 
         await checkJob({ noResponse: true })
-        isLoading.value = false
 
         delete form.loginPassword
-
         localStorage.setItem('form', JSON.stringify(form));
+
+        isLoading.value = false
     }
 
     onMounted(() => {

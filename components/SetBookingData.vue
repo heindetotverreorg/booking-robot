@@ -28,6 +28,11 @@
     >
         <template #label>Herhaal boeking wekelijks</template>
     </MeshInput>
+    <div>
+        <p class="validation"
+            v-for="result in validationResults"
+        >{{ result }} is niet goed ingevuld</p>
+    </div>
     <div class="buttons">
         <MeshButton
             id="submit"
@@ -73,11 +78,14 @@
     const peopleInputRef = useTemplateRef('people-input')
 
     const validationConfig : Record<string, any> = ref({})
+    const showValidation : Ref<boolean> = ref(false)
+    const validationResults : Ref<string[]> = ref([])
 
     onMounted(() => {
         validationConfig.value = {
             validateStrict: false
         }
+
         const form = localStorage.getItem('form');
 
         if (form) {
@@ -104,7 +112,6 @@
     });
 
     const checkValidation = () => {
-        const invalidFields : string[] = [];
         if (peopleInputRef.value) {
             const inputs = peopleInputRef.value.$refs;
             Object.values(inputs).forEach((input : any) => {
@@ -112,12 +119,11 @@
                 validators.forEach(({validate} : any) => {
                     const isValid = validate(input.modelValue);
                     if (!isValid) {
-                        invalidFields.push(input.id);
+                        validationResults.value.push(input.id);
                     }
                 })
             })
         }
-        return invalidFields;
     }
 
     const generateTimeOptions = () => {
@@ -133,6 +139,7 @@
     };
 
     const onInput = (event : { key : string, value : any }) => {
+        validationResults.value = [];
         const {
             key,
             value
@@ -142,20 +149,14 @@
     }
 
     const onSubmit = () => {
-        const invalidFields = checkValidation()
-        if (!invalidFields.length) {
+        checkValidation()
+        if (!validationResults.value.length) {
             emit('submit', form)
         } else {
             validationConfig.value = {
                 validateStrict: true
             }
-            // invalidFields.forEach(field => {
-            //     const inputs = peopleInputRef.value?.$refs as Record<string, any>;
-            //     const invalidField = inputs[field]
-            //     invalidField.forceValidation = {
-            //         validateStrict: true
-            //     }
-            // })
+            showValidation.value = true
         }
     }
 
@@ -163,5 +164,7 @@
     const timeOptions = computed(() => generateTimeOptions());
 </script>
 <style lang="scss">
-
+.validation {
+    color: red
+}
 </style>
