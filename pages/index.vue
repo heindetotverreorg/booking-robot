@@ -281,6 +281,10 @@ button,
     }
 }
 
+.button {
+    padding: 1rem 1rem;
+}
+
 button {
     &:hover,
     &:focus,
