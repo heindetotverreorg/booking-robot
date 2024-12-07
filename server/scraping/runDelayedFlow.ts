@@ -28,7 +28,8 @@ export const runDelayedFlow = async (
         bookingDate: jobStartDate,
         testBookingDate: jobStartTestDate, 
         runFlow: async () => {
-            if (!config.isWeeklyRepeatedFlow) {
+            if (config.isWeeklyRepeatedFlow) {
+                // up the date by a week per time it runs
                 const date = payload.dateSelect.value as string
                 iteration++
                 const interval = 7 * iteration

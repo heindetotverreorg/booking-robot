@@ -1,11 +1,13 @@
 <template>
     <h1>Padel boeken</h1>
     <PeopleInput
+        ref="people-input"
         :login-name="loginName"
         :login-password="loginPassword"
         :person-one="personOne"
         :person-two="personTwo"
         :person-three="personThree"
+        :forceValidation="validationConfig"
         @input="onInput"
     />
     <Divider />
@@ -31,7 +33,7 @@
             id="submit"
             label="Boek baan"
             name="submit"
-            @click="$emit('submit', form)"
+            @click="onSubmit"
         />
         <MeshButton
             v-if="isJobRunning"
@@ -47,6 +49,7 @@
 <script lang="ts" setup>
     import type { Reactive } from "vue";
     import BookingInput from "./BookingInput.vue";
+    import PeopleInput from "./PeopleInput.vue";
 
     defineProps<{
         isJobRunning: boolean
@@ -67,7 +70,14 @@
     const time: Ref<string> = ref('20:00');
     const repeat: Ref<boolean> = ref(false);
 
+    const peopleInputRef = useTemplateRef('people-input')
+
+    const validationConfig : Record<string, any> = ref({})
+
     onMounted(() => {
+        validationConfig.value = {
+            validateStrict: false
+        }
         const form = localStorage.getItem('form');
 
         if (form) {
@@ -93,6 +103,23 @@
         repeat
     });
 
+    const checkValidation = () => {
+        const invalidFields : string[] = [];
+        if (peopleInputRef.value) {
+            const inputs = peopleInputRef.value.$refs;
+            Object.values(inputs).forEach((input : any) => {
+                const validators = input.$props.validators;
+                validators.forEach(({validate} : any) => {
+                    const isValid = validate(input.modelValue);
+                    if (!isValid) {
+                        invalidFields.push(input.id);
+                    }
+                })
+            })
+        }
+        return invalidFields;
+    }
+
     const generateTimeOptions = () => {
         const times = [];
         for (let hour = 0; hour < 24; hour++) {
@@ -112,6 +139,24 @@
         } = event
 
         form[key] = value
+    }
+
+    const onSubmit = () => {
+        const invalidFields = checkValidation()
+        if (!invalidFields.length) {
+            emit('submit', form)
+        } else {
+            validationConfig.value = {
+                validateStrict: true
+            }
+            // invalidFields.forEach(field => {
+            //     const inputs = peopleInputRef.value?.$refs as Record<string, any>;
+            //     const invalidField = inputs[field]
+            //     invalidField.forceValidation = {
+            //         validateStrict: true
+            //     }
+            // })
+        }
     }
 
     const courtOptions = computed(() => ['1', '2', '3', '4', '5', '6', '7', '8']);

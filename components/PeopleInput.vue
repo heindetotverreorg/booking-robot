@@ -1,7 +1,8 @@
 <template>
     <MeshInput
-        :force-validation="{}"
-        id="loginName"
+        :force-validation="forceValidation"
+        ref="login-name"
+        id="login-name"
         :highlight-validation="true"
         name="loginName"
         :required="true"
@@ -12,7 +13,9 @@
         <template #label>Account naam</template>
     </MeshInput>
     <MeshInput
-        id="loginPassword"
+        :force-validation="forceValidation"
+        ref="login-password"
+        id="login-password"
         :highlight-validation="true"
         name="loginPassword"
         :required="true"
@@ -24,8 +27,9 @@
     </MeshInput>
     <Divider />
     <MeshInput
-        :force-validation="{}"
-        id="personOne`"
+        :force-validation="forceValidation"
+        ref="person-one"
+        id="person-one`"
         :highlight-validation="true"
         name="personOne"
         :required="true"
@@ -36,8 +40,9 @@
         <template #label>Medespeler 1</template>
     </MeshInput>
     <MeshInput
-        :force-validation="{}"
-        id="personTwo"
+        :force-validation="forceValidation"
+        ref="person-two"
+        id="person-two"
         :highlight-validation="true"
         name="personTwo"
         :required="true"
@@ -48,8 +53,9 @@
         <template #label>Medespeler 2</template>
     </MeshInput>
     <MeshInput
-        :force-validation="{}"
-        id="personThree"
+        :force-validation="forceValidation"
+        ref="person-three"
+        id="person-hree"
         :highlight-validation="true"
         name="personThree"
         :required="true"
@@ -76,11 +82,14 @@
         personOne: string,
         personTwo: string,
         personThree: string,
+        forceValidation: Record<string, unknown>
     }>()
 
     const emit = defineEmits([
         'input'
     ])
+
+    const loginNameRef = useTemplateRef('login-name')
 
     const loginName = computed({
         get: () => props.loginName,
@@ -105,6 +114,10 @@
     const personThree = computed({
         get: () => props.personThree,
         set: (value: string) => emit('input', { key: 'personThree', value })
+    })
+
+    defineExpose({
+        loginNameRef
     })
 
 </script>
