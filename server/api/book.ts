@@ -1,6 +1,5 @@
 import { createFlow } from '@/flowModel'
 import { runFlow, runDelayedFlow } from '@/server/scraping';
-import moment from 'moment-timezone';
 import { setConfig } from '@/server/config';
 
 export default defineEventHandler(async (event) => {
@@ -9,8 +8,8 @@ export default defineEventHandler(async (event) => {
     setConfig(config)
 
     const selectedFlow = createFlow(targetFlow)
-    const isDelayedFlow = isDateOutsideOfBookingThreshold(flowParams.dateSelect, selectedFlow?.bookingThreshold) ||
-        config.isTest && config.cronTestTime
+    const isDelayedFlow = isDateOutsideOfBookingThreshold(flowParams.dateSelect, selectedFlow?.bookingThreshold)
+        || (config.isTest && config.cronTestTime)
     const isInPast = isBookingInPast(flowParams.dateSelect, flowParams.timeCourtSelect)
 
     if (isInPast) {
