@@ -13,6 +13,8 @@ export const runFlowSteps = async ({
     payload: Record<string, Action>
 }) => {
     try {
+        console.log('ERRORLOG: Do steps')
+
         await doSteps({ steps, page, payload })
 
         return 'Flow completed'
