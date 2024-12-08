@@ -4,6 +4,8 @@ import type { Flow } from '@/types/flow'
 export const init = async (
     flow: Flow,
 ) => {
+    console.log('ERRORLOG: Do init')
+
     const browserConfig = {
         headless: true,
         args: [
@@ -21,7 +23,11 @@ export const init = async (
 
     const page = await browser.newPage();
 
+    console.log('ERRORLOG: new page created')
+
     await page.goto(flow.url);
+
+    console.log('ERRORLOG: new url created')
 
     return { page, browser }
 }
