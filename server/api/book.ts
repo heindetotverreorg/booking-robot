@@ -24,8 +24,6 @@ export default defineEventHandler(async (event) => {
     if (isDelayedFlow) {
         return await runDelayedFlow(selectedFlow, flowParams, selectedFlow.bookingThreshold)
     }
-    
-    console.log('ERRORLOG: START OF FLOW')
 
     return await runFlow(selectedFlow, flowParams)
 });

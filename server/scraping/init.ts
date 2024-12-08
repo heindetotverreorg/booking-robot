@@ -4,8 +4,6 @@ import type { Flow } from '@/types/flow'
 export const init = async (
     flow: Flow,
 ) => {
-    console.log('ERRORLOG: Do init for url: ', flow.url)
-
     const browserConfig = {
         headless: true,
         args: [
@@ -20,22 +18,11 @@ export const init = async (
         }
     }
 
-    try {
-        console.log('ERRORLOG: try to launch browser . . . .')
-        const browser = await puppeteer.launch(browserConfig);
+    const browser = await puppeteer.launch(browserConfig);
 
-        console.log('ERRORLOG: new browser launched')
+    const page = await browser.newPage();
 
-        const page = await browser.newPage();
+    await page.goto(flow.url);
 
-        console.log('ERRORLOG: new page created')
-
-        await page.goto(flow.url);
-
-        console.log('ERRORLOG: new url created')
-
-        return { page, browser }
-    } catch (error) {
-        console.log('ERRORLOG: error in init', error)
-    }
+    return { page, browser }
 }

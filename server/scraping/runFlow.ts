@@ -11,8 +11,6 @@ export const runFlow = async (
         browser
     } = await init(flow)
 
-    console.log('ERRORLOG:flow.steps', flow.steps)
-
     console.log('job executed at', moment());
 
     const message = await runFlowSteps({
