@@ -16,7 +16,7 @@
     "moment-timezone": "^0.5.46",
     "node-cron": "^3.0.3",
     "nuxt": "^3.13.0",
-    "puppeteer": "^23.4.0",
+    "puppeteer": "^23.10.1",
     "sass": "^1.79.3",
     "vue": "latest",
     "vue-router": "latest"
