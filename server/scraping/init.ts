@@ -4,7 +4,7 @@ import type { Flow } from '@/types/flow'
 export const init = async (
     flow: Flow,
 ) => {
-    console.log('ERRORLOG: Do init')
+    console.log('ERRORLOG: Do init for url: ', flow.url)
 
     const browserConfig = {
         headless: true,
@@ -12,32 +12,30 @@ export const init = async (
             '--no-sandbox', 
             '--disable-setuid-sandbox',
             '--disable-gpu',
-            '--disable-dev-shm-usage'
+            '--disable-dev-shm-usage',
+            '--no-zygote',
         ],
         env: {
             DISPLAY: ":10.0"
         }
     }
 
-    const browser = await puppeteer.launch(browserConfig);
+    try {
+        console.log('ERRORLOG: try to launch browser . . . .')
+        const browser = await puppeteer.launch(browserConfig);
 
-    const page = await browser.newPage();
+        console.log('ERRORLOG: new browser launched')
 
-    console.log('ERRORLOG: new page created')
+        const page = await browser.newPage();
 
-    console.log('ERRORLOG: start delay')
-    await doWait(page, {
-        delay: 500,
-        type: '',
-        selector: '',
-        value: '',
-        key: ''
-    });
-    console.log('ERRORLOG: stop delay')
+        console.log('ERRORLOG: new page created')
 
-    await page.goto(flow.url);
+        await page.goto(flow.url);
 
-    console.log('ERRORLOG: new url created')
+        console.log('ERRORLOG: new url created')
 
-    return { page, browser }
+        return { page, browser }
+    } catch (error) {
+        console.log('ERRORLOG: error in init', error)
+    }
 }
