@@ -25,6 +25,16 @@ export const init = async (
 
     console.log('ERRORLOG: new page created')
 
+    console.log('ERRORLOG: start delay')
+    await doWait(page, {
+        delay: 500,
+        type: '',
+        selector: '',
+        value: '',
+        key: ''
+    });
+    console.log('ERRORLOG: stop delay')
+
     await page.goto(flow.url);
 
     console.log('ERRORLOG: new url created')
