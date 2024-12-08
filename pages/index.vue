@@ -193,7 +193,7 @@ input[type="checkbox"] {
 
 .main {
     margin: 0 auto;
-    padding: 0 1rem;
+    padding: 0 1.5rem 0 .5rem;
     position: relative;
     transition: all 0.5s;
     max-width: 380px;
@@ -208,7 +208,7 @@ input[type="checkbox"] {
     display: block;
     height: 60px;
     transform: translate(-50%, -50%);
-    position: absolute;
+    position: fixed;
     left: 50%;
     top: 40%;
     width: 60px;
