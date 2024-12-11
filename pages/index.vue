@@ -78,7 +78,7 @@
         if(!noResponse) {
             response.value = ''
         }
-        const data : string = await $fetch(`/api/check-job`, {
+        const data = await $fetch<string>(`/api/check-job`, {
             method: 'GET'
         })
         if (data.includes('no job')) {
@@ -97,7 +97,7 @@
     const stopJob = async () => {
         isLoading.value = true
         response.value = ''
-        response.value = await $fetch(`/api/stop-job`, {
+        response.value = await $fetch<string>(`/api/stop-job`, {
             method: 'DELETE'
         })
         await checkJob({ noResponse: true })
@@ -113,7 +113,8 @@
             config: {
                 isTest: isTest.value,
                 cronTestTime: cronTestTime.value || '',
-                isWeeklyRepeatedFlow: form.repeat
+                isWeeklyRepeatedFlow: form.repeat,
+                repeatValue: form.repeatValue
             },
             flowParams: {
                 email: {
@@ -143,7 +144,7 @@
             }
         }
 
-        response.value  = await $fetch(`/api/book`, {
+        response.value  = await $fetch<string>(`/api/book`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -26,8 +26,22 @@
         :model-value="repeat"
         @input="repeat = !repeat"
     >
-        <template #label>Herhaal boeking wekelijks</template>
+        <template #label>Herhaal boeking</template>
     </MeshInput>
+    <MeshSelect
+        v-if="repeat"
+        id="repeatValue"
+        :highlight-validation="true"
+        :default="repeatValue"
+        name="time"
+        :options="repeatOptions"
+        :required="true"
+        type="select"
+        v-model="repeatValue"
+        :validators="[notempty]"
+    >
+        <template #label>Herhaal:</template>
+    </MeshSelect>
     <div>
         <p class="validation"
             v-for="result in validationResults"
@@ -55,6 +69,12 @@
     import type { Reactive } from "vue";
     import BookingInput from "./BookingInput.vue";
     import PeopleInput from "./PeopleInput.vue";
+    import { validators } from "mesh-ui-components"
+    import { RepeatValues } from "@/types/flow";
+
+    const {
+        notempty
+    } = validators
 
     defineProps<{
         isJobRunning: boolean
@@ -74,6 +94,7 @@
     const personThree : Ref<string> = ref('')
     const time: Ref<string> = ref('20:00');
     const repeat: Ref<boolean> = ref(false);
+    const repeatValue: Ref<string> = ref('Elke week');
 
     const peopleInputRef = useTemplateRef('people-input')
 
@@ -108,7 +129,8 @@
         personTwo,
         personThree,
         time,
-        repeat
+        repeat,
+        repeatValue
     });
 
     const checkValidation = () => {
@@ -149,6 +171,24 @@
     }
 
     const onSubmit = () => {
+        switch (repeatValue.value) {
+            case 'Elke dag':
+                form.repeatValue = RepeatValues.DAILY;
+                break;
+            case 'Om de dag':
+                form.repeatValue = RepeatValues.EVERY_OTHER_DAY;
+                break;
+            case 'Elke week':
+                form.repeatValue = RepeatValues.WEEKLY;
+                break;
+            case 'Elke twee weken':
+                form.repeatValue = RepeatValues.BI_WEEKLY;
+                break;
+            case 'Elke maand':
+                form.repeatValue = RepeatValues.MONTHLY;
+                break;
+        }
+
         checkValidation()
         if (!validationResults.value.length) {
             emit('submit', form)
@@ -162,6 +202,7 @@
 
     const courtOptions = computed(() => ['1', '2', '3', '4', '5', '6', '7', '8']);
     const timeOptions = computed(() => generateTimeOptions());
+    const repeatOptions = computed(() => ['Elke dag', 'Om de dag', 'Elke week', 'Elke twee weken', 'Elke maand']);
 </script>
 <style lang="scss">
 .validation {

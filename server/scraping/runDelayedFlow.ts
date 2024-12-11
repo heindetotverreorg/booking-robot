@@ -1,13 +1,12 @@
 import moment from 'moment-timezone';
 import type { Moment } from 'moment-timezone';
-import type { Flow, Action } from '@/types/flow'
+import { type Flow, type Action, RepeatValues } from '@/types/flow'
 import { runFlow } from '@/server/scraping/runFlow';
 import { job, setJob, stopJob, setJobStatus } from '@/server/cron/job.js'
 import { config } from '@/server/config';
 import { createBookingMoment, createTestBookingMoment } from '@/server/utils/time';
 
 const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-let iteration = 0;
 
 export const runDelayedFlow = async (
     flow : Flow, 
@@ -32,9 +31,7 @@ export const runDelayedFlow = async (
             if (config.isWeeklyRepeatedFlow) {
                 // up the date by a week per time it runs
                 const date = payload.dateSelect.value as string
-                iteration++
-                const interval = 7 * iteration
-                payload.dateSelect.value = moment(date).add(interval, 'days').format('YYYY-MM-DD')
+                payload.dateSelect.value = createWeeklyRepeatingPayload(date)
             }
 
             await runFlow(flow, payload);
@@ -66,11 +63,10 @@ const scheduleJob = ({
     const date = config.isTest ? testBookingDate : bookingDate;
 
     const cronExpression = `${date.minute()} ${date.hour()} ${date.date()} ${date.month() + 1} *`
-    const weeklyRepeatingExpression = `${date.minute()} ${date.hour()} * * ${date.weekday()}`
 
     if (config.isWeeklyRepeatedFlow) {
-        console.log('set weekly job with expression: ', weeklyRepeatingExpression)
-        setJob({ set: { callBack: runFlow, expression: weeklyRepeatingExpression } });
+        console.log('set weekly job with expression: ', createWeeklyRepeatingExpression(date))
+        setJob({ set: { callBack: runFlow, expression: createWeeklyRepeatingExpression(date) } });
         return;
     }
 
@@ -99,4 +95,40 @@ const getJobStatusInfo = (selectedDateString : string) => {
     }
 
     return selectedDate
+}
+
+const createWeeklyRepeatingExpression = (date : Moment) => {
+    const { repeatValue } = config
+    switch (repeatValue) {
+        case RepeatValues.DAILY:
+            return `${date.minute()} ${date.hour()} * * *`
+        case RepeatValues.EVERY_OTHER_DAY:
+            return `${date.minute()} ${date.hour()} */2 * *`
+        case RepeatValues.WEEKLY:
+            return `${date.minute()} ${date.hour()} * * ${date.weekday()}`
+        case RepeatValues.BI_WEEKLY:
+            return `${date.minute()} ${date.hour()} * * ${date.weekday()}/2`
+        case RepeatValues.MONTHLY:
+            return `${date.minute()} ${date.hour()} ${date.date()} * *`;
+        default:
+            return `${date.minute()} ${date.hour()} * * ${date.weekday()}`
+    }
+}
+
+const createWeeklyRepeatingPayload = (date : string) => {
+    const { repeatValue } = config
+    switch (repeatValue) {
+        case RepeatValues.DAILY:
+            return moment(date).add(1, 'days').format('YYYY-MM-DD')
+        case RepeatValues.EVERY_OTHER_DAY:
+            return moment(date).add(2, 'days').format('YYYY-MM-DD')
+        case RepeatValues.WEEKLY:
+            return moment(date).add(1, 'week').format('YYYY-MM-DD')
+        case RepeatValues.BI_WEEKLY:
+            return moment(date).add(2, 'week').format('YYYY-MM-DD')
+        case RepeatValues.MONTHLY:
+            return moment(date).add(1, 'month').format('YYYY-MM-DD')
+        default:
+            return moment(date).add(1, 'week').format('YYYY-MM-DD')
+    }
 }
