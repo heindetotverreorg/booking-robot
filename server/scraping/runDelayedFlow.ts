@@ -24,10 +24,15 @@ export const runDelayedFlow = async (
         stopJob()
     }
 
+    console.log('<=== config ===>')
+    console.log(config)
+    console.log('<=== flowParams ===>')
+    console.log(payload)
+
     scheduleJob({
         bookingDate: jobStartDate,
         testBookingDate: jobStartTestDate, 
-        runFlow: async () => {
+        callBack: async () => {
             if (config.isWeeklyRepeatedFlow) {
                 // up the date by a week per time it runs
                 const date = payload.dateSelect.value as string
@@ -54,11 +59,11 @@ export const runDelayedFlow = async (
 const scheduleJob = ({
     bookingDate,
     testBookingDate,
-    runFlow
+    callBack
 } : {
     bookingDate: Moment,
     testBookingDate: Moment,
-    runFlow : () => void
+    callBack : () => void
 }) => {
     const date = config.isTest ? testBookingDate : bookingDate;
 
@@ -66,11 +71,14 @@ const scheduleJob = ({
 
     if (config.isWeeklyRepeatedFlow) {
         console.log('set weekly job with expression: ', createWeeklyRepeatingExpression(date))
-        setJob({ set: { callBack: runFlow, expression: createWeeklyRepeatingExpression(date) } });
+        setJob({ set: { callBack, expression: createWeeklyRepeatingExpression(date) } });
         return;
     }
 
-    setJob({ set: { callBack: runFlow, expression: cronExpression } });
+    console.log('set job with expression: ', cronExpression)
+    console.log(bookingDate.format('YYYY-MM-DD HH:mm'))
+
+    setJob({ set: { callBack, expression: cronExpression } });
 };
 
 const getJobStartInfo = (jobStartDate : Moment, jobStartTestDate : Moment) => {

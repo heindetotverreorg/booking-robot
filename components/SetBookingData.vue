@@ -113,6 +113,7 @@
             const parsedForm = JSON.parse(form);
 
             loginName.value = parsedForm.loginName;
+            loginPassword.value = parsedForm.loginPassword;
             personOne.value = parsedForm.personOne;
             personTwo.value = parsedForm.personTwo;
             personThree.value = parsedForm.personThree;
