@@ -4,7 +4,7 @@ import { type Flow, type Action, RepeatValues } from '@/types/flow'
 import { runFlow } from '@/server/scraping/runFlow';
 import { job, setJob, stopJob, setJobStatus } from '@/server/cron/job.js'
 import { config } from '@/server/config';
-import { createBookingMoment, createTestBookingMoment } from '@/server/utils/time';
+import { createJobStartMoment, createTestJobStartMoment } from '@/server/utils/time';
 
 const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
@@ -17,8 +17,9 @@ export const runDelayedFlow = async (
     const { value : timeCourtSelect } = payload.timeCourtSelect;
     const [time, court] = timeCourtSelect as string[];
 
-    const jobStartDate : moment.Moment = createBookingMoment(bookingDate as string, bookingThreshold);
-    const jobStartTestDate = createTestBookingMoment(bookingDate as string);
+    const jobStartDate : moment.Moment = !config.isTest 
+        ? createJobStartMoment(bookingDate as string, bookingThreshold)
+        : createTestJobStartMoment();
 
     if (job) {
         stopJob()
@@ -26,7 +27,6 @@ export const runDelayedFlow = async (
 
     scheduleJob({
         bookingDate: jobStartDate,
-        testBookingDate: jobStartTestDate, 
         callBack: async () => {
             if (config.isWeeklyRepeatedFlow) {
                 // up the date by a week per time it runs
@@ -42,7 +42,7 @@ export const runDelayedFlow = async (
         }
     });
 
-    const message = `Job will run at: ${getJobStartInfo(jobStartDate, jobStartTestDate)}. Job will excecute with booking information: ${payload.dateSelect.value} : ${time} on court ${court}`;
+    const message = `Job will run at: ${getJobStartInfo(jobStartDate)}. Job will excecute with booking information: ${payload.dateSelect.value} : ${time} on court ${court}`;
     const status = `${getJobStatusInfo(payload.dateSelect.value as string)} : ${time} op baan ${court}`
 
     // console.log(message)
@@ -53,23 +53,21 @@ export const runDelayedFlow = async (
 
 const scheduleJob = ({
     bookingDate,
-    testBookingDate,
     callBack
 } : {
     bookingDate: Moment,
-    testBookingDate: Moment,
     callBack : () => void
 }) => {
     const timeZoneOffset = moment().local().utcOffset() / 60;
-    const date = config.isTest
-        ? testBookingDate.local().subtract(timeZoneOffset, 'hours')
-        : bookingDate.local().subtract(timeZoneOffset, 'hours');
-
     console.log('timeZoneOffset', timeZoneOffset)
+    
+    const date = bookingDate.local().subtract(timeZoneOffset, 'hours');
+    const now = moment().local().subtract(timeZoneOffset, 'hours');
 
     const cronExpression = `${date.minute()} ${date.hour()} ${date.date()} ${date.month() + 1} *`
 
-    console.log('job set at', moment().format('YYYY-MM-DD HH:mm'));
+    console.log('job set at', now);
+    console.log('job set at', now.format('YYYY-MM-DD HH:mm'));
     console.log('date for cron expression', date.format('YYYY-MM-DD HH:mm'));
     console.log('expression:', cronExpression);
 
@@ -82,16 +80,14 @@ const scheduleJob = ({
     setJob({ set: { callBack, expression: cronExpression } });
 };
 
-const getJobStartInfo = (jobStartDate : Moment, jobStartTestDate : Moment) => {
+const getJobStartInfo = (jobStartDate : Moment) => {
     const { isWeeklyRepeatedFlow } = config;
 
     if (isWeeklyRepeatedFlow) {
         return `every ${weekdays[jobStartDate.weekday()]}: ${jobStartDate.hour()}:${jobStartDate.minute()}`
     }
 
-    return !config.cronTestTime
-        ? jobStartDate 
-        : jobStartTestDate
+    return jobStartDate 
 }
 
 const getJobStatusInfo = (selectedDateString : string) => {
