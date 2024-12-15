@@ -24,11 +24,6 @@ export const runDelayedFlow = async (
         stopJob()
     }
 
-    console.log('<=== config ===>')
-    console.log(config)
-    console.log('<=== flowParams ===>')
-    console.log(payload)
-
     scheduleJob({
         bookingDate: jobStartDate,
         testBookingDate: jobStartTestDate, 
@@ -47,7 +42,7 @@ export const runDelayedFlow = async (
         }
     });
 
-    const message = `job will run at ${getJobStartInfo(jobStartDate, jobStartTestDate)} at ${payload.dateSelect.value} : ${time} on court ${court}`;
+    const message = `Job will run at: ${getJobStartInfo(jobStartDate, jobStartTestDate)}. Job will excecute with booking information: ${payload.dateSelect.value} : ${time} on court ${court}`;
     const status = `${getJobStatusInfo(payload.dateSelect.value as string)} : ${time} op baan ${court}`
 
     console.log(message)
@@ -74,9 +69,6 @@ const scheduleJob = ({
         setJob({ set: { callBack, expression: createWeeklyRepeatingExpression(date) } });
         return;
     }
-
-    console.log('set job with expression: ', cronExpression)
-    console.log(bookingDate.format('YYYY-MM-DD HH:mm'))
 
     setJob({ set: { callBack, expression: cronExpression } });
 };
