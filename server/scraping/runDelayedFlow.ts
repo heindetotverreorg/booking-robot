@@ -45,7 +45,7 @@ export const runDelayedFlow = async (
     const message = `Job will run at: ${getJobStartInfo(jobStartDate, jobStartTestDate)}. Job will excecute with booking information: ${payload.dateSelect.value} : ${time} on court ${court}`;
     const status = `${getJobStatusInfo(payload.dateSelect.value as string)} : ${time} op baan ${court}`
 
-    console.log(message)
+    // console.log(message)
     setJobStatus(status);
 
     return message;
@@ -60,9 +60,18 @@ const scheduleJob = ({
     testBookingDate: Moment,
     callBack : () => void
 }) => {
-    const date = config.isTest ? testBookingDate : bookingDate;
+    const timeZoneOffset = moment().local().utcOffset() / 60;
+    const date = config.isTest
+        ? testBookingDate.local().subtract(timeZoneOffset, 'hours')
+        : bookingDate.local().subtract(timeZoneOffset, 'hours');
+
+    console.log('timeZoneOffset', timeZoneOffset)
 
     const cronExpression = `${date.minute()} ${date.hour()} ${date.date()} ${date.month() + 1} *`
+
+    console.log('job set at', moment().format('YYYY-MM-DD HH:mm'));
+    console.log('date for cron expression', date.format('YYYY-MM-DD HH:mm'));
+    console.log('expression:', cronExpression);
 
     if (config.isWeeklyRepeatedFlow) {
         console.log('set weekly job with expression: ', createWeeklyRepeatingExpression(date))

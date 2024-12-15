@@ -9,10 +9,7 @@ const setJob = ({
 } : {
     set?: { callBack: () => void, expression: string }
 }) : ScheduledTask | null => {
-    console.log('<=== setJob ===>')
     if (set) {
-        console.log('job set at', moment());
-        console.log('expression:', set.expression);
         job = schedule(set.expression, set.callBack, {
             scheduled: true,
             timezone: "UTC"
