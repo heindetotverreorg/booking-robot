@@ -10,6 +10,7 @@ export default  (bookingDate : string) => {
     return moment()
     .set({
         // hours: parseInt(hours) - timeZoneOffset,
+        hours: parseInt(hours),
         minutes: parseInt(minutes)
     })
 }
