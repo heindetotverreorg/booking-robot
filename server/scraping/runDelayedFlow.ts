@@ -7,13 +7,9 @@ import { createJobStartMoment, createTestJobStartMoment } from '@/server/utils/t
 import dayjs, { Dayjs } from 'dayjs';
 import utc from 'dayjs/plugin/utc.js';
 import timezone from 'dayjs/plugin/timezone.js';
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter.js';
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore.js';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
-dayjs.extend(isSameOrAfter);
-dayjs.extend(isSameOrBefore);
 
 const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
@@ -65,11 +61,7 @@ const scheduleJob = ({
     jobRunMoment: Dayjs,
     callBack : () => void
 }) => {
-    const timeZoneOffset = dayjs().local().utcOffset() / 60;
-    console.log('-- timeZoneOffset', timeZoneOffset)
-
     const cronExpression = !config.customCronString
-        // ? `${jobRunMoment.minute()} ${jobRunMoment.hour() - timeZoneOffset} ${jobRunMoment.date()} ${jobRunMoment.month() + 1} *`
         ? `${jobRunMoment.minute()} ${jobRunMoment.hour()} ${jobRunMoment.date()} ${jobRunMoment.month() + 1} *`
         : config.customCronString;
     const recurringCronExpression = createWeeklyRepeatingExpression(jobRunMoment);
