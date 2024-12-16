@@ -42,7 +42,7 @@ export const runDelayedFlow = async (
     });
 
     const message = `Job will run at: ${getJobStartInfo(jobStartDayjs)}. Job will execute with booking information: ${payload.dateSelect.value} : ${time} on court ${court}`;
-    const status = `${getJobStatusInfo(payload.dateSelect.value as string)} : ${time} op baan ${court}`;
+    const status = `${getJobStatusInfo(payload.dateSelect.value as string)} : ${time} op baan ${court} ${config.isTest ? 'IS A TEST' : ''}`;
 
     setJobStatus(status);
 
@@ -101,7 +101,7 @@ const getJobStatusInfo = (selectedDateString : string) => {
     const selectedDate = dayjs(selectedDateString);
 
     if (isWeeklyRepeatedFlow) {
-        return `${repeatValue}`
+        return `${repeatValue} on ${weekdays[selectedDate.day()]}`
     }
 
     return selectedDate
