@@ -2,7 +2,8 @@
     <div 
         :class="[
             'main',
-            isLoading ? 'main--loading' : ''
+            isLoading ? 'main--loading' : '',
+            response ? 'main--message' : ''
         ]"
     >
         <SetBookingData
@@ -27,14 +28,27 @@
         <Config v-if="isTest"
             @set-config="setConfig"
         />
+        <div v-if="response"
+            :class="[
+                'response',
+                responseHasError ? 'response--error' : '',
+            ]"
+        >
+            <p>{{ response }}</p>
+            <MeshButton
+                label="sluit"
+                variant="tertiary"
+                @click="response = ''"
+            />
+        </div>
     </div>
-    <p>{{ response }}</p>
     <Loader class="spinner" v-if="isLoading"/>
 </template>
 <script setup lang="ts">
     import { MeshInput } from 'mesh-ui-components';
 
     const response = ref('')
+    const responseHasError = ref(false)
     const isLoading = ref(false)
     const isJobRunning = ref(false)
     const jobInfo = ref('')
@@ -72,10 +86,9 @@
     }
 
     const onSubmit = async (form : Record<string, any>) => {
+        responseHasError.value = false
         isLoading.value = true
         response.value = ''
-
-        console.log(config)
         
         const payload = {
             targetFlow: 'bent-sports-padel-robot',
@@ -83,7 +96,7 @@
                 isTest: isTest.value,
                 cronTestTime: config.cronTestTime || '',
                 isWeeklyRepeatedFlow: form.repeat,
-                repeatValue: form.repeatValue.value,
+                repeatValue: form.repeatValue,
                 customCronString: config.customCronString
             },
             flowParams: {
@@ -122,6 +135,10 @@
             body: JSON.stringify(payload)
         })
 
+        if (response.value.includes('Error ')) {
+            responseHasError.value = true
+        }
+
         await checkJob({ noResponse: true })
 
         form.loginPassword = ''
@@ -139,7 +156,7 @@
     const stopJob = async () => {
         isLoading.value = true
         response.value = ''
-        response.value = await $fetch<string>(`/api/stop-job`, {
+        await $fetch<string>(`/api/stop-job`, {
             method: 'DELETE'
         })
         await checkJob({ noResponse: true })
@@ -194,7 +211,20 @@ input[type="checkbox"] {
     &--loading {
         filter: blur(3px);
     }
+}
 
+.response {
+    background-color: green;
+    color: white;
+    position: fixed;
+    top: 50%;
+    width: 100%;
+    padding: 20px;
+    transform: translateY(-50%);
+
+    &--error {
+        background-color: red;
+    }
 }
 
 .spinner {
@@ -260,31 +290,46 @@ button,
     width: 100%;
 
     &--primary {
-        background-color: white;
+        background-color: transparent;
         border: 2px solid black;
         border-color: green;
         color: green;
     }
 
     &--secondary {
-        background-color: white;
+        background-color: transparent;
         border: 2px solid grey;
         color: darkorange;
         border-color: darkorange;
+    }
+
+    &--tertiary {
+        background-color: transparent;
+        border: 2px solid white;
+        color: white;
     }
 }
 
 .button {
     padding: 1rem 1rem;
+
+    &--tertiary {
+        &:hover,
+        &:focus,
+        &:active {
+            border-bottom-width: 7px;
+            cursor: pointer;   
+            transform: translateY(-3px);    
+        }
+    }
 }
 
 button {
     &:hover,
     &:focus,
     &:active {
-        border-bottom-width: 7px;
-        cursor: pointer;   
-        transform: translateY(-3px);    
+        border-bottom-width: 2px;
+        transform: translateY(0);    
     }
 
     &[disabled] {

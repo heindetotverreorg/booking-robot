@@ -51,6 +51,7 @@ export const runDelayedFlow = async (
 
 const createWeeklyRepeatingExpression = (date : Dayjs) => {
     const { repeatValue } = config
+    console.log(repeatValue)
     switch (repeatValue) {
         case RepeatValues.DAILY:
             return `${date.minute()} ${date.hour()} * * *`
@@ -86,22 +87,22 @@ const createWeeklyRepeatingPayload = (date : string) => {
 }
 
 const getJobStartInfo = (jobStartDayjs : Dayjs) => {
-    const { isWeeklyRepeatedFlow } = config;
+    const { isWeeklyRepeatedFlow, repeatValue } = config;
 
     if (isWeeklyRepeatedFlow) {
-        return `every ${weekdays[jobStartDayjs.day()]}: ${jobStartDayjs.hour()}:${jobStartDayjs.minute()}`
+        return `${repeatValue} ${weekdays[jobStartDayjs.day()]}: ${jobStartDayjs.hour()}:${jobStartDayjs.minute()}`
     }
 
     return jobStartDayjs 
 }
 
 const getJobStatusInfo = (selectedDateString : string) => {
-    const { isWeeklyRepeatedFlow } = config;
+    const { isWeeklyRepeatedFlow, repeatValue } = config;
 
     const selectedDate = dayjs(selectedDateString);
 
     if (isWeeklyRepeatedFlow) {
-        return `Elke ${weekdays[selectedDate.day()]}`
+        return `${repeatValue}`
     }
 
     return selectedDate
