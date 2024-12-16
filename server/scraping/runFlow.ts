@@ -12,7 +12,7 @@ export const runFlow = async (
         browser
     } = await init(flow)
 
-    console.log('job executed at', dayjs());
+    console.log('-- job executed at', dayjs().format('YYYY-MM-DD HH:mm:ss'));
 
     const message = await runFlowSteps({
         steps: flow.steps,

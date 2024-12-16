@@ -65,27 +65,23 @@ const scheduleJob = ({
     bookingDate: Dayjs,
     callBack : () => void
 }) => {
-    const timeZoneOffset = dayjs().local().utcOffset() / 60;
+    const timeZoneOffset = dayjs().tz('Europe/Amsterdam').utcOffset() / 60;
     console.log('timeZoneOffset', timeZoneOffset)
     
-    const date = bookingDate.local().subtract(timeZoneOffset, 'hours');
-    const now = dayjs().local().subtract(timeZoneOffset, 'hours');
+    const tzBookingDate = bookingDate.subtract(timeZoneOffset, 'hours');
 
     const cronExpression = !config.customCronString
-        ? `${date.minute()} ${date.hour()} ${date.date()} ${date.month() + 1} *`
+        ? `${tzBookingDate.minute()} ${tzBookingDate.hour()} ${tzBookingDate.date()} ${tzBookingDate.month() + 1} *`
         : config.customCronString;
-
-    console.log('job set at', now);
-    console.log('job set at', now.format('YYYY-MM-DD HH:mm'));
-    console.log('date for cron expression', date.format('YYYY-MM-DD HH:mm'));
-    console.log('expression:', cronExpression);
+    const recurringCronExpression = createWeeklyRepeatingExpression(tzBookingDate);
 
     if (config.isWeeklyRepeatedFlow) {
-        console.log('set weekly job with expression: ', createWeeklyRepeatingExpression(date))
-        setJob({ set: { callBack, expression: createWeeklyRepeatingExpression(date) } });
+        console.log('-- set recurring job with expression: ', recurringCronExpression)
+        setJob({ set: { callBack, expression: recurringCronExpression } });
         return;
     }
 
+    console.log('-- set single job with expression: ', cronExpression)
     setJob({ set: { callBack, expression: cronExpression } });
 };
 

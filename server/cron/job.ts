@@ -20,7 +20,7 @@ const setJob = ({
 
 const stopJob = () => {
     if (job) {
-        console.log('job stopped at', dayjs());
+        console.log('-- job stopped at', dayjs().format('YYYY-MM-DD HH:mm:ss'));
         job.stop()
         job = null
     }
