@@ -2,8 +2,7 @@
     <div 
         :class="[
             'main',
-            isLoading ? 'main--loading' : '',
-            response ? 'main--message' : ''
+            isLoading ? 'main--loading' : ''
         ]"
     >
         <SetBookingData
@@ -28,19 +27,19 @@
         <Config v-if="isTest"
             @set-config="setConfig"
         />
-        <div v-if="response"
-            :class="[
-                'response',
-                responseHasError ? 'response--error' : '',
-            ]"
-        >
-            <p>{{ response }}</p>
-            <MeshButton
-                label="sluit"
-                variant="tertiary"
-                @click="response = ''"
-            />
-        </div>
+    </div>
+    <div v-if="response"
+        :class="[
+            'response',
+            responseHasError ? 'response--error' : '',
+        ]"
+    >
+        <p>{{ response }}</p>
+        <MeshButton
+            label="sluit"
+            variant="tertiary"
+            @click="response = ''"
+        />
     </div>
     <Loader class="spinner" v-if="isLoading"/>
 </template>
