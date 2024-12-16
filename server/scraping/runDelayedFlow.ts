@@ -51,7 +51,6 @@ export const runDelayedFlow = async (
 
 const createWeeklyRepeatingExpression = (date : Dayjs) => {
     const { repeatValue } = config
-    console.log(repeatValue)
     switch (repeatValue) {
         case RepeatValues.DAILY:
             return `${date.minute()} ${date.hour()} * * *`

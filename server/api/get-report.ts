@@ -7,7 +7,7 @@ export default defineEventHandler(async () => {
         try {
             return await fs.readFile(filePath, 'base64');
         } catch (e) {
-            console.error(e);
+            console.log(`--- ${e}`)
         }
     }
 
