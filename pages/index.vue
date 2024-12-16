@@ -141,7 +141,6 @@
 
         await checkJob({ noResponse: true })
 
-        form.loginPassword = ''
         localStorage.setItem('form', JSON.stringify(form));
 
         isLoading.value = false

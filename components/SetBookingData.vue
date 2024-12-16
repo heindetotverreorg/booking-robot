@@ -171,6 +171,7 @@
 
     const onInput = (event : { key : string, value : any }) => {
         validationResults.value = [];
+
         const {
             key,
             value
