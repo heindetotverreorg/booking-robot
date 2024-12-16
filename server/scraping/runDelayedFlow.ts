@@ -26,16 +26,16 @@ export const runDelayedFlow = async (
     const { value: timeCourtSelect } = payload.timeCourtSelect;
     const [time, court] = timeCourtSelect as string[];
 
-    const jobStartDate: Dayjs = !config.isTest 
-        ? createJobStartMoment(jobRunMoment as string, bookingThreshold).tz('Europe/Amsterdam')
-        : createTestJobStartMoment().tz('Europe/Amsterdam');
+    const jobStartDayjs: Dayjs = !config.isTest 
+        ? createJobStartMoment(jobRunMoment as string, bookingThreshold)
+        : createTestJobStartMoment()
 
     if (job) {
         stopJob();
     }
 
     scheduleJob({
-        jobRunMoment: jobStartDate,
+        jobRunMoment: jobStartDayjs,
         callBack: async () => {
             if (config.isWeeklyRepeatedFlow) {
                 const date = payload.dateSelect.value as string;
@@ -50,7 +50,7 @@ export const runDelayedFlow = async (
         }
     });
 
-    const message = `Job will run at: ${getJobStartInfo(jobStartDate)}. Job will execute with booking information: ${payload.dateSelect.value} : ${time} on court ${court}`;
+    const message = `Job will run at: ${getJobStartInfo(jobStartDayjs)}. Job will execute with booking information: ${payload.dateSelect.value} : ${time} on court ${court}`;
     const status = `${getJobStatusInfo(payload.dateSelect.value as string)} : ${time} op baan ${court}`;
 
     setJobStatus(status);
@@ -65,7 +65,7 @@ const scheduleJob = ({
     jobRunMoment: Dayjs,
     callBack : () => void
 }) => {
-    const timeZoneOffset = dayjs().tz('Europe/Amsterdam').utcOffset() / 60;
+    const timeZoneOffset = dayjs().local().utcOffset() / 60;
     console.log('-- timeZoneOffset', timeZoneOffset)
 
     const cronExpression = !config.customCronString
@@ -83,14 +83,14 @@ const scheduleJob = ({
     setJob({ set: { callBack, expression: cronExpression } });
 };
 
-const getJobStartInfo = (jobStartDate : Dayjs) => {
+const getJobStartInfo = (jobStartDayjs : Dayjs) => {
     const { isWeeklyRepeatedFlow } = config;
 
     if (isWeeklyRepeatedFlow) {
-        return `every ${weekdays[jobStartDate.day()]}: ${jobStartDate.hour()}:${jobStartDate.minute()}`
+        return `every ${weekdays[jobStartDayjs.day()]}: ${jobStartDayjs.hour()}:${jobStartDayjs.minute()}`
     }
 
-    return jobStartDate 
+    return jobStartDayjs 
 }
 
 const getJobStatusInfo = (selectedDateString : string) => {
