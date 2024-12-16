@@ -17,7 +17,7 @@ export const runFlowSteps = async ({
 
         return 'Flow completed'
     } catch (e) {
-        console.log(e)
+        console.log(`--- ${e}`)
         await page.setViewport({ width: 1366, height: 768 })
         await page.evaluate(() => {
             window.scrollTo(0, document.body.scrollHeight);

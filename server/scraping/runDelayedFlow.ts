@@ -22,12 +22,12 @@ export const runDelayedFlow = async (
     payload: Record<string, Action>,
     bookingThreshold: number
 ) => {
-    const { value: bookingDate } = payload.dateSelect;
+    const { value: jobRunMoment } = payload.dateSelect;
     const { value: timeCourtSelect } = payload.timeCourtSelect;
     const [time, court] = timeCourtSelect as string[];
 
     const jobStartDate: Dayjs = !config.isTest 
-        ? createJobStartMoment(bookingDate as string, bookingThreshold).tz('Europe/Amsterdam')
+        ? createJobStartMoment(jobRunMoment as string, bookingThreshold).tz('Europe/Amsterdam')
         : createTestJobStartMoment().tz('Europe/Amsterdam');
 
     if (job) {
@@ -35,7 +35,7 @@ export const runDelayedFlow = async (
     }
 
     scheduleJob({
-        bookingDate: jobStartDate,
+        jobRunMoment: jobStartDate,
         callBack: async () => {
             if (config.isWeeklyRepeatedFlow) {
                 const date = payload.dateSelect.value as string;
@@ -59,21 +59,19 @@ export const runDelayedFlow = async (
 };
 
 const scheduleJob = ({
-    bookingDate,
+    jobRunMoment,
     callBack
 } : {
-    bookingDate: Dayjs,
+    jobRunMoment: Dayjs,
     callBack : () => void
 }) => {
     const timeZoneOffset = dayjs().tz('Europe/Amsterdam').utcOffset() / 60;
-    console.log('timeZoneOffset', timeZoneOffset)
-    
-    const tzBookingDate = bookingDate.subtract(timeZoneOffset, 'hours');
+    console.log('-- timeZoneOffset', timeZoneOffset)
 
     const cronExpression = !config.customCronString
-        ? `${tzBookingDate.minute()} ${tzBookingDate.hour()} ${tzBookingDate.date()} ${tzBookingDate.month() + 1} *`
+        ? `${jobRunMoment.minute()} ${jobRunMoment.hour() - timeZoneOffset} ${jobRunMoment.date()} ${jobRunMoment.month() + 1} *`
         : config.customCronString;
-    const recurringCronExpression = createWeeklyRepeatingExpression(tzBookingDate);
+    const recurringCronExpression = createWeeklyRepeatingExpression(jobRunMoment);
 
     if (config.isWeeklyRepeatedFlow) {
         console.log('-- set recurring job with expression: ', recurringCronExpression)
