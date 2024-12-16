@@ -26,7 +26,7 @@
             <MeshInput
                 id="cronTestTime"
                 name="cronTestTime"
-                type="string"
+                type="text"
                 v-model="customCronString"
             >
                 <template #label>Custom cron string</template>
