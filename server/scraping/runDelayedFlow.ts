@@ -70,7 +70,7 @@ const scheduleJob = ({
 
     const cronExpression = !config.customCronString
         // ? `${jobRunMoment.minute()} ${jobRunMoment.hour() - timeZoneOffset} ${jobRunMoment.date()} ${jobRunMoment.month() + 1} *`
-        ? `${jobRunMoment.minute()} ${jobRunMoment.hour() - 1} ${jobRunMoment.date()} ${jobRunMoment.month() + 1} *`
+        ? `${jobRunMoment.minute()} ${jobRunMoment.hour()} ${jobRunMoment.date()} ${jobRunMoment.month() + 1} *`
         : config.customCronString;
     const recurringCronExpression = createWeeklyRepeatingExpression(jobRunMoment);
 

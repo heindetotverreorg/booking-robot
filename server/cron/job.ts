@@ -12,7 +12,7 @@ const setJob = ({
     if (set) {
         job = schedule(set.expression, set.callBack, {
             scheduled: true,
-            timezone: "UTC"
+            timezone: 'Europe/Amsterdam'
         });
     }
     return job
