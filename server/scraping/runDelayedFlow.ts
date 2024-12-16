@@ -5,11 +5,6 @@ import { config } from '@/server/config';
 import { createJobStartMoment, createTestJobStartMoment } from '@/server/utils/time';
 
 import dayjs, { Dayjs } from 'dayjs';
-import utc from 'dayjs/plugin/utc.js';
-import timezone from 'dayjs/plugin/timezone.js';
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
 
 const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
@@ -54,50 +49,6 @@ export const runDelayedFlow = async (
     return message;
 };
 
-const scheduleJob = ({
-    jobRunMoment,
-    callBack
-} : {
-    jobRunMoment: Dayjs,
-    callBack : () => void
-}) => {
-    const cronExpression = !config.customCronString
-        ? `${jobRunMoment.minute()} ${jobRunMoment.hour()} ${jobRunMoment.date()} ${jobRunMoment.month() + 1} *`
-        : config.customCronString;
-    const recurringCronExpression = createWeeklyRepeatingExpression(jobRunMoment);
-
-    if (config.isWeeklyRepeatedFlow) {
-        console.log('-- set recurring job with expression: ', recurringCronExpression)
-        setJob({ set: { callBack, expression: recurringCronExpression } });
-        return;
-    }
-
-    console.log('-- set single job with expression: ', cronExpression)
-    setJob({ set: { callBack, expression: cronExpression } });
-};
-
-const getJobStartInfo = (jobStartDayjs : Dayjs) => {
-    const { isWeeklyRepeatedFlow } = config;
-
-    if (isWeeklyRepeatedFlow) {
-        return `every ${weekdays[jobStartDayjs.day()]}: ${jobStartDayjs.hour()}:${jobStartDayjs.minute()}`
-    }
-
-    return jobStartDayjs 
-}
-
-const getJobStatusInfo = (selectedDateString : string) => {
-    const { isWeeklyRepeatedFlow } = config;
-
-    const selectedDate = dayjs(selectedDateString);
-
-    if (isWeeklyRepeatedFlow) {
-        return `Elke ${weekdays[selectedDate.day()]}`
-    }
-
-    return selectedDate
-}
-
 const createWeeklyRepeatingExpression = (date : Dayjs) => {
     const { repeatValue } = config
     switch (repeatValue) {
@@ -133,3 +84,47 @@ const createWeeklyRepeatingPayload = (date : string) => {
             return dayjs(date).add(1, 'week').format('YYYY-MM-DD')
     }
 }
+
+const getJobStartInfo = (jobStartDayjs : Dayjs) => {
+    const { isWeeklyRepeatedFlow } = config;
+
+    if (isWeeklyRepeatedFlow) {
+        return `every ${weekdays[jobStartDayjs.day()]}: ${jobStartDayjs.hour()}:${jobStartDayjs.minute()}`
+    }
+
+    return jobStartDayjs 
+}
+
+const getJobStatusInfo = (selectedDateString : string) => {
+    const { isWeeklyRepeatedFlow } = config;
+
+    const selectedDate = dayjs(selectedDateString);
+
+    if (isWeeklyRepeatedFlow) {
+        return `Elke ${weekdays[selectedDate.day()]}`
+    }
+
+    return selectedDate
+}
+
+const scheduleJob = ({
+    jobRunMoment,
+    callBack
+} : {
+    jobRunMoment: Dayjs,
+    callBack : () => void
+}) => {
+    const cronExpression = !config.customCronString
+        ? `${jobRunMoment.minute()} ${jobRunMoment.hour()} ${jobRunMoment.date()} ${jobRunMoment.month() + 1} *`
+        : config.customCronString;
+    const recurringCronExpression = createWeeklyRepeatingExpression(jobRunMoment);
+
+    if (config.isWeeklyRepeatedFlow) {
+        console.log('-- set recurring job with expression: ', recurringCronExpression)
+        setJob({ set: { callBack, expression: recurringCronExpression } });
+        return;
+    }
+
+    console.log('-- set single job with expression: ', cronExpression)
+    setJob({ set: { callBack, expression: cronExpression } });
+};
