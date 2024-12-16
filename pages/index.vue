@@ -6,7 +6,9 @@
         ]"
     >
         <SetBookingData
-            :is-job-running="isJobRunning"  
+            :disabled="isDisabled"
+            :is-job-running="isJobRunning"
+            @validation="onValidate"
             @cancel="stopJob"  
             @submit="onSubmit"
         />
@@ -19,45 +21,12 @@
                 :model-value="isTest"
                 @input="isTest = !isTest"
             >
-                <template #label>Toon configuratie</template>
+                <template #label>Toon configuratie opties</template>
             </MeshInput>
         </div>
-        <div v-if="isTest">
-            <MeshInput
-                id="cronTestTime"
-                name="cronTestTime"
-                type="text"
-                v-model="customCronString"
-            >
-                <template #label>Custom cron string</template>
-            </MeshInput>
-            <MeshInput
-                id="cronTestTime"
-                name="cronTestTime"
-                type="time"
-                v-model="cronTestTime"
-            >
-                <template #label>Test tijd voor geplande boeking</template>
-            </MeshInput>
-            <MeshButton
-                id="report"
-                label="Haal rapport op"
-                variant="secondary"
-                name="report"
-                @click="getReport"
-            />
-            <MeshInput
-                v-if="report"
-                id="showRapport"
-                name="showRapport"
-                type="checkbox"
-                :model-value="!!report"
-                @input="report = ''"
-            >
-                <template #label>Toon rapport</template>
-            </MeshInput>
-            <img v-if="report" :src="report" alt="report" />
-        </div>
+        <Config v-if="isTest"
+            @set-config="setConfig"
+        />
     </div>
     <p>{{ response }}</p>
     <Loader class="spinner" v-if="isLoading"/>
@@ -70,17 +39,16 @@
     const isJobRunning = ref(false)
     const jobInfo = ref('')
     const isTest = ref(false)
-    const cronTestTime = ref('')
-    const report = ref('')
-    const customCronString = ref('')
+    const isDisabled = ref(false)
+    const config = reactive({
+        cronTestTime: '',
+        customCronString: ''
+    })
 
-    const getReport = async () => {
-        const data = await $fetch(`/api/get-report`, {
-            method: 'GET'
-        })
 
-        report.value = `data:image/png;base64,${data}`
-    }
+    onMounted(() => {
+        checkJob({ noResponse: true })
+    })
 
     const checkJob = async ({ noResponse } : { noResponse?: boolean }) => {
         isLoading.value = true
@@ -103,28 +71,20 @@
         isLoading.value = false
     }
 
-    const stopJob = async () => {
-        isLoading.value = true
-        response.value = ''
-        response.value = await $fetch<string>(`/api/stop-job`, {
-            method: 'DELETE'
-        })
-        await checkJob({ noResponse: true })
-        isLoading.value = false
-    }
-
     const onSubmit = async (form : Record<string, any>) => {
         isLoading.value = true
         response.value = ''
+
+        console.log(config)
         
         const payload = {
             targetFlow: 'bent-sports-padel-robot',
             config: {
                 isTest: isTest.value,
-                cronTestTime: cronTestTime.value || '',
+                cronTestTime: config.cronTestTime || '',
                 isWeeklyRepeatedFlow: form.repeat,
-                repeatValue: form.repeatValue,
-                customCronString: customCronString.value
+                repeatValue: form.repeatValue.value,
+                customCronString: config.customCronString
             },
             flowParams: {
                 email: {
@@ -170,9 +130,31 @@
         isLoading.value = false
     }
 
-    onMounted(() => {
-        checkJob({ noResponse: true })
-    })
+    const setConfig = (incomingConfig : Record<string, any>) => {
+        console.log('incomingConfig: ', incomingConfig)
+        config.cronTestTime = incomingConfig.cronTestTime
+        config.customCronString = incomingConfig.customCronString
+    }
+
+    const stopJob = async () => {
+        isLoading.value = true
+        response.value = ''
+        response.value = await $fetch<string>(`/api/stop-job`, {
+            method: 'DELETE'
+        })
+        await checkJob({ noResponse: true })
+        isLoading.value = false
+    }
+
+    const onValidate = (
+        errors : string[]
+    ) => {
+        if (!errors.length) {
+            isDisabled.value = false
+        } else {
+            isDisabled.value = true
+        }
+    }
 </script>
 <style lang="scss">
 * {
@@ -303,6 +285,11 @@ button {
         border-bottom-width: 7px;
         cursor: pointer;   
         transform: translateY(-3px);    
+    }
+
+    &[disabled] {
+        border-color: lightgrey;
+        color: lightgrey;
     }
 }
 

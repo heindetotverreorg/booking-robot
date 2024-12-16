@@ -42,13 +42,14 @@
     >
         <template #label>Herhaal:</template>
     </MeshSelect>
-    <div>
+    <div v-if="showValidation">
         <p class="validation"
             v-for="result in validationResults"
         >{{ result }} is niet goed ingevuld</p>
     </div>
     <div class="buttons">
         <MeshButton
+            :disabled="disabled"
             id="submit"
             label="Boek baan"
             name="submit"
@@ -77,12 +78,14 @@
     } = validators
 
     defineProps<{
-        isJobRunning: boolean
+        isJobRunning: boolean,
+        disabled: boolean,
     }>()
 
     const emit = defineEmits([
         'cancel',
         'submit',
+        'validation'
     ])
 
     const court : Ref<string> = ref('4')
@@ -119,6 +122,10 @@
             personThree.value = parsedForm.personThree;
             repeat.value = parsedForm.repeat;
         }
+
+        nextTick(() => {
+            checkValidation()
+        })
     })
 
     const form : Reactive<Record<string, any>> = reactive({
@@ -147,6 +154,7 @@
                 })
             })
         }
+        emit('validation', validationResults.value, { soft: true })
     }
 
     const generateTimeOptions = () => {
@@ -169,9 +177,13 @@
         } = event
 
         form[key] = value
+
+        checkValidation()
     }
 
     const onSubmit = () => {
+        validationResults.value = []
+
         switch (repeatValue.value) {
             case 'Elke dag':
                 form.repeatValue = RepeatValues.DAILY;
