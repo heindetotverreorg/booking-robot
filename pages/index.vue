@@ -154,7 +154,7 @@
 
         await checkJob({ noResponse: true })
 
-        // delete form.loginPassword
+        form.loginPassword = ''
         localStorage.setItem('form', JSON.stringify(form));
 
         isLoading.value = false
