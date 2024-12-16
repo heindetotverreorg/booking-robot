@@ -1,10 +1,8 @@
-import moment from 'moment-timezone';
+import dayjs from 'dayjs';
 
 export default (bookingDate : string, bookingThreshold : number) => {
-    return moment(bookingDate)
-        .set({
-            hours: 0,
-            minutes: 0 
-        })
+    return dayjs(bookingDate)
+        .set('hour', 0)
+        .set('minute', 0)
         .subtract(bookingThreshold, 'day');
 }

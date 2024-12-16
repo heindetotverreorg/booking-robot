@@ -1,5 +1,5 @@
 import { schedule, type ScheduledTask } from 'node-cron';
-import moment from 'moment-timezone';
+import dayjs from 'dayjs';
 
 let job : ScheduledTask | null
 let jobStatus : string
@@ -20,7 +20,7 @@ const setJob = ({
 
 const stopJob = () => {
     if (job) {
-        console.log('job stopped at', moment());
+        console.log('job stopped at', dayjs());
         job.stop()
         job = null
     }

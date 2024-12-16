@@ -1,12 +1,10 @@
-import moment from 'moment-timezone';
+import dayjs from 'dayjs';
 import { config } from '@/server/config';
 
 export default  () => {
     const [hours, minutes] = config.cronTestTime.split(':')
 
-    return moment()
-        .set({
-            hours: parseInt(hours),
-            minutes: parseInt(minutes)
-        })
+    return dayjs()
+        .set('hour', parseInt(hours))
+        .set('minute', parseInt(minutes))
 }

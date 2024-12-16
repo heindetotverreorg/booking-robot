@@ -1,10 +1,11 @@
-import moment from 'moment-timezone';
+import dayjs from 'dayjs';
+
 
 export default (dateSelect : { value : string }, timeCourtSelect : { value : string }) => {
-    const now = moment()
+    const now = dayjs()
     const [time] = timeCourtSelect.value
     const [hours, minutes] = time.split(':')
-    const bookingDate = moment(dateSelect.value)
+    const bookingDate = dayjs(dateSelect.value)
         .set('hour', parseInt(hours))
         .set('minute', parseInt(minutes));
 

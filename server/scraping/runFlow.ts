@@ -1,6 +1,7 @@
 import type { Flow, Action } from '@/types/flow'
 import { runFlowSteps, init, close } from './';
-import moment from 'moment-timezone';
+import dayjs from 'dayjs';
+
 
 export const runFlow = async (
     flow : Flow, 
@@ -11,7 +12,7 @@ export const runFlow = async (
         browser
     } = await init(flow)
 
-    console.log('job executed at', moment());
+    console.log('job executed at', dayjs());
 
     const message = await runFlowSteps({
         steps: flow.steps,
