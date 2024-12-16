@@ -217,8 +217,9 @@ input[type="checkbox"] {
     background-color: green;
     color: white;
     position: fixed;
+    left: 10px;
+    right: 10px;
     top: 50%;
-    width: 100%;
     padding: 20px;
     transform: translateY(-50%);
 
@@ -317,9 +318,9 @@ button,
         &:hover,
         &:focus,
         &:active {
-            border-bottom-width: 7px;
-            cursor: pointer;   
-            transform: translateY(-3px);    
+            border-bottom-width: 2px;
+            transform: translateY(0);    
+
         }
     }
 }
@@ -328,8 +329,9 @@ button {
     &:hover,
     &:focus,
     &:active {
-        border-bottom-width: 2px;
-        transform: translateY(0);    
+        border-bottom-width: 7px;
+        cursor: pointer;   
+        transform: translateY(-3px);    
     }
 
     &[disabled] {
