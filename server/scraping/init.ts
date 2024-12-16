@@ -7,11 +7,15 @@ export const init = async (
     const browserConfig = {
         headless: true,
         args: [
+            // '--no-sandbox', 
+            // '--disable-setuid-sandbox',
+            // '--disable-gpu',
+            // '--disable-dev-shm-usage',
+            // '--no-zygote',
             '--no-sandbox', 
             '--disable-setuid-sandbox',
             '--disable-gpu',
-            '--disable-dev-shm-usage',
-            '--no-zygote',
+            '--disable-dev-shm-usage'
         ],
         env: {
             DISPLAY: ":10.0"
