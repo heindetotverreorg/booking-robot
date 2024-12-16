@@ -26,6 +26,14 @@
             <MeshInput
                 id="cronTestTime"
                 name="cronTestTime"
+                type="string"
+                v-model="customCronString"
+            >
+                <template #label>Custom cron string</template>
+            </MeshInput>
+            <MeshInput
+                id="cronTestTime"
+                name="cronTestTime"
                 type="time"
                 v-model="cronTestTime"
             >
@@ -64,6 +72,7 @@
     const isTest = ref(false)
     const cronTestTime = ref('')
     const report = ref('')
+    const customCronString = ref('')
 
     const getReport = async () => {
         const data = await $fetch(`/api/get-report`, {
@@ -114,7 +123,8 @@
                 isTest: isTest.value,
                 cronTestTime: cronTestTime.value || '',
                 isWeeklyRepeatedFlow: form.repeat,
-                repeatValue: form.repeatValue
+                repeatValue: form.repeatValue,
+                customCronString: customCronString.value
             },
             flowParams: {
                 email: {

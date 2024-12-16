@@ -71,7 +71,9 @@ const scheduleJob = ({
     const date = bookingDate.local().subtract(timeZoneOffset, 'hours');
     const now = dayjs().local().subtract(timeZoneOffset, 'hours');
 
-    const cronExpression = `${date.minute()} ${date.hour()} ${date.date()} ${date.month() + 1} *`
+    const cronExpression = !config.customCronString
+        ? `${date.minute()} ${date.hour()} ${date.date()} ${date.month() + 1} *`
+        : config.customCronString;
 
     console.log('job set at', now);
     console.log('job set at', now.format('YYYY-MM-DD HH:mm'));
