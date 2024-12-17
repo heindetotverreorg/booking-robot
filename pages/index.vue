@@ -13,17 +13,15 @@
             @submit="onSubmit"
         />
         <p v-if="isJobRunning">Actieve boeking: {{ jobInfo }}</p>
-        <div>
-            <MeshInput
-                id="isTest"
-                name="isTest"
-                type="checkbox"
-                :model-value="isTest"
-                @input="isTest = !isTest"
-            >
-                <template #label>Toon configuratie opties</template>
-            </MeshInput>
-        </div>
+        <MeshInput
+            id="isTest"
+            name="isTest"
+            type="checkbox"
+            :model-value="isTest"
+            @input="isTest = !isTest"
+        >
+            <template #label>Toon configuratie opties</template>
+        </MeshInput>
         <Config v-if="isTest"
             @set-config="setConfig"
         />
@@ -58,7 +56,6 @@
         cronTestTime: '',
         customCronString: ''
     })
-
 
     onMounted(() => {
         checkJob({ noResponse: true })
@@ -147,7 +144,6 @@
     }
 
     const setConfig = (incomingConfig : Record<string, any>) => {
-        console.log('incomingConfig: ', incomingConfig)
         config.cronTestTime = incomingConfig.cronTestTime
         config.customCronString = incomingConfig.customCronString
     }
