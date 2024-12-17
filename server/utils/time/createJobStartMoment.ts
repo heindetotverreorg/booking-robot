@@ -7,8 +7,8 @@ dayjs.extend(timezone);
 
 export default (bookingDate : string, bookingThreshold : number) => {
     return dayjs(bookingDate)
-        .tz('Europe/Amsterdam')
+        .subtract(bookingThreshold, 'day')
         .set('hour', 0)
         .set('minute', 0)
-        .subtract(bookingThreshold, 'day');
+        .tz('Europe/Amsterdam')
 }
