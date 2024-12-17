@@ -101,7 +101,7 @@ const getJobStatusInfo = (selectedDateString : string) => {
     const selectedDate = dayjs(selectedDateString);
 
     if (isWeeklyRepeatedFlow) {
-        return `${repeatValue} on ${weekdays[selectedDate.day()]}`
+        return `${repeatValue}. Eerst volgende speeldag aanstaande ${weekdays[selectedDate.day()]}`
     }
 
     return selectedDate
