@@ -12,7 +12,8 @@
             @cancel="stopJob"  
             @submit="onSubmit"
         />
-        <p v-if="isJobRunning">Actieve boeking: {{ jobInfo }}</p>
+        <p v-if="isJobRunning">Actieve boeking:</p>
+        <p v-if="isJobRunning">{{ jobInfo }}</p>
         <MeshInput
             id="isTest"
             name="isTest"
