@@ -26,20 +26,12 @@
             @set-config="setConfig"
         />
     </div>
-    <div v-if="response"
-        :class="[
-            'response',
-            responseHasError ? 'response--error' : '',
-        ]"
-    >
-        <p>{{ response }}</p>
-        <MeshButton
-            label="sluit"
-            name="closemessage"
-            variant="tertiary"
-            @click="response = ''"
-        />
-    </div>
+    <Responses
+        v-if="response"
+        :response="response"
+        :responseHasError="responseHasError"
+        @closemessage="response = ''"
+    />
     <Loader class="spinner" v-if="isLoading"/>
 </template>
 <script setup lang="ts">
