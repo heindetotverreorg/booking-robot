@@ -4,18 +4,18 @@ const config = {
     isTest: false,
     cronTestTime: '',
     isWeeklyRepeatedFlow: false,
-    repeatValue: RepeatValues.WEEKLY,
+    repeatValue: '',
     customCronString: '',
     iteration: 0
 }
 
 const setConfig = ({
-    isTest = false,
-    cronTestTime = '',
-    isWeeklyRepeatedFlow = false,
-    repeatValue = RepeatValues.WEEKLY,
-    customCronString = '',
-    iteration = 0
+    isTest,
+    cronTestTime,
+    isWeeklyRepeatedFlow,
+    repeatValue,
+    customCronString,
+    iteration
 } : {
     isTest? : boolean,
     cronTestTime? : string,
