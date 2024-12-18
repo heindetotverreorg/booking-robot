@@ -1,7 +1,7 @@
 import { RepeatValues } from "@/types/flow"
 
 const config = {
-    isTest: true,
+    isTest: false,
     cronTestTime: '',
     isWeeklyRepeatedFlow: false,
     repeatValue: RepeatValues.WEEKLY,
@@ -10,7 +10,7 @@ const config = {
 }
 
 const setConfig = ({
-    isTest = true,
+    isTest = false,
     cronTestTime = '',
     isWeeklyRepeatedFlow = false,
     repeatValue = RepeatValues.WEEKLY,
