@@ -2,7 +2,7 @@ import { type Flow, type Action } from '@/types/flow'
 import { runFlow } from '@/server/scraping/runFlow';
 import { getJobStartInfo, getJobStatusInfo, job, scheduleJob, stopJob, setJobStatus } from '@/server/cron/job.js'
 import { config } from '@/server/config';
-import { createJobStartMoment, createTestJobStartMoment, createWeeklyRepeatingFlowPayload } from '@/server/utils/time';
+import { createJobStartMoment, createTestJobStartMoment, createRepeatingFlowPayload } from '@/server/utils/time';
 
 import { Dayjs } from 'dayjs';
 
@@ -28,7 +28,7 @@ export const runDelayedFlow = async (
         callBack: async () => {
             if (config.isWeeklyRepeatedFlow) {
                 const date = payload.dateSelect.value as string;
-                payload.dateSelect.value = createWeeklyRepeatingFlowPayload(date);
+                payload.dateSelect.value = createRepeatingFlowPayload(date);
             }
 
             await runFlow(flow, payload);

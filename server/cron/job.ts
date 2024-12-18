@@ -1,7 +1,7 @@
 import { schedule, type ScheduledTask } from 'node-cron';
 import dayjs, { Dayjs } from 'dayjs';
-import { config } from '@/server/config';
-import { createWeeklyRepeatingCronExpression } from '@/server/utils/time';
+import { setConfig, config } from '@/server/config';
+import { createRepeatingCronExpression } from '@/server/utils/time';
 
 let job : ScheduledTask | null
 let jobStatus : string
@@ -37,10 +37,13 @@ const scheduleJob = ({
     jobRunMoment: Dayjs,
     callBack : () => void
 }) => {
+    const { iteration } = config;
+    setConfig({ iteration: iteration + 1});
+
     const cronExpression = !config.customCronString
         ? `${jobRunMoment.minute()} ${jobRunMoment.hour()} ${jobRunMoment.date()} ${jobRunMoment.month() + 1} *`
         : config.customCronString;
-    const recurringCronExpression = createWeeklyRepeatingCronExpression(jobRunMoment);
+    const recurringCronExpression = createRepeatingCronExpression(jobRunMoment);
 
     if (config.isWeeklyRepeatedFlow) {
         console.log('-- set recurring job with expression: ', recurringCronExpression)

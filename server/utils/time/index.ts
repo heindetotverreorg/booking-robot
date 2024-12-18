@@ -3,8 +3,8 @@ import createJobStartMoment from './createJobStartMoment';
 import createTestJobStartMoment from './createTestJobStartMoment';
 import isBookingInPast from './isBookingInPast';
 import isDateOutsideOfBookingThreshold from './isDateOutsideOfBookingThreshold';
-import createWeeklyRepeatingCronExpression from './createWeeklyRepeatingCronExpression';
-import createWeeklyRepeatingFlowPayload from './createWeeklyRepeatingFlowPayload';
+import createRepeatingCronExpression from './createRepeatingCronExpression';
+import createRepeatingFlowPayload from './createRepeatingFlowPayload';
 
 export {
     convertDateToRequiredFormat,
@@ -12,6 +12,6 @@ export {
     createTestJobStartMoment,
     isBookingInPast,
     isDateOutsideOfBookingThreshold,
-    createWeeklyRepeatingCronExpression,
-    createWeeklyRepeatingFlowPayload
+    createRepeatingCronExpression,
+    createRepeatingFlowPayload
 }

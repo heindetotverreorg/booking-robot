@@ -5,7 +5,8 @@ const config = {
     cronTestTime: '',
     isWeeklyRepeatedFlow: false,
     repeatValue: RepeatValues.WEEKLY,
-    customCronString: ''
+    customCronString: '',
+    iteration: 0
 }
 
 const setConfig = ({
@@ -13,19 +14,22 @@ const setConfig = ({
     cronTestTime = '',
     isWeeklyRepeatedFlow = false,
     repeatValue = RepeatValues.WEEKLY,
-    customCronString = ''
+    customCronString = '',
+    iteration = 0
 } : {
-    isTest : boolean,
-    cronTestTime : string,
-    isWeeklyRepeatedFlow : boolean,
-    repeatValue : RepeatValues,
-    customCronString : string
+    isTest? : boolean,
+    cronTestTime? : string,
+    isWeeklyRepeatedFlow? : boolean,
+    repeatValue? : RepeatValues,
+    customCronString? : string,
+    iteration? : number
 }) => {
-    config.isTest = isTest
-    config.cronTestTime = cronTestTime,
-    config.isWeeklyRepeatedFlow = isWeeklyRepeatedFlow
-    config.repeatValue = repeatValue
-    config.customCronString = customCronString
+    if (isTest) config.isTest = isTest
+    if (cronTestTime) config.cronTestTime = cronTestTime
+    if (isWeeklyRepeatedFlow) config.isWeeklyRepeatedFlow = isWeeklyRepeatedFlow
+    if (repeatValue) config.repeatValue = repeatValue
+    if (customCronString) config.customCronString = customCronString
+    if (iteration) config.iteration = iteration
 }
 
 export {

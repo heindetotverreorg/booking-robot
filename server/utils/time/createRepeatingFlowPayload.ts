@@ -3,7 +3,10 @@ import { config } from '../../config'
 import { RepeatValues } from '../../../types/flow'
 
 export default (date : string) => {
-    const { repeatValue } = config
+    const { repeatValue, iteration } = config
+
+    if (iteration === 1) return date
+
     switch (repeatValue) {
         case RepeatValues.DAILY:
             return dayjs(date).add(1, 'days').format('YYYY-MM-DD')
