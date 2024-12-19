@@ -11,26 +11,28 @@ export default ({
 }) => {
     const { repeatValue, iteration } = config
 
-    if (iteration === 1) return date
+    if (iteration === 1) {
+        return returnDayjsObject ? dayjs(date) : date
+    }
 
     let newDate
 
     switch (repeatValue) {
         case RepeatValues.DAILY:
-            newDate = dayjs(date).add(1, 'days')
+            newDate = dayjs(date).add(1 * iteration, 'days')
         case RepeatValues.EVERY_OTHER_DAY:
-            newDate = dayjs(date).add(2, 'days')
+            newDate = dayjs(date).add(2 * iteration, 'days')
         case RepeatValues.WEEKLY:
-            newDate = dayjs(date).add(1, 'week')
+            newDate = dayjs(date).add(1 * iteration, 'week')
         case RepeatValues.BI_WEEKLY:
-            newDate = dayjs(date).add(2, 'week')
+            newDate = dayjs(date).add(2 * iteration, 'week')
         case RepeatValues.MONTHLY:
-            newDate = dayjs(date).add(1, 'month')
+            newDate = dayjs(date).add(1 * iteration, 'month')
         default:
-            newDate = dayjs(date).add(1, 'week')
+            newDate = dayjs(date).add(1 * iteration, 'week')
     }
 
     if (returnDayjsObject) return newDate
 
-    return newDate.format('YYYY-MM-DD')
+    return returnDayjsObject ? newDate : newDate.format('YYYY-MM-DD')
 }

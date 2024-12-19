@@ -22,7 +22,7 @@ const getJobStatusInfo = (selectedDateString : string) => {
     const { isWeeklyRepeatedFlow, repeatValue } = config;
 
     if (isWeeklyRepeatedFlow) {
-        const repeatedDate = createRepeatingFlowPayload({ date: selectedDateString }) as Dayjs;
+        const repeatedDate = createRepeatingFlowPayload({ date: selectedDateString, returnDayjsObject: true }) as Dayjs;
 
         return `${repeatValue}. Eerst volgende boeking aanstaande ${weekdays[repeatedDate.day()]}`
     }
