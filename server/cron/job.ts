@@ -1,7 +1,7 @@
 import { schedule, type ScheduledTask } from 'node-cron';
 import dayjs, { Dayjs } from 'dayjs';
 import { setConfig, config } from '@/server/config';
-import { createRepeatingCronExpression } from '@/server/utils/time';
+import { createRepeatingCronExpression, createRepeatingFlowPayload } from '@/server/utils/time';
 
 let job : ScheduledTask | null
 let jobStatus : string
@@ -21,11 +21,13 @@ const getJobStartInfo = (jobStartDayjs : Dayjs) => {
 const getJobStatusInfo = (selectedDateString : string) => {
     const { isWeeklyRepeatedFlow, repeatValue } = config;
 
-    const selectedDate = dayjs(selectedDateString);
-
     if (isWeeklyRepeatedFlow) {
-        return `${repeatValue}. Eerst volgende boeking aanstaande ${weekdays[selectedDate.day()]}`
+        const repeatedDate = createRepeatingFlowPayload({ date: selectedDateString }) as Dayjs;
+
+        return `${repeatValue}. Eerst volgende boeking aanstaande ${weekdays[repeatedDate.day()]}`
     }
+
+    const selectedDate = dayjs(selectedDateString);
 
     return selectedDate
 }

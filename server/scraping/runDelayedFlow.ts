@@ -28,7 +28,7 @@ export const runDelayedFlow = async (
         callBack: async () => {
             if (config.isWeeklyRepeatedFlow) {
                 const date = payload.dateSelect.value as string;
-                payload.dateSelect.value = createRepeatingFlowPayload(date);
+                payload.dateSelect.value = createRepeatingFlowPayload({ date }) as string
             }
 
             await runFlow(flow, payload);
