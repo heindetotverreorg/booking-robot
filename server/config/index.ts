@@ -10,30 +10,35 @@ const config = {
 }
 
 const setConfig = ({
-    isTest = true,
+    isTest = false,
     cronTestTime = '',
     isWeeklyRepeatedFlow,
     repeatValue,
-    customCronString = '',
-    iteration
+    customCronString = ''
 } : {
     isTest? : boolean,
     cronTestTime? : string,
     isWeeklyRepeatedFlow? : boolean,
     repeatValue? : RepeatValues,
-    customCronString? : string,
-    iteration? : number
+    customCronString? : string
 }) => {
     if (isWeeklyRepeatedFlow) config.isWeeklyRepeatedFlow = isWeeklyRepeatedFlow
     if (repeatValue) config.repeatValue = repeatValue
-    if (iteration) config.iteration = iteration
 
     config.isTest = isTest
     config.customCronString = customCronString
     config.cronTestTime = cronTestTime
+
+    console.log('LATEST CONFIG STATE:', config)
+}
+
+
+const setIteration = (iteration: number) => {
+    config.iteration = iteration
 }
 
 export {
     config,
-    setConfig
+    setConfig,
+    setIteration
 }
