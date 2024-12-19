@@ -8,6 +8,7 @@
         <p>{{ response }}</p>
         <MeshButton
             label="sluit"
+            id="closemessage"
             name="closemessage"
             variant="tertiary"
             @click="emit('closemessage')"
