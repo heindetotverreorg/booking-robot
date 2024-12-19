@@ -15,6 +15,8 @@ export const runDelayedFlow = async (
     const { value: timeCourtSelect } = payload.timeCourtSelect;
     const [time, court] = timeCourtSelect as string[];
 
+    console.log('CONFIG TEST = ', config.isTest)
+
     const jobStartDayjs: Dayjs = !config.isTest 
         ? createJobStartMoment(jobRunMoment as string, bookingThreshold)
         : createTestJobStartMoment()

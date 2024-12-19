@@ -84,10 +84,10 @@
             targetFlow: 'bent-sports-padel-robot',
             config: {
                 isTest: isTest.value,
-                cronTestTime: config.cronTestTime || '',
+                cronTestTime: isTest.value ? config.cronTestTime : '',
                 isWeeklyRepeatedFlow: form.repeat,
                 repeatValue: form.repeatValue,
-                customCronString: config.customCronString
+                customCronString: isTest.value ? config.customCronString : ''
             },
             flowParams: {
                 email: {
