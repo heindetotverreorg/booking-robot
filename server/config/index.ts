@@ -14,7 +14,7 @@ const setConfig = ({
     cronTestTime,
     isWeeklyRepeatedFlow,
     repeatValue,
-    customCronString,
+    customCronString = '',
     iteration
 } : {
     isTest? : boolean,
