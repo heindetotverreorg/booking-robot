@@ -141,20 +141,45 @@
         repeatValue
     });
 
-    const checkValidation = () => {
+    const camelToKebab = (str: string) => {
+        return str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+    };
+
+    const checkValidation = (key? : string) => {
+        if (!validationResults.value.length) {
+            showValidation.value = false
+        }
         if (peopleInputRef.value) {
             const inputs = peopleInputRef.value.$refs;
+            if (key) {
+                const input = inputs[key] as any
+                const validators = input.$props.validators;
+
+                doValidation(validators, input)
+                emit('validation', validationResults.value)
+                
+                return 
+            }
+
             Object.values(inputs).forEach((input : any) => {
                 const validators = input.$props.validators;
-                validators.forEach(({validate} : any) => {
-                    const isValid = validate(input.modelValue);
-                    if (!isValid) {
-                        validationResults.value.push(input.id);
-                    }
-                })
+                doValidation(validators, input)
             })
+            emit('validation', validationResults.value)
         }
-        emit('validation', validationResults.value, { soft: true })
+    }
+
+    const doValidation = (validators : Function[], input : any) => {
+        validators.forEach(({validate} : any) => {
+            const isValid = validate(input.modelValue);
+            if (!isValid) {
+                validationResults.value.push(input.id);
+                return
+            }
+            validationResults.value = validationResults.value.filter((id) => {
+                return id !== input.id
+            })
+        })
     }
 
     const generateTimeOptions = () => {
@@ -170,8 +195,6 @@
     };
 
     const onInput = (event : { key : string, value : any }) => {
-        validationResults.value = [];
-
         const {
             key,
             value
@@ -179,7 +202,9 @@
 
         form[key] = value
 
-        checkValidation()
+        nextTick(() => {
+            checkValidation(camelToKebab(key))
+        })
     }
 
     const onSubmit = () => {
