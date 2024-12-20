@@ -157,7 +157,7 @@
 
                 doValidation(validators, input)
                 emit('validation', validationResults.value)
-                
+
                 return 
             }
 
@@ -245,6 +245,7 @@
 </script>
 <style lang="scss">
 .validation {
-    color: red
+    color: red;
+    font-size: small;
 }
 </style>
