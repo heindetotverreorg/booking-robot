@@ -1,7 +1,11 @@
 import { schedule, type ScheduledTask } from 'node-cron';
 import dayjs, { Dayjs } from 'dayjs';
-import { setIteration, setConfig, config } from '@/server/config';
+import { setIteration, config } from '@/server/config';
 import { createRepeatingCronExpression, createRepeatingFlowPayload } from '@/server/utils/time';
+
+import timezone from 'dayjs/plugin/timezone.js';
+import utc from 'dayjs/plugin/utc.js';
+
 
 let job : ScheduledTask | null
 let jobStatus : string
@@ -53,7 +57,14 @@ const scheduleJob = ({
         return;
     }
 
+    dayjs.extend(utc);
+    dayjs.extend(timezone);
+
+
+    console.log('-- current time: ', dayjs().format('YYYY-MM-DD HH:mm:ss'));
+    console.log('-- current time tz: ', dayjs().tz('Europe/Amsterdam').format('YYYY-MM-DD HH:mm:ss'));
     console.log('-- set single job with expression: ', cronExpression)
+    
     setJob({ set: { callBack, expression: cronExpression } });
 };
 

@@ -153,7 +153,7 @@
             const inputs = peopleInputRef.value.$refs;
             if (key) {
                 const input = inputs[key] as any
-                const validators = input.$props.validators;
+                const validators = input?.$props.validators;
 
                 doValidation(validators, input)
                 emit('validation', validationResults.value)
@@ -161,8 +161,8 @@
                 return 
             }
 
-            Object.values(inputs).forEach((input : any) => {
-                const validators = input.$props.validators;
+            Object.values(inputs)?.forEach((input : any) => {
+                const validators = input?.$props.validators;
                 doValidation(validators, input)
             })
             emit('validation', validationResults.value)
@@ -170,7 +170,7 @@
     }
 
     const doValidation = (validators : Function[], input : any) => {
-        validators.forEach(({validate} : any) => {
+        validators?.forEach(({validate} : any) => {
             const isValid = validate(input.modelValue);
             if (!isValid) {
                 validationResults.value.push(input.id);

@@ -28,8 +28,6 @@ const setConfig = ({
     config.isTest = isTest
     config.customCronString = customCronString
     config.cronTestTime = cronTestTime
-
-    console.log('LATEST CONFIG STATE:', config)
 }
 
 
