@@ -5,7 +5,7 @@
             responseHasError ? 'response--error' : '',
         ]"
     >
-        <p>{{ response }}</p>
+        <p>{{ humanReadableResponse }}</p>
         <MeshButton
             label="sluit"
             id="closemessage"
@@ -28,6 +28,18 @@
     const emit = defineEmits([
         'closemessage'
     ])
+
+    const humanReadableResponse = computed(() => {
+        if (response.includes('"key":"loginSubmit"')) {
+            return 'Inlog gegevens onjuist'
+        }
+
+        if (response.includes('"key":"timeCourtSelect"')) {
+            return 'Baan niet beschikbaar op deze tijd'
+        }
+
+        return response
+    })
 </script>
 
 

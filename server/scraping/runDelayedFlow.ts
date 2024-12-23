@@ -1,5 +1,5 @@
 import { type Flow, type Action } from '@/types/flow'
-import { runFlow } from '@/server/scraping/runFlow';
+import { runFlow, runLogin } from '@/server/scraping';
 import { getJobStartInfo, getJobStatusInfo, job, scheduleJob, stopJob, setJobStatus } from '@/server/cron/job.js'
 import { config } from '@/server/config';
 import { createJobStartMoment, createTestJobStartMoment, createRepeatingFlowPayload } from '@/server/utils/time';
@@ -44,5 +44,9 @@ export const runDelayedFlow = async (
 
     setJobStatus(status);
 
-    return message;
+    const loginMessage = await runLogin(flow, payload) as string
+
+    return loginMessage.includes('Error in step')
+        ? loginMessage
+        : message
 };

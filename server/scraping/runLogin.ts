@@ -1,8 +1,8 @@
 import type { Flow, Action } from '@/types/flow'
 import { runFlowSteps, init, close } from './';
-import dayjs from 'dayjs';
+import { StepNames } from '@/types/flow';
 
-export const runFlow = async (
+export const runLogin = async (
     flow : Flow, 
     payload : Record<string, Action>
 ) => {
@@ -11,10 +11,12 @@ export const runFlow = async (
         browser
     } = await init(flow)
 
-    console.log('-- job executed at', dayjs().format('YYYY-MM-DD HH:mm:ss'));
+    page.setDefaultTimeout(1000)
+
+    const loginStepsOnly = flow.steps.filter(step => step.name === StepNames.login)
 
     const message = await runFlowSteps({
-        steps: flow.steps,
+        steps: loginStepsOnly,
         page,
         payload
     })
