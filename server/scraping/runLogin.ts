@@ -2,6 +2,8 @@ import type { Flow, Action } from '@/types/flow'
 import { runFlowSteps, init, close } from './';
 import { StepNames } from '@/types/flow';
 
+import dayjs from 'dayjs';
+
 export const runLogin = async (
     flow : Flow, 
     payload : Record<string, Action>
@@ -22,6 +24,8 @@ export const runLogin = async (
     })
 
     await close(browser)
+
+    console.log('-- login successful at ', dayjs().format('YYYY-MM-DD HH:mm:ss'));
 
     return message
 }
