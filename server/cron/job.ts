@@ -57,12 +57,6 @@ const scheduleJob = ({
         return;
     }
 
-    dayjs.extend(utc);
-    dayjs.extend(timezone);
-
-
-    console.log('-- current time: ', dayjs().format('YYYY-MM-DD HH:mm:ss'));
-    console.log('-- current time tz: ', dayjs().tz('Europe/Amsterdam').format('YYYY-MM-DD HH:mm:ss'));
     console.log('-- set single job with expression: ', cronExpression)
 
     setJob({ set: { callBack, expression: cronExpression } });
@@ -74,10 +68,8 @@ const setJob = ({
     set?: { callBack: () => void, expression: string }
 }) : ScheduledTask | null => {
     if (set) {
-        console.log('TEST WITH DETIMEZONING THE CRON SCHEDULER')
         job = schedule(set.expression, set.callBack, {
             scheduled: true,
-            // timezone: 'Europe/Amsterdam'
         });
     }
     return job
