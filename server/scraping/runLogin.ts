@@ -3,6 +3,10 @@ import { runFlowSteps, init, close } from './';
 import { StepNames } from '@/types/flow';
 
 import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone.js';
+import utc from 'dayjs/plugin/utc.js';
+
+
 
 export const runLogin = async (
     flow : Flow, 
@@ -26,6 +30,18 @@ export const runLogin = async (
     await close(browser)
 
     console.log('-- login successful at ', dayjs().format('YYYY-MM-DD HH:mm:ss'));
+
+    dayjs.extend(utc);
+    dayjs.extend(timezone);
+
+    console.log('-- login successful at ', dayjs().tz('Europe/Amsterdam').format('YYYY-MM-DD HH:mm:ss'));
+
+    const nDate = new Date().toLocaleString('nl-NL', {
+        timeZone: 'Europe/Amsterdam'
+    });
+    
+    console.log('-- login successful at ', dayjs(nDate).tz('Europe/Amsterdam').format('YYYY-MM-DD HH:mm:ss'));
+      
 
     return message
 }
