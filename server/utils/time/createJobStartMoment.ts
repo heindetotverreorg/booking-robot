@@ -6,17 +6,25 @@ function isDST(timestamp: any) {
     dayjs.extend(utc)
     dayjs.extend(timezone)
     
-    const osloTime = dayjs.tz(timestamp, "Europe/Oslo")
-    const utcTime = osloTime.utc()
-    const differenceInHours = osloTime.diff(utcTime, 'hour');
+    const amsterdamTime = dayjs.tz(timestamp, "Europe/Amsterdam")
+    const utcTime = amsterdamTime.utc()
+    const differenceInHours = amsterdamTime.diff(utcTime, 'hour');
      
     return differenceInHours !== 1
 }
 
 export default (bookingDate : string, bookingThreshold : number) => {
-    console.log('now', dayjs().format('YYYY-MM-DD HH:mm:ss'))
-    console.log('isDST', isDST(dayjs().format('YYYY-MM-DD HH:mm:ss')))
+    if (isDST(dayjs().format('YYYY-MM-DD HH:mm:ss'))) {
+        console.log('IS DAYLIGHT SAVING TIME')
+        return dayjs(bookingDate)
+        .subtract(bookingThreshold, 'day')
+        .set('hour', 0)
+        .set('minute', 0)
+        .subtract(1, 'hour')
+        .tz('Europe/Amsterdam')
+    }
 
+    console.log('IS NOT DAYLIGHT SAVING TIME')
     return dayjs(bookingDate)
         .subtract(bookingThreshold, 'day')
         .set('hour', 0)
