@@ -24,7 +24,6 @@ export default (bookingDate : string, bookingThreshold : number) => {
         .set('hour', 0)
         .set('minute', 0)
         // .subtract(1, 'hour')
-        .tz('Europe/Amsterdam')
     }
 
     console.log('IS NOT DAYLIGHT SAVING TIME')
@@ -32,5 +31,4 @@ export default (bookingDate : string, bookingThreshold : number) => {
         .subtract(bookingThreshold, 'day')
         .set('hour', 0)
         .set('minute', 0)
-        .tz('Europe/Amsterdam')
 }
