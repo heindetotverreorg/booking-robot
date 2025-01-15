@@ -18,12 +18,13 @@ function isDST(timestamp: any) {
 export default (bookingDate : string, bookingThreshold : number) => {
     if (isDST(dayjs().format('YYYY-MM-DD HH:mm:ss'))) {
         console.log('IS DAYLIGHT SAVING TIME')
-        console.log('delete the substract 1 hour on daylight saving, expecting it to run at 02:00 real time')
+        console.log('adding tjhe hour, expecting it to run at 00:00')
         return dayjs(bookingDate)
         .subtract(bookingThreshold, 'day')
         .set('hour', 0)
         .set('minute', 0)
-        // .subtract(1, 'hour')
+        .subtract(1, 'hour')
+        // .tz('Europe/Amsterdam')
     }
 
     console.log('IS NOT DAYLIGHT SAVING TIME')
@@ -31,4 +32,6 @@ export default (bookingDate : string, bookingThreshold : number) => {
         .subtract(bookingThreshold, 'day')
         .set('hour', 0)
         .set('minute', 0)
+        .subtract(2, 'hour')
+        // .tz('Europe/Amsterdam')
 }
