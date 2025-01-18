@@ -12,9 +12,11 @@ export default ({
     const { repeatValue, iteration } = config
 
     if (iteration === 1) {
+        console.log('--- First iteration, returning original date')
         return returnDayjsObject ? dayjs(date) : date
     }
 
+    console.log('--- Not first iteration, calculating new date')
     let newDate
 
     switch (repeatValue) {
