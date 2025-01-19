@@ -1,7 +1,7 @@
 import { type Flow, type Action } from '@/types/flow'
 import { runFlow, runLogin } from '@/server/scraping';
 import { getJobStartInfo, getJobStatusInfo, job, scheduleJob, stopJob, setJobStatus } from '@/server/cron/job.js'
-import { config } from '@/server/config';
+import { setIteration, config } from '@/server/config';
 import { createJobStartMoment, createTestJobStartMoment, createRepeatingFlowPayload } from '@/server/utils/time';
 
 import { Dayjs } from 'dayjs';
@@ -26,6 +26,9 @@ export const runDelayedFlow = async (
     scheduleJob({
         jobRunMoment: jobStartDayjs,
         callBack: async () => {
+            const { iteration } = config;
+            setIteration(iteration + 1);
+
             if (config.isWeeklyRepeatedFlow) {
                 const date = payload.dateSelect.value as string;
                 payload.dateSelect.value = createRepeatingFlowPayload({ date }) as string

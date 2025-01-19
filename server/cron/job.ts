@@ -1,6 +1,6 @@
 import { schedule, type ScheduledTask } from 'node-cron';
 import dayjs, { Dayjs } from 'dayjs';
-import { setIteration, config } from '@/server/config';
+import { config } from '@/server/config';
 import { createRepeatingCronExpression, createRepeatingFlowPayload } from '@/server/utils/time';
 
 let job : ScheduledTask | null
@@ -39,9 +39,6 @@ const scheduleJob = ({
     jobRunMoment: Dayjs,
     callBack : () => void
 }) => {
-    const { iteration } = config;
-    setIteration(iteration + 1);
-
     const cronExpression = !config.customCronString
         ? `${jobRunMoment.minute()} ${jobRunMoment.hour()} ${jobRunMoment.date()} ${jobRunMoment.month() + 1} *`
         : config.customCronString;

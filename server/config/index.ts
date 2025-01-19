@@ -32,6 +32,9 @@ const setConfig = ({
 
 
 const setIteration = (iteration: number) => {
+    console.log('--- set iteration')
+    console.log('--- current iteration: ', config.iteration)
+    console.log('--- new iteration: ', iteration)
     config.iteration = iteration
 }
 

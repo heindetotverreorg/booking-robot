@@ -11,6 +11,8 @@ export default ({
 }) => {
     const { repeatValue, iteration } = config
 
+    console.log('--- iteration in createRepeatingFlowPayload: ', iteration)
+
     if (iteration === 1) {
         console.log('--- First iteration, returning original date')
         return returnDayjsObject ? dayjs(date) : date
