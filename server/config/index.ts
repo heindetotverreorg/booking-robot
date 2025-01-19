@@ -6,7 +6,7 @@ const config = {
     isWeeklyRepeatedFlow: false,
     repeatValue: '',
     customCronString: '',
-    iteration: 0
+    iteration: 1
 }
 
 const setConfig = ({
