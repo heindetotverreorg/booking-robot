@@ -23,8 +23,7 @@
                         "type": "click",
                         "key": "loginSubmit",
                         "selector": ".button3",
-                        "waitSelector": "#matrix-sport",
-                        "delay": 500
+                        "waitSelector": "#matrix-sport"
                     }
                 ]
             },
@@ -34,8 +33,7 @@
                     {
                         "type": "select",
                         "key": "sportSelect",
-                        "selector": "#matrix-sport",
-                        "delay": 500
+                        "selector": "#matrix-sport"
                     }
                 ]
             },
@@ -47,7 +45,7 @@
                         "key": "dateSelect",
                         "selector": "#cal_{convertDateToRequiredFormat} a",
                         "replaceValue": "YYYY_MM_DD",
-                        "delay": 1000
+                        "waitSelector": "[onclick=\"loadMatrix('{getBookingDate}', window.iCurrentSport, window.iCurrentSlotsize)\"]"
                     }
                 ]
             },

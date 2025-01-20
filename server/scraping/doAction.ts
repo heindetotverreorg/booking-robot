@@ -17,6 +17,10 @@ export const doAction = async (page: Page, action: Action ) => {
     }
 
     if (isDynamicSelector(action)) {
+        if (action.waitSelector) {
+            action.waitSelector = createSelector({...action, selector: action.waitSelector as string})
+        }
+
         action.selector = createSelector(action)
     }
 
