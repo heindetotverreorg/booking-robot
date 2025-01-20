@@ -23,7 +23,8 @@
                         "type": "click",
                         "key": "loginSubmit",
                         "selector": ".button3",
-                        "waitSelector": "#matrix-sport"
+                        "waitSelector": "#matrix-sport",
+                        "delay": 500
                     }
                 ]
             },
@@ -33,7 +34,8 @@
                     {
                         "type": "select",
                         "key": "sportSelect",
-                        "selector": "#matrix-sport"
+                        "selector": "#matrix-sport",
+                        "delay": 500
                     }
                 ]
             },
