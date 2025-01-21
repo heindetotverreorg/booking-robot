@@ -26,6 +26,7 @@ export const runDelayedFlow = async (
     scheduleJob({
         jobRunMoment: jobStartDayjs,
         callBack: async () => {
+            console.log('--- set iteration at start of job');
             const { iteration } = config;
             setIteration(iteration + 1);
 
