@@ -45,7 +45,7 @@
                         "key": "dateSelect",
                         "selector": "#cal_{convertDateToRequiredFormat} a",
                         "replaceValue": "YYYY_MM_DD",
-                        "waitSelector": "#cal_{convertDateToRequiredFormat}[title='SELECTED']"
+                        "waitSelectorHidden": "#ajax_loading"
                     }
                 ]
             },

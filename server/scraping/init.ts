@@ -5,7 +5,8 @@ export const init = async (
     flow: Flow,
 ) => {
     const browserConfig = {
-        headless: true,
+        // headless: true,
+        headless: false,
         args: [
             // '--no-sandbox', 
             // '--disable-setuid-sandbox',

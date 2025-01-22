@@ -36,7 +36,7 @@ export const doAction = async (page: Page, action: Action ) => {
         await doInput(page, action)
     }
 
-    if (action.waitSelector || action.delay) {
+    if (action.waitSelector || action.waitSelectorHidden || action.delay) {
         await doWait(page, action)
     }
 }

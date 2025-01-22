@@ -19,6 +19,7 @@ interface Action {
     parentSelector?: string,
     value?: string | number | (string | number)[] | boolean,
     waitSelector?: string,
+    waitSelectorHidden?: string,
     delay?: number,
     replaceValue?: string
 }
