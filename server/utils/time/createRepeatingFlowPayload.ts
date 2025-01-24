@@ -13,7 +13,7 @@ export default ({
 
     console.log('--- iteration in createRepeatingFlowPayload: ', iteration)
 
-    if (iteration === 1) {
+    if (iteration <= 1) {
         console.log('--- First iteration, returning original date')
         return returnDayjsObject ? dayjs(date) : date
     }
