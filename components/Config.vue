@@ -17,6 +17,18 @@
     >
         <template #label>Test tijd voor geplande boeking</template>
     </MeshInput>
+    <MeshSelect 
+        id="repeatValueTest"
+        :default="repeatValueTest"
+        name="repeatValueTest"
+        :options="['Elke minuut']"
+        :required="true"
+        type="select"
+        v-model="repeatValueTest"
+        @update:modelValue="onInput"
+    >
+        <template #label>Test voor herhaling</template>
+    </MeshSelect>
     <MeshButton
         id="report"
         label="Haal rapport op"
@@ -40,16 +52,17 @@
     const cronTestTime = ref('')
     const report = ref('')
     const customCronString = ref('')
+    const repeatValueTest = ref('')
 
     const emit = defineEmits([
         'set-config',
     ])
 
-
     const onInput = () => {
         emit('set-config', {
             cronTestTime: cronTestTime.value,
-            customCronString: customCronString.value
+            customCronString: customCronString.value,
+            repeatValueTest: repeatValueTest.value,
         })
     }
 

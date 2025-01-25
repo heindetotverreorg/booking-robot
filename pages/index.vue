@@ -47,7 +47,8 @@
     const isDisabled = ref(false)
     const config = reactive({
         cronTestTime: '',
-        customCronString: ''
+        customCronString: '',
+        repeatValueTest: ''
     })
 
     onMounted(() => {
@@ -87,7 +88,8 @@
                 cronTestTime: isTest.value ? config.cronTestTime : '',
                 isWeeklyRepeatedFlow: form.repeat,
                 repeatValue: form.repeatValue,
-                customCronString: isTest.value ? config.customCronString : ''
+                customCronString: isTest.value ? config.customCronString : '',
+                repeatValueTest: isTest.value ? config.repeatValueTest : ''
             },
             flowParams: {
                 email: {
@@ -138,7 +140,8 @@
 
     const setConfig = (incomingConfig : Record<string, any>) => {
         config.cronTestTime = incomingConfig.cronTestTime
-        config.customCronString = incomingConfig.customCronString
+        config.customCronString = incomingConfig.customCronString,
+        config.repeatValueTest = incomingConfig.repeatValueTest
     }
 
     const stopJob = async () => {

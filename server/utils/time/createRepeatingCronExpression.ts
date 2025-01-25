@@ -5,6 +5,8 @@ import { RepeatValues } from '../../../types/flow'
 export default (date : Dayjs) => {
     const { repeatValue } = config
     switch (repeatValue) {
+        case RepeatValues.TEST:
+            return `*/2 * * * *`
         case RepeatValues.DAILY:
             return `${date.minute()} ${date.hour()} * * *`
         case RepeatValues.EVERY_OTHER_DAY:

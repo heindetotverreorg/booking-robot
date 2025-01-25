@@ -25,6 +25,8 @@ export default ({
     let newDate
 
     switch (repeatValue) {
+        case RepeatValues.TEST:
+            newDate = dayjs(date).add(1 * iteration, 'days')
         case RepeatValues.DAILY:
             newDate = dayjs(date).add(1 * iteration, 'days')
         case RepeatValues.EVERY_OTHER_DAY:

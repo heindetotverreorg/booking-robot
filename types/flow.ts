@@ -40,6 +40,7 @@ enum ActionNames {
 }
 
 enum RepeatValues {
+    TEST = 'Elke minuut',
     DAILY = 'Elke dag',
     EVERY_OTHER_DAY = 'Om de dag',
     WEEKLY = 'Elke week',
