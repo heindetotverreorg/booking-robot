@@ -3,21 +3,19 @@ import { config } from '../../config'
 import { RepeatValues } from '../../../types/flow'
 
 export default ({
-    date,
-    returnDayjsObject = false
+    date
 } : {
-    date : string,
-    returnDayjsObject?: boolean
+    date : string
 }) => {
     console.log('--- createRepeatingFlowPayload with date: ', date)
     const { repeatValue, iteration } = config
 
     console.log('--- current iteration: ', iteration) 
-    console.log('--- repeat value: ', repeatValue)
 
     if (iteration <= 1) {
         console.log('--- keep original date')
-        return returnDayjsObject ? dayjs(date) : date
+        console.log('--- original date: ', date)
+        return date
     }
 
     console.log('--- create new date')
@@ -41,7 +39,9 @@ export default ({
             newDate = dayjs(date).add(1 * iteration, 'week')
     }
 
-    if (returnDayjsObject) return newDate
+    console.log('--- original date: ', date)
+    console.log('--- repeat value: ', repeatValue)
+    console.log('--- new date: ', newDate.format('YYYY-MM-DD'))
 
-    return returnDayjsObject ? newDate : newDate.format('YYYY-MM-DD')
+    return newDate.format('YYYY-MM-DD')
 }
