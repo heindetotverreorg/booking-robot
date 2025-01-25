@@ -13,6 +13,7 @@ export default ({
     const { repeatValue, iteration } = config
 
     console.log('--- current iteration: ', iteration) 
+    console.log('--- repeat value: ', repeatValue)
 
     if (iteration <= 1) {
         console.log('--- keep original date')
