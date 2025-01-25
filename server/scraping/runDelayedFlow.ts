@@ -26,13 +26,14 @@ export const runDelayedFlow = async (
     scheduleJob({
         jobRunMoment: jobStartDayjs,
         callBack: async () => {
-            console.log('--- set iteration at start of job');
             const { iteration } = config;
             setIteration(iteration + 1);
 
             if (config.isWeeklyRepeatedFlow) {
+                console.log('--- is weekly repeated flow')
                 const date = payload.dateSelect.value as string;
                 payload.dateSelect.value = createRepeatingFlowPayload({ date }) as string
+                console.log('--- date select payload: ', payload.dateSelect.value)
             }
 
             await runFlow(flow, payload);

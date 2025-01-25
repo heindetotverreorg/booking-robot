@@ -9,16 +9,18 @@ export default ({
     date : string,
     returnDayjsObject?: boolean
 }) => {
+    console.log('--- createRepeatingFlowPayload with date: ', date)
     const { repeatValue, iteration } = config
 
-    console.log('--- iteration in createRepeatingFlowPayload: ', iteration)
+    console.log('--- current iteration: ', iteration) 
 
     if (iteration <= 1) {
-        console.log('--- First iteration, returning original date')
+        console.log('--- keep original date')
         return returnDayjsObject ? dayjs(date) : date
     }
 
-    console.log('--- Not first iteration, calculating new date')
+    console.log('--- create new date')
+
     let newDate
 
     switch (repeatValue) {
