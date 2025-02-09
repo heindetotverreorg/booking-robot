@@ -33,7 +33,7 @@ export const runDelayedFlow = async (
                 console.log('--- is weekly repeated flow')
                 const date = payload.dateSelect.value as string;
                 payload.dateSelect.value = createRepeatingFlowPayload({ date }) as string
-                console.log('--- date select payload: ', payload.dateSelect.value)
+                console.log('--- ACTUAL UPDATED date select payload: ', payload.dateSelect.value)
             }
 
             await runFlow(flow, payload);

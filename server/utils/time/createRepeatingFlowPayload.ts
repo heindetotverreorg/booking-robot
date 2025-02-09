@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import { config } from '../../config'
-import { RepeatValues } from '../../../types/flow'
+import { RepeatValues } from '../../../constants'
 
 export default ({
     date
@@ -14,34 +14,25 @@ export default ({
 
     if (iteration <= 1) {
         console.log('--- keep original date')
-        console.log('--- original date: ', date)
         return date
     }
 
     console.log('--- create new date')
 
-    let newDate
-
-    switch (repeatValue) {
-        case RepeatValues.TEST:
-            newDate = dayjs(date).add(1 * iteration, 'days')
-        case RepeatValues.DAILY:
-            newDate = dayjs(date).add(1 * iteration, 'days')
-        case RepeatValues.EVERY_OTHER_DAY:
-            newDate = dayjs(date).add(2 * iteration, 'days')
-        case RepeatValues.WEEKLY:
-            newDate = dayjs(date).add(1 * iteration, 'week')
-        case RepeatValues.BI_WEEKLY:
-            newDate = dayjs(date).add(2 * iteration, 'week')
-        case RepeatValues.MONTHLY:
-            newDate = dayjs(date).add(1 * iteration, 'month')
+    switch (true) {
+        case repeatValue === RepeatValues.DAILY:
+            return  dayjs(date).add(1, 'days').format('YYYY-MM-DD')
+        case repeatValue === RepeatValues.EVERY_OTHER_DAY:
+            return  dayjs(date).add(2, 'days').format('YYYY-MM-DD')
+        case repeatValue === RepeatValues.WEEKLY:
+            return  dayjs(date).add(1, 'week').format('YYYY-MM-DD')
+        case repeatValue === RepeatValues.BI_WEEKLY:
+            return  dayjs(date).add(2, 'week').format('YYYY-MM-DD')
+        case repeatValue === RepeatValues.MONTHLY:
+            return  dayjs(date).add(1, 'month').format('YYYY-MM-DD')
+        case repeatValue === RepeatValues.TEST:
+            return  dayjs(date).add(1, 'days').format('YYYY-MM-DD')
         default:
-            newDate = dayjs(date).add(1 * iteration, 'week')
+            return  dayjs(date).add(1, 'week').format('YYYY-MM-DD')
     }
-
-    console.log('--- original date: ', date)
-    console.log('--- repeat value: ', repeatValue)
-    console.log('--- new date: ', newDate.format('YYYY-MM-DD'))
-
-    return newDate.format('YYYY-MM-DD')
 }

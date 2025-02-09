@@ -1,5 +1,3 @@
-import { RepeatValues } from "@/types/flow"
-
 const config = {
     isTest: true,
     cronTestTime: '',
@@ -20,9 +18,9 @@ const setConfig = ({
     isTest? : boolean,
     cronTestTime? : string,
     isWeeklyRepeatedFlow? : boolean,
-    repeatValue? : RepeatValues,
+    repeatValue? : string,
     customCronString? : string,
-    repeatValueTest? : RepeatValues
+    repeatValueTest? : string
 }) => {
     if (repeatValue) config.repeatValue = repeatValue
     if (repeatValueTest) config.repeatValue = repeatValueTest

@@ -71,7 +71,7 @@
     import BookingInput from "./BookingInput.vue";
     import PeopleInput from "./PeopleInput.vue";
     import { validators } from "mesh-ui-components"
-    import { RepeatValues } from "@/types/flow";
+    import { RepeatValues } from "@/constants";
 
     const {
         notempty

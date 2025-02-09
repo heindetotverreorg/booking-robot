@@ -39,14 +39,5 @@ enum ActionNames {
     click = 'click'
 }
 
-enum RepeatValues {
-    TEST = 'Elke minuut',
-    DAILY = 'Elke dag',
-    EVERY_OTHER_DAY = 'Om de dag',
-    WEEKLY = 'Elke week',
-    BI_WEEKLY = 'Elke twee weken',
-    MONTHLY = 'Elke maand'
-}
-
 export type { Flow, Step, Action }
-export { StepNames, ActionNames, RepeatValues }
+export { StepNames, ActionNames }
