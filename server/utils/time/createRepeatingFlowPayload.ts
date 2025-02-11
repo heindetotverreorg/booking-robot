@@ -7,10 +7,7 @@ export default ({
 } : {
     date : string
 }) => {
-    console.log('--- createRepeatingFlowPayload with date: ', date)
     const { repeatValue, iteration } = config
-
-    console.log('--- current iteration: ', iteration) 
 
     if (iteration <= 1) {
         console.log('--- keep original date')
