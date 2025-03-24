@@ -89,7 +89,7 @@
         'validation'
     ])
 
-    const court : Ref<string> = ref('4')
+    const court : Ref<string> = ref('6')
     const date : Ref<string> = ref(new Date().toISOString().split('T')[0])
     const loginName : Ref<string> = ref('')
     const loginPassword : Ref<string> = ref('')
@@ -133,7 +133,7 @@
             const parsedForm = JSON.parse(form);
 
             loginName.value = parsedForm.loginName;
-            // loginPassword.value = parsedForm.loginPassword;
+            loginPassword.value = parsedForm.loginPassword;
             personOne.value = parsedForm.personOne;
             personTwo.value = parsedForm.personTwo;
             personThree.value = parsedForm.personThree;
