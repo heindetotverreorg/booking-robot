@@ -20,6 +20,7 @@
         @input="onInput"
     />
     <MeshInput
+        v-if="isDev"
         id="repeatBooking"
         name="repeatBooking"
         type="checkbox"
@@ -98,12 +99,28 @@
     const time: Ref<string> = ref('20:00');
     const repeat: Ref<boolean> = ref(false);
     const repeatValue: Ref<string> = ref('Elke week');
-
-    const peopleInputRef = useTemplateRef('people-input')
-
     const validationConfig : Record<string, any> = ref({})
     const showValidation : Ref<boolean> = ref(false)
     const validationResults : Ref<string[]> = ref([])
+
+    const form : Reactive<Record<string, any>> = reactive({
+        court,
+        date,
+        loginName,
+        loginPassword,
+        personOne,
+        personTwo,
+        personThree,
+        time,
+        repeat,
+        repeatValue
+    });
+
+    const peopleInputRef = useTemplateRef('people-input')
+
+    const courtOptions = computed(() => ['1', '2', '3', '4', '5', '6', '7', '8']);
+    const timeOptions = computed(() => generateTimeOptions());
+    const repeatOptions = computed(() => ['Elke dag', 'Om de dag', 'Elke week', 'Elke twee weken', 'Elke maand']);
 
     onMounted(() => {
         validationConfig.value = {
@@ -127,19 +144,6 @@
             checkValidation()
         })
     })
-
-    const form : Reactive<Record<string, any>> = reactive({
-        court,
-        date,
-        loginName,
-        loginPassword,
-        personOne,
-        personTwo,
-        personThree,
-        time,
-        repeat,
-        repeatValue
-    });
 
     const camelToKebab = (str: string) => {
         return str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
@@ -194,6 +198,8 @@
         return times;
     };
 
+    const isDev = import.meta.env.DEV;
+
     const onInput = (event : { key : string, value : any }) => {
         const {
             key,
@@ -229,6 +235,7 @@
         }
 
         checkValidation()
+        
         if (!validationResults.value.length) {
             emit('submit', form)
         } else {
@@ -238,10 +245,6 @@
             showValidation.value = true
         }
     }
-
-    const courtOptions = computed(() => ['1', '2', '3', '4', '5', '6', '7', '8']);
-    const timeOptions = computed(() => generateTimeOptions());
-    const repeatOptions = computed(() => ['Elke dag', 'Om de dag', 'Elke week', 'Elke twee weken', 'Elke maand']);
 </script>
 <style lang="scss">
 .validation {

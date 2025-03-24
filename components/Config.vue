@@ -17,7 +17,7 @@
     >
         <template #label>Test tijd voor geplande boeking</template>
     </MeshInput>
-    <MeshSelect 
+    <MeshSelect
         id="repeatValueTest"
         :default="repeatValueTest"
         name="repeatValueTest"
