@@ -184,8 +184,8 @@
 
                 validationResults.value = validationResults.value.filter((item) => item !== input.id)
             }
-            validationResults.value = validationResults.value.filter((item, index) => validationResults.value.indexOf(item) === index);
         })
+        validationResults.value = validationResults.value.filter((item, index) => validationResults.value.indexOf(item) === index);
     }
 
     const generateTimeOptions = () => {
