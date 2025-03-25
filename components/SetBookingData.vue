@@ -169,8 +169,8 @@
                 const validators = input?.$props.validators;
                 doValidation(validators, input)
             })
-            emit('validation', validationResults.value)
         }
+        emit('validation', validationResults.value)
     }
 
     const doValidation = (validators : Function[], input : any) => {
@@ -179,10 +179,12 @@
             if (!isValid) {
                 validationResults.value.push(input.id);
                 return
+            } else {
+                if (!input.modelValue) return
+
+                validationResults.value = validationResults.value.filter((item) => item !== input.id)
             }
-            validationResults.value = validationResults.value.filter((id) => {
-                return id !== input.id
-            })
+            validationResults.value = validationResults.value.filter((item, index) => validationResults.value.indexOf(item) === index);
         })
     }
 
