@@ -9,6 +9,8 @@ function isDST(timestamp: any) {
     const amsterdamTime = dayjs.tz(timestamp, "Europe/Amsterdam")
     const utcTime = amsterdamTime.utc()
     const differenceInHours = amsterdamTime.diff(utcTime, 'hour');
+
+    console.log('differenceInHours', differenceInHours)
      
     return differenceInHours !== 1
 }
