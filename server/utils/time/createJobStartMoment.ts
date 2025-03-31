@@ -12,7 +12,9 @@ function isDST(timestamp: any) {
 
     console.log('differenceInHours', differenceInHours)
      
-    return differenceInHours !== 1
+    // return differenceInHours !== 1
+    // ugly TZ hack, change every half year
+    return false
 }
 
 export default (bookingDate : string, bookingThreshold : number) => {
