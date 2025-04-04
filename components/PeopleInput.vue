@@ -7,7 +7,7 @@
         name="loginName"
         :required="true"
         type="text"
-        :validators="[notempty, nospecialchar]"
+        :validators="[notempty]"
         v-model="loginName"
     >
         <template #label>Account naam</template>
