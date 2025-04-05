@@ -5,8 +5,8 @@ export const init = async (
     flow: Flow,
 ) => {
     const browserConfig = {
-        // headless: process.env.NODE_ENV === 'production' ? true : false,
-        headless: true,
+        headless: process.env.NODE_ENV === 'production' ? true : false,
+        // headless: true,
         args: [
             '--no-sandbox', 
             '--disable-setuid-sandbox',

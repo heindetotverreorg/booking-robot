@@ -30,7 +30,8 @@ enum StepNames {
     selectDate = 'selectDate',
     selectCourtAndTime = 'selectCourtAndTime',
     selectLongestPlaytime = 'selectLongestPlaytime',
-    confirmBooking = 'confirmBooking'
+    confirmBooking = 'confirmBooking',
+    selectPeople = 'selectPeople'
 }
 
 enum ActionNames {

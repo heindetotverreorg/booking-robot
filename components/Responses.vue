@@ -31,7 +31,11 @@
 
     const humanReadableResponse = computed(() => {
         if (response.includes('"key":"loginSubmit"')) {
-            return 'Inlog gegevens onjuist'
+            return 'Account naam of wachtwoord onjuist'
+        }
+
+        if (response.includes('[name=\"players[2]\"]"')) {
+            return 'Mede speler naam onjuist'
         }
 
         if (response.includes('"key":"timeCourtSelect"')) {

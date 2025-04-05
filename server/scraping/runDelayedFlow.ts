@@ -1,10 +1,10 @@
 import { type Flow, type Action } from '@/types/flow'
-import { runFlow, runLogin } from '@/server/scraping';
+import { runFlow, runValidateInput } from '@/server/scraping';
 import { getJobStartInfo, getJobStatusInfo, job, scheduleJob, stopJob, setJobStatus } from '@/server/cron/job.js'
 import { setIteration, config } from '@/server/config';
 import { createJobStartMoment, createTestJobStartMoment, createRepeatingFlowPayload } from '@/server/utils/time';
 
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 
 export const runDelayedFlow = async (
     flow: Flow, 
@@ -14,6 +14,16 @@ export const runDelayedFlow = async (
     const { value: jobRunMoment } = payload.dateSelect;
     const { value: timeCourtSelect } = payload.timeCourtSelect;
     const [time, court] = timeCourtSelect as string[];
+
+    const inputValidationMessage = await runValidateInput(flow, { ...editPayload(payload) }) as string
+
+    if (inputValidationMessage.includes('Error in step')) {
+        // console.log('--- input validation error')
+        // if (job) {
+        //     stopJob();
+        // }
+        // return inputValidationMessage
+    }
 
     const jobStartDayjs: Dayjs = !config.cronTestTime 
         ? createJobStartMoment(jobRunMoment as string, bookingThreshold)
@@ -49,9 +59,13 @@ export const runDelayedFlow = async (
 
     setJobStatus(`${getJobStatusInfo(payload.dateSelect.value as string)} om ${time} op baan ${court} ${config.isTest ? 'IS A TEST' : ''}`);
 
-    const loginMessage = await runLogin(flow, payload) as string
-
-    return loginMessage.includes('Error in step')
-        ? loginMessage
-        : message
+    return message
 };
+
+const editPayload = (payload: Record<string, Action>) => {
+    const payloadToEdit = JSON.parse(JSON.stringify(payload))
+    payloadToEdit.dateSelect.value = dayjs().add(1, 'day').format('YYYY-MM-DD')
+    payloadToEdit.timeCourtSelect.value = [ '08:00', '7' ]
+
+    return payloadToEdit
+}
