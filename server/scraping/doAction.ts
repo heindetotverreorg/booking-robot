@@ -5,6 +5,8 @@ import { config } from '@/server/config'
 import { doClick, doDelay, doSelect, doInput, doWait } from '@/server/utils/puppeteer';
 import { createSelector, isDynamicSelector } from '@/server/utils/selectors';
 
+let hasRun = false
+
 export const doAction = async (page: Page, action: Action ) => {
     if (action.value) {
         console.log(`- ${action.value}`)
@@ -39,4 +41,11 @@ export const doAction = async (page: Page, action: Action ) => {
     if (action.waitSelector || action.waitSelectorHidden || action.delay) {
         await doWait(page, action)
     }
+
+    // handling any possible dialogs by accepting them
+    page.on('dialog', async dialog => {
+        try {
+            await dialog.accept();
+        } catch (e) {}
+    });
 }
