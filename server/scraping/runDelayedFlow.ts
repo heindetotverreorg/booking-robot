@@ -17,7 +17,7 @@ export const runDelayedFlow = async (
 
     const inputValidationMessage = await runValidateInput(flow, { ...editPayload(payload) }) as string
 
-    if (inputValidationMessage.includes('Error in step')) {
+    if (inputValidationMessage.includes('Error in step \'selectPeople\' with action \'{"type":"select","key":"person')) {
         console.log('--- input validation error')
         if (job) {
             stopJob();
