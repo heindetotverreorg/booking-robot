@@ -34,8 +34,16 @@
             return 'Account naam of wachtwoord onjuist'
         }
 
-        if (response.includes('[name=\"players[2]\"]"')) {
-            return 'Mede speler naam onjuist'
+        if (response.includes('key":"personOne"')) {
+            return 'Mede speler 1 naam onjuist'
+        }
+
+        if (response.includes('key":"personTwo"')) {
+            return 'Mede speler 2 naam onjuist'
+        }
+
+        if (response.includes('key":"personThree"')) {
+            return 'Mede speler 3 naam onjuist'
         }
 
         if (response.includes('"key":"timeCourtSelect"')) {

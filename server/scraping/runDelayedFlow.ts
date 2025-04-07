@@ -18,11 +18,11 @@ export const runDelayedFlow = async (
     const inputValidationMessage = await runValidateInput(flow, { ...editPayload(payload) }) as string
 
     if (inputValidationMessage.includes('Error in step')) {
-        // console.log('--- input validation error')
-        // if (job) {
-        //     stopJob();
-        // }
-        // return inputValidationMessage
+        console.log('--- input validation error')
+        if (job) {
+            stopJob();
+        }
+        return inputValidationMessage
     }
 
     const jobStartDayjs: Dayjs = !config.cronTestTime 
