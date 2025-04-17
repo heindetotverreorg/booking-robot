@@ -14,6 +14,7 @@ export default async (page: Page, action: Action) => {
         const parent_node = await current_element?.getProperty('parentNode') as ElementHandle;
         const target_element = await parent_node?.$(selector);
         await target_element?.type(value as string, {  delay: 50 });
+        await doDelay(1000)
         await target_element?.click()
 
         return
