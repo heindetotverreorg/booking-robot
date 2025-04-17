@@ -6,7 +6,6 @@ export const init = async (
 ) => {
     const browserConfig = {
         headless: process.env.NODE_ENV === 'production' ? true : false,
-        // headless: true,
         args: [
             '--no-sandbox', 
             '--disable-setuid-sandbox',

@@ -3,13 +3,15 @@ import type { Action } from '@/types/flow'
 import { ActionNames, StepNames } from '@/types/flow';
 import { config } from '@/server/config'
 import { doClick, doDelay, doSelect, doInput, doWait } from '@/server/utils/puppeteer';
-import { createSelector, isDynamicSelector } from '@/server/utils/selectors';
+import { createSelector, isDynamicSelector, trimNamePart } from '@/server/utils/selectors';
 
 let hasRun = false
 
 export const doAction = async (page: Page, action: Action ) => {
     if (action.value) {
         console.log(`- ${action.value}`)
+
+        action.value = trimNamePart(action.value as string)
     }
 
     if (action.key === StepNames.confirmBooking && config.isTest) {

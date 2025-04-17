@@ -2,6 +2,7 @@ import type { Action, Step } from '@/types/flow'
 import { StepNames } from '@/types/flow'
 import { doAction } from '@/server/scraping/doAction';
 import { Page } from 'puppeteer';
+import { doDelay } from '../utils/puppeteer';
 
 export const runFlowSteps = async ({
     steps,
@@ -68,6 +69,7 @@ const runActions = async ({
             const { error } = await reDoAction({ page, action: { ...action }, payload, step })
 
             if (error) {
+                await doDelay(10000)
                 throw `Error in step '${step.name}' with action '${JSON.stringify(action)}'. Full error is ${e}`
             }
         }

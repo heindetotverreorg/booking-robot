@@ -1,4 +1,5 @@
 import { Page } from 'puppeteer';
+import { trimNamePart } from '@/server/utils/selectors';
 import type { Action } from '@/types/flow'
 
 export default async (page: Page, action: Action) => {
@@ -20,7 +21,7 @@ export default async (page: Page, action: Action) => {
     }
 
     if (replaceValue === 'selectFromTextInOption') {
-        value = await page.$eval(selector, (el, value) => {
+        const options = await page.$eval(selector, (el) => {
             const selectEl = el as HTMLSelectElement
     
             if (selectEl) {
@@ -28,10 +29,18 @@ export default async (page: Page, action: Action) => {
                     text: option.text,  
                     value: option.value
                 }))
-                const option = options.find(option => option.text.includes(value as string))
-                return option?.value
+                return options
             }
-        }, value);
+        });
+
+        const option = options?.find(option => {
+            if (option) {
+                const trimmedText = trimNamePart(option.text as string)
+                return trimmedText?.includes(trimNamePart(value as string) as string)
+            }
+        })
+
+        value = option?.value
     }
     
     await page.select(selector, value as string)
