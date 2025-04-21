@@ -20,7 +20,8 @@ export const runLogin = async (
     const message = await runFlowSteps({
         steps: loginStepsOnly,
         page,
-        payload
+        payload,
+        url: flow.url
     })
 
     await close(browser)

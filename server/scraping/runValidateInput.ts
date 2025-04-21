@@ -21,7 +21,8 @@ export const runValidateInput = async (
     const message = await runFlowSteps({
         steps,
         page,
-        payload
+        payload,
+        url: flow.url
     })
 
     await close(browser)

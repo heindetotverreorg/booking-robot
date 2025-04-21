@@ -21,7 +21,9 @@ interface Action {
     waitSelector?: string,
     waitSelectorHidden?: string,
     delay?: number,
-    replaceValue?: string
+    replaceValue?: string,
+    hasPossiblePaymentAccount?: boolean,
+    paymentTries?: number,
 }
 
 enum StepNames {
@@ -31,7 +33,8 @@ enum StepNames {
     selectCourtAndTime = 'selectCourtAndTime',
     selectLongestPlaytime = 'selectLongestPlaytime',
     confirmBooking = 'confirmBooking',
-    selectPeople = 'selectPeople'
+    selectPeople = 'selectPeople',
+    selectPeopleSubmit = 'selectPeopleSubmit',
 }
 
 enum ActionNames {

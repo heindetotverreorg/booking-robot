@@ -10,13 +10,36 @@ let hasRun = false
 export const doAction = async (page: Page, action: Action ) => {
     if (action.value) {
         console.log(`- ${action.value}`)
-
         action.value = trimNamePart(action.value as string)
+    }
+
+    if (action.hasPossiblePaymentAccount) {
+        const possibleReplaceValues = [
+            'selectFromTextInOption',
+            'lastInArray',
+            'firstInArray'
+        ]
+
+        action.replaceValue = possibleReplaceValues[action.paymentTries as number]
+        action.hasPossiblePaymentAccount = false
+    }
+
+    if (action.key === StepNames.confirmBooking) {
+        const paymentAccount = await checkForPayment(page, ['Jonathan Ouwehand', 'Patrick Gieling', 'Ricky de Haan'])
+
+        if (paymentAccount) {
+            const newError = {
+                message: `Error in step '${action.key}' because payment is required for account: ${paymentAccount}`,
+                account: paymentAccount,
+                name: 'PaymentRequiredError'
+            }
+            throw new Error(JSON.stringify(newError))
+        }
     }
 
     if (action.key === StepNames.confirmBooking && config.isTest) {
         console.log('no booking, is test mode')
-        await doDelay(1000)
+        await doDelay(10000)
         return
     }
 
@@ -50,4 +73,34 @@ export const doAction = async (page: Page, action: Action ) => {
             await dialog.accept();
         } catch (e) {}
     });
+}
+
+const checkForPayment = async (page : Page, people : string[]) => {
+    let nonMemberShipAccount
+    for (const person of people.values()) {
+        const matches = await page.evaluate(async () => {
+            const matches = document.querySelectorAll('td [name][value]')
+
+            if (matches) {
+                return [...matches].map(match => {
+                    const parent = match.parentElement
+
+                    return { match: parent?.innerText.split('\n') }
+                })
+            }
+        }, person)
+        if (!Array.isArray(matches)) return 
+
+        nonMemberShipAccount = matches?.find(({ match }) => {
+            if (match?.length !== 2) return
+
+            const [person, status] = match
+
+            if (status.includes('NO MEMBERSHIP')) {
+                return person
+            }
+        })
+    }
+
+    return nonMemberShipAccount?.['match']?.[0] || null
 }

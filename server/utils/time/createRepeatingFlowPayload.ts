@@ -10,11 +10,11 @@ export default ({
     const { repeatValue, iteration } = config
 
     if (iteration <= 1) {
-        console.log('--- keep original date')
+        console.log('-- keep original date')
         return date
     }
 
-    console.log('--- create new date')
+    console.log('-- create new date')
 
     switch (true) {
         case repeatValue === RepeatValues.DAILY:

@@ -40,7 +40,7 @@ export const runDelayedFlow = async (
             setIteration(iteration + 1);
 
             if (config.isWeeklyRepeatedFlow) {
-                console.log('--- is weekly repeated flow')
+                console.log('-- is weekly repeated flow')
                 const date = payload.dateSelect.value as string;
                 payload.dateSelect.value = createRepeatingFlowPayload({ date }) as string
             }
