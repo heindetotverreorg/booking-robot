@@ -19,6 +19,7 @@ export const doAction = async (page: Page, action: Action ) => {
         ]
 
         action.replaceValue = possibleReplaceValues[action.paymentTries as number]
+        console.log('- new replace value', action.replaceValue)
         action.hasPossiblePaymentAccount = false
     }
 
