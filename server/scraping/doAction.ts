@@ -4,6 +4,7 @@ import { ActionNames, StepNames } from '@/types/flow';
 import { config } from '@/server/config'
 import { doClick, doDelay, doSelect, doInput, doWait } from '@/server/utils/puppeteer';
 import { createSelector, isDynamicSelector, trimNamePart } from '@/server/utils/selectors';
+import { ReplaceValues} from '@/constants'
 
 export const doAction = async (page: Page, action: Action ) => {
     if (action.value) {
@@ -12,13 +13,7 @@ export const doAction = async (page: Page, action: Action ) => {
     }
 
     if (action.hasPossiblePaymentAccount) {
-        const possibleReplaceValues = [
-            'selectFromTextInOption',
-            'lastInArray',
-            'firstInArray'
-        ]
-
-        action.replaceValue = possibleReplaceValues[action.paymentTries as number]
+        action.replaceValue = ReplaceValues[action.paymentTries as number]
         console.log('- new replace value', action.replaceValue)
         action.hasPossiblePaymentAccount = false
     }

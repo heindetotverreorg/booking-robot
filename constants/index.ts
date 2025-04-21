@@ -13,3 +13,9 @@ export const RepeatValues : {
     BI_WEEKLY: 'Elke twee weken',
     MONTHLY: 'Elke maand'
 }
+
+export const ReplaceValues : string[] = [
+    'selectFromTextInOption',
+    'lastInArray',
+    'firstInArray'
+]
