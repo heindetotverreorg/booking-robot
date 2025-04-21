@@ -4,7 +4,8 @@ const config = {
     isWeeklyRepeatedFlow: false,
     repeatValue: '',
     customCronString: '',
-    iteration: 0
+    iteration: 0,
+    people: ['']
 }
 
 const setConfig = ({
@@ -13,14 +14,16 @@ const setConfig = ({
     isWeeklyRepeatedFlow,
     repeatValue,
     customCronString = '',
-    repeatValueTest
+    repeatValueTest,
+    people = []
 } : {
     isTest? : boolean,
     cronTestTime? : string,
     isWeeklyRepeatedFlow? : boolean,
     repeatValue? : string,
     customCronString? : string,
-    repeatValueTest? : string
+    repeatValueTest? : string,
+    people? : string[]
 }) => {
     if (repeatValue) config.repeatValue = repeatValue
     if (repeatValueTest) config.repeatValue = repeatValueTest
@@ -29,6 +32,7 @@ const setConfig = ({
     config.customCronString = customCronString
     config.cronTestTime = cronTestTime
     config.isWeeklyRepeatedFlow = isWeeklyRepeatedFlow as boolean
+    config.people = people as string[]
 }
 
 

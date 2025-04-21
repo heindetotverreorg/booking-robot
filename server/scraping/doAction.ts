@@ -5,8 +5,6 @@ import { config } from '@/server/config'
 import { doClick, doDelay, doSelect, doInput, doWait } from '@/server/utils/puppeteer';
 import { createSelector, isDynamicSelector, trimNamePart } from '@/server/utils/selectors';
 
-let hasRun = false
-
 export const doAction = async (page: Page, action: Action ) => {
     if (action.value) {
         console.log(`- ${action.value}`)
@@ -25,7 +23,7 @@ export const doAction = async (page: Page, action: Action ) => {
     }
 
     if (action.key === StepNames.confirmBooking) {
-        const paymentAccount = await checkForPayment(page, ['Jonathan Ouwehand', 'Patrick Gieling', 'Ricky de Haan'])
+        const paymentAccount = await checkForPayment(page, config.people as string[])
 
         if (paymentAccount) {
             const newError = {

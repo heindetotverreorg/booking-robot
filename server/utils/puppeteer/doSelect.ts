@@ -9,14 +9,6 @@ export default async (page: Page, action: Action) => {
         selector
     } = action
 
-    // hardcodednfixes
-    // if (value === 'Patrick Gieling') {
-    //     replaceValue = 'lastInArray'
-    // }
-    // if (value === 'Ricky de Haan') {
-    //     replaceValue = 'selectFromTextInOption'
-    // }
-
     if (replaceValue === 'lastInArray') {
         const options = await page.$eval(selector, (el) => {
             const selectEl = el as HTMLSelectElement

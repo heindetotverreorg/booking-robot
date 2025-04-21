@@ -6,6 +6,7 @@ import { isDateOutsideOfBookingThreshold, isBookingInPast } from '@/server/utils
 export default defineEventHandler(async (event) => {
     const { targetFlow, flowParams, config } = await readBody(event)
 
+    config.people = [flowParams.personOne, flowParams.personTwo, flowParams.personThree].map((person) => person.value)
     setConfig(config)
 
     const selectedFlow = createFlow(targetFlow)
