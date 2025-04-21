@@ -25,7 +25,7 @@ export const runFlowSteps = async ({
     } catch (e : any) {
         console.log(`--- ${e}`)
 
-        if (e.message.includes('PaymentRequiredError') ) {
+        if (e.message?.includes('PaymentRequiredError') ) {
             return handlePaymentError(page, steps, payload, url, e)
         }
 
@@ -79,7 +79,7 @@ const runActions = async ({
         try {
             await doAction(page, { ...action })
         } catch (e : any) {
-            if (e.message.includes('PaymentRequiredError') ) {
+            if (e.message?.includes('PaymentRequiredError') ) {
                 throw e
             }
 

@@ -17,7 +17,7 @@ export const runDelayedFlow = async (
 
     const inputValidationMessage = await runValidateInput(flow, { ...editPayload(payload) }) as string
 
-    if (inputValidationMessage.includes('Error in step \'selectPeople\' with action \'{"type":"select","key":"person')) {
+    if (inputValidationMessage?.includes('Error in step \'selectPeople\' with action \'{"type":"select","key":"person')) {
         console.log('--- input validation error')
         if (job) {
             stopJob();
@@ -65,7 +65,7 @@ export const runDelayedFlow = async (
 const editPayload = (payload: Record<string, Action>) => {
     const payloadToEdit = JSON.parse(JSON.stringify(payload))
     payloadToEdit.dateSelect.value = dayjs().add(1, 'day').format('YYYY-MM-DD')
-    payloadToEdit.timeCourtSelect.value = [ '08:00', '7' ]
+    payloadToEdit.timeCourtSelect.value = [ '22:00', '7' ]
 
     return payloadToEdit
 }

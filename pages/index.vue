@@ -63,10 +63,10 @@
         const data = await $fetch<string>(`/api/check-job`, {
             method: 'GET'
         })
-        if (data.includes('no job')) {
+        if (data?.includes('no job')) {
             isJobRunning.value = false
         }
-        if (data.includes(' om ')) {
+        if (data?.includes(' om ')) {
             isJobRunning.value = true
         }
         if (!noResponse) {

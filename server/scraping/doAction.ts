@@ -68,6 +68,7 @@ export const doAction = async (page: Page, action: Action ) => {
     // handling any possible dialogs by accepting them
     page.on('dialog', async dialog => {
         try {
+            console.log(`Dialog: ${dialog.message()}`)
             await dialog.accept();
         } catch (e) {}
     });
@@ -94,7 +95,7 @@ const checkForPayment = async (page : Page, people : string[]) => {
 
             const [person, status] = match
 
-            if (status.includes('NO MEMBERSHIP')) {
+            if (status?.includes('NO MEMBERSHIP')) {
                 return person
             }
         })

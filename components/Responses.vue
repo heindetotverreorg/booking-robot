@@ -30,23 +30,23 @@
     ])
 
     const humanReadableResponse = computed(() => {
-        if (response.includes('"key":"loginSubmit"')) {
+        if (response?.includes('"key":"loginSubmit"')) {
             return 'Account naam of wachtwoord onjuist'
         }
 
-        if (response.includes('key":"personOne"')) {
+        if (response?.includes('key":"personOne"')) {
             return 'Mede speler 1 naam onjuist'
         }
 
-        if (response.includes('key":"personTwo"')) {
+        if (response?.includes('key":"personTwo"')) {
             return 'Mede speler 2 naam onjuist'
         }
 
-        if (response.includes('key":"personThree"')) {
+        if (response?.includes('key":"personThree"')) {
             return 'Mede speler 3 naam onjuist'
         }
 
-        if (response.includes('"key":"timeCourtSelect"')) {
+        if (response?.includes('"key":"timeCourtSelect"')) {
             return 'Baan niet beschikbaar op deze tijd'
         }
 
