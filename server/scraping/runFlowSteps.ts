@@ -4,9 +4,6 @@ import { doAction } from '@/server/scraping/doAction';
 import { Page } from 'puppeteer';
 import { doDelay } from '../utils/puppeteer';
 
-let paymentAttempts = 0
-const maxPaymentAttempts = 3
-
 export const runFlowSteps = async ({
     steps,
     page,
@@ -18,6 +15,9 @@ export const runFlowSteps = async ({
     payload: Record<string, Action>,
     url: string
 }) => {
+    let paymentAttempts = 0
+    const maxPaymentAttempts = 3
+
     try {
         await doSteps({ steps, page, payload })
 
@@ -26,7 +26,7 @@ export const runFlowSteps = async ({
         console.log(`--- ${e}`)
 
         if (e.message?.includes('PaymentRequiredError') ) {
-            return handlePaymentError(page, steps, payload, url, e)
+            return handlePaymentError(page, steps, payload, url, e, paymentAttempts, maxPaymentAttempts)
         }
 
         await page.setViewport({ width: 1366, height: 768 })
@@ -139,7 +139,7 @@ const reDoAction = async ({
     return { error: true };
 }
 
-const handlePaymentError = async (page: Page, steps : Step[], payload: Record<string, Action>, url : string, e : any) => {
+const handlePaymentError = async (page: Page, steps : Step[], payload: Record<string, Action>, url : string, e : any, paymentAttempts : number, maxPaymentAttempts : number) => {
     paymentAttempts++
 
     if (paymentAttempts >= maxPaymentAttempts) {
@@ -156,7 +156,7 @@ const handlePaymentError = async (page: Page, steps : Step[], payload: Record<st
 
     const selectPeopleStepIndex = steps.findIndex(step => step.name === StepNames.login)
     const stepsWithoutLogin = steps.slice(selectPeopleStepIndex + 1, steps.length)
-    const newPayload = updatePayloadWithPayment(payload, account)
+    const newPayload = updatePayloadWithPayment(payload, account, paymentAttempts)
 
     await runFlowSteps({ steps: stepsWithoutLogin, page, payload: newPayload, url })
 
@@ -165,7 +165,8 @@ const handlePaymentError = async (page: Page, steps : Step[], payload: Record<st
 
 const updatePayloadWithPayment = (
     payload: Record<string, Action>,
-    account: string
+    account: string,
+    paymentAttempts: number
 ) : Record<string, Action> => {
     const selectedAccountKey = Object.keys(payload).find(key => 
         payload[key].value === account
