@@ -9,6 +9,7 @@ interface Flow {
 
 interface Step {
     name: string,
+    skip?: boolean,
     actions: Action[],
 }
 
@@ -35,6 +36,7 @@ enum StepNames {
     confirmBooking = 'confirmBooking',
     selectPeople = 'selectPeople',
     selectPeopleSubmit = 'selectPeopleSubmit',
+    closePeopleModal = 'closePeopleModal'
 }
 
 enum ActionNames {

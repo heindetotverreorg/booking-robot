@@ -18,11 +18,6 @@ export const runValidateInput = async (
     const selectPeopleStepIndex = flow.steps.findIndex(step => step.name === StepNames.selectPeople)
     const steps = flow.steps.slice(0, selectPeopleStepIndex + 1)
 
-    // page.on('dialog', async dialog => {
-    //     if (dialog.message()?.includes('heeft het maximale aantal van 1 reserveringen per dag bereikt'))
-    //     throw new Error('Error in step \'selectPeople\' with action \'{"type":"select","key":"person')
-    // })
-
     const message = await runFlowSteps({
         steps,
         page,

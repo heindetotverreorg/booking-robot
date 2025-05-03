@@ -48,6 +48,8 @@ const doSteps = async ({
     payload: Record<string, Action>
 }) => {
     for (const step of steps) {
+        if (step.skip) return
+
         console.log(`Step: ${step.name}`)
         const { actions } = step
 
@@ -146,21 +148,30 @@ const handlePaymentError = async (page: Page, steps : Step[], payload: Record<st
         return
     }
 
-    await doDelay(1000)
-
-    await page.goto(url)
-
     const {
         account
     } = JSON.parse(e.message)
 
-    const selectPeopleStepIndex = steps.findIndex(step => step.name === StepNames.login)
-    const stepsWithoutLogin = steps.slice(selectPeopleStepIndex + 1, steps.length)
-    const newPayload = updatePayloadWithPayment(payload, account, paymentAttempts)
-
-    await runFlowSteps({ steps: stepsWithoutLogin, page, payload: newPayload, url })
-
-    return 'Flow completed'
+    try {
+        const selectCourtAndTimeIndex = steps.findIndex(step => step.name === StepNames.selectCourtAndTime)
+        const stepsFromSelectCourt = steps.slice(selectCourtAndTimeIndex, steps.length)
+    
+        const closeStep = steps.find(step => step.name === StepNames.closePeopleModal)
+        if (closeStep) {
+            console.log(`Step: ${closeStep.name}`)
+            for (const action of closeStep.actions) {
+                await doAction(page, action)
+            }
+        }
+    
+        const newPayload = updatePayloadWithPayment(payload, account, paymentAttempts)
+    
+        await runFlowSteps({ steps: stepsFromSelectCourt, page, payload: newPayload, url })
+    
+        return 'Flow completed'
+    } catch(e) {
+        throw e
+    }
 }
 
 const updatePayloadWithPayment = (

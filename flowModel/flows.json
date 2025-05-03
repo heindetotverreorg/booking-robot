@@ -127,6 +127,22 @@
                         "selector": "#__make_submit2"
                     }
                 ]
+            },
+            {
+                "name": "closePeopleModal",
+                "skip": true,
+                "actions": [
+                    {
+                        "type": "click",
+                        "key": "closeConfirmBooking",
+                        "selector": "#__make_cancel2"
+                    },
+                    {
+                        "type": "click",
+                        "key": "closePeople",
+                        "selector": "#__make_cancel"
+                    }
+                ]
             }
         ]
     }
