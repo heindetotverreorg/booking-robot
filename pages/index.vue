@@ -48,7 +48,8 @@
     const config = reactive({
         cronTestTime: '',
         customCronString: '',
-        repeatValueTest: ''
+        repeatValueTest: '',
+        isTestModeEnbaled: false
     })
 
     onMounted(() => {
@@ -84,7 +85,7 @@
         const payload = {
             targetFlow: 'bent-sports-padel-robot',
             config: {
-                isTest: isTest.value,
+                isTest: config.isTestModeEnbaled,
                 cronTestTime: isTest.value ? config.cronTestTime : '',
                 isWeeklyRepeatedFlow: form.repeat,
                 repeatValue: form.repeatValue,
@@ -142,6 +143,7 @@
         config.cronTestTime = incomingConfig.cronTestTime
         config.customCronString = incomingConfig.customCronString,
         config.repeatValueTest = incomingConfig.repeatValueTest
+        config.isTestModeEnbaled = incomingConfig.isTestModeEnbaled
     }
 
     const stopJob = async () => {

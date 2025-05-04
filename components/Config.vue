@@ -1,5 +1,14 @@
 <template>
     <MeshInput
+        id="isTestModeEnbaled"
+        name="isTestModeEnbaled"
+        type="checkbox"
+        :model-value="isTestModeEnbaled"
+        @input="isTestModeEnbaled = !isTestModeEnbaled"
+    >
+        <template #label>Test modus</template>
+    </MeshInput>
+    <MeshInput
         id="cronTestTime"
         name="cronTestTime"
         type="text"
@@ -53,6 +62,7 @@
     const report = ref('')
     const customCronString = ref('')
     const repeatValueTest = ref('')
+    const isTestModeEnbaled = ref(false)
 
     const emit = defineEmits([
         'set-config',
@@ -63,6 +73,7 @@
             cronTestTime: cronTestTime.value,
             customCronString: customCronString.value,
             repeatValueTest: repeatValueTest.value,
+            isTestModeEnbaled: isTestModeEnbaled.value
         })
     }
 

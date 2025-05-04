@@ -33,6 +33,10 @@ const setConfig = ({
     config.cronTestTime = cronTestTime
     config.isWeeklyRepeatedFlow = isWeeklyRepeatedFlow as boolean
     config.people = people as string[]
+
+    if (config.isTest) {
+        console.log('--- test mode enbabled')
+    }
 }
 
 
