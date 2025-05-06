@@ -7,8 +7,6 @@ import { createSelector, isDynamicSelector, trimNamePart } from '@/server/utils/
 import { ReplaceValues} from '@/constants'
 
 export const doAction = async (page: Page, action: Action ) => {
-    await doDelay(250)
-
     if (action.value) {
         console.log(`- ${action.value}`)
         action.value = trimNamePart(action.value as string)
