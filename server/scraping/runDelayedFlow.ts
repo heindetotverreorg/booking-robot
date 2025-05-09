@@ -65,7 +65,7 @@ export const runDelayedFlow = async (
 const editPayload = (payload: Record<string, Action>) => {
     const payloadToEdit = JSON.parse(JSON.stringify(payload))
     payloadToEdit.dateSelect.value = dayjs().add(1, 'day').format('YYYY-MM-DD')
-    payloadToEdit.timeCourtSelect.value = [ '22:00', '7' ]
+    payloadToEdit.timeCourtSelect.value = [ '08:00', '7' ]
 
     return payloadToEdit
 }
