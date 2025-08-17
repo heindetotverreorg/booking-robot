@@ -3,56 +3,40 @@ on:
   push: 
     branches: 
       - main
+      - feature/*
   workflow_dispatch:
 env:
   REPO: https://github.com/${{ github.repository }}.git
-  IMAGE_PATH: ${{ secrets.DOCKER_NAMESPACE }}/booking-robot:latest
-  IMAGE_NAME: booking-robot
-  USER_NAME: ${{ secrets.DOCKER_NAMESPACE }}
-jobs: 
-  build-image:
-    name: Build image
+  IMAGE_NAME: ${{ github.actor }}/booking-robot:latest
+jobs:
+  build:
+    name: Build/push image
     runs-on: self-hosted
     steps:
-      - name: Setup ssh
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
       - name: Checkout Code
-        run: |
-          ssh ${{ env.USER_NAME }}@${{ secrets.SERVER_HOST }} -p 22 -o ConnectTimeout="10" -o StrictHostKeyChecking=no <<'ENDSSH'
-          rm -rf ${{ env.IMAGE_NAME }}
-          mkdir -p ~/${{ env.IMAGE_NAME }}
-          cd ~/${{ env.IMAGE_NAME }}
-          git init
-          git remote add origin ${{ env.REPO }}
-          git fetch origin
-          git checkout main
-          ls
-          ENDSSH
-      - name: Build image
-        run: |
-          ssh ${{ env.USER_NAME }}@${{ secrets.SERVER_HOST }} -p 22 -o ConnectTimeout="10" -o StrictHostKeyChecking=no <<'ENDSSH'
-          cd ~/${{ env.IMAGE_NAME }}
-          docker compose down
-          docker system prune -af
-          docker build -t ${{ env.IMAGE_PATH }} .
-          ENDSSH
-  restart-service:
-    needs: build-image
-    name: Restart the docker service
+        uses: actions/checkout@v3
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_NAMESPACE }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: ${{ env.IMAGE_NAME }}
+          cache-from: type=registry,ref=${{ env.IMAGE_NAME }}
+          cache-to: type=inline
+  restart:
+    name: Restart service
     runs-on: self-hosted
+    needs: build
     steps:
-      - name: Setup ssh
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+      - name: Checkout Code
+        uses: actions/checkout@v3
       - name: Restart service
         run: |
-          ssh ${{ env.USER_NAME }}@${{ secrets.SERVER_HOST }} -p 22 -o ConnectTimeout="10" -o StrictHostKeyChecking=no <<'ENDSSH'
-          cd ~/${{ env.IMAGE_NAME }}
-          docker compose up -d
-          find . -mindepth 1 ! -name 'compose.yml' -exec rm -rf {} +
-          ENDSSH
+          docker pull ${{ env.IMAGE_NAME }}
+          IMAGE=${{ env.IMAGE_NAME }} docker compose up -d
