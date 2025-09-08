@@ -20,17 +20,23 @@ function isDST(timestamp: any) {
 export default (bookingDate : string, bookingThreshold : number) => {
     if (isDST(dayjs().format('YYYY-MM-DD HH:mm:ss'))) {
         console.log('-- is daylight saving time')
+        // return dayjs(bookingDate)
+        //     .subtract(bookingThreshold, 'day')
+        //     .set('hour', 0)
+        //     .set('minute', 0)
+        //     .subtract(1, 'hour')
         return dayjs(bookingDate)
-            .subtract(bookingThreshold, 'day')
-            .set('hour', 0)
-            .set('minute', 0)
-            .subtract(1, 'hour')
+            .subtract(72, 'hours')
+            .subtract(2, 'hour')
     }
 
     console.log('-- is not daylight saving time')
+    // return dayjs(bookingDate)
+    //     .subtract(bookingThreshold, 'day')
+    //     .set('hour', 0)
+    //     .set('minute', 0)
+    //     .subtract(2, 'hour')
     return dayjs(bookingDate)
-        .subtract(bookingThreshold, 'day')
-        .set('hour', 0)
-        .set('minute', 0)
+        .subtract(72, 'hours')
         .subtract(2, 'hour')
 }
