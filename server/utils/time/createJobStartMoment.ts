@@ -27,7 +27,7 @@ export default (bookingDate : string, bookingThreshold : number) => {
         //     .subtract(1, 'hour')
         return dayjs(bookingDate)
             .subtract(72, 'hours')
-            .subtract(2, 'hour')
+            // .subtract(2, 'hour')
     }
 
     console.log('-- is not daylight saving time')
@@ -38,5 +38,5 @@ export default (bookingDate : string, bookingThreshold : number) => {
     //     .subtract(2, 'hour')
     return dayjs(bookingDate)
         .subtract(72, 'hours')
-        .subtract(2, 'hour')
+        // .subtract(2, 'hour')
 }
