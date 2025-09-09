@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
     setConfig(config)
 
     const selectedFlow = createFlow(targetFlow)
-    const isDelayedFlow = isDateOutsideOfBookingThreshold(flowParams.dateSelect, selectedFlow?.bookingThreshold)
+    const isDelayedFlow = isDateOutsideOfBookingThreshold(flowParams.dateSelect, flowParams.timeCourtSelect, selectedFlow?.bookingThreshold)
         || config.customCronString
         || config.cronTestTime
 
