@@ -26,7 +26,7 @@ export const runDelayedFlow = async (
     }
 
     const jobStartDayjs: Dayjs = !config.cronTestTime 
-        ? createJobStartMoment(jobRunMoment as string, bookingThreshold)
+        ? createJobStartMoment(jobRunMoment as string, time as string, bookingThreshold)
         : createTestJobStartMoment()
 
     if (job) {
