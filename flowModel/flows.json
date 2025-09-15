@@ -4,7 +4,7 @@
         "id": "bent-sports-padel-robot",
         "type": "robot",
         "url": "https://bent.baanreserveren.nl/reservations",
-        "bookingThreshold": 3,
+        "bookingThreshold": 72,
         "steps": [
             {
                 "name": "login",

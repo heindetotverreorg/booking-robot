@@ -27,7 +27,11 @@ const getJobStatusInfo = (selectedDateString : string) => {
         return `${repeatValue}. Eerst volgende boeking aanstaande ${weekdays[dayjs(repeatedDate).day()]}`
     }
 
+    console.log('getJobStatusInfo: ', selectedDateString)
+
     const selectedDate = dayjs(selectedDateString);
+
+    console.log('selectedDate: ', selectedDate)
 
     return selectedDate
 }
