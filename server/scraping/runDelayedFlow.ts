@@ -47,9 +47,7 @@ export const runDelayedFlow = async (
 
             await runFlow(flow, payload);
 
-            console.log('DATE SELECT VALUE AT JOB RUN: ', jobRunMoment)
-
-            setJobStatus(`${getJobStatusInfo(jobRunMoment as string)} om ${time} op baan ${court} ${config.isTest ? 'IS A TEST' : ''}`);
+            setJobStatus(`${getJobStatusInfo(jobRunMoment as string, time as string)} om ${time} op baan ${court} ${config.isTest ? 'IS A TEST' : ''}`);
 
             if (!config.isWeeklyRepeatedFlow) {
                 stopJob();
@@ -59,7 +57,7 @@ export const runDelayedFlow = async (
 
     const message = `Job will run at: ${getJobStartInfo(jobStartDayjs)}. Job will execute with booking information: ${payload.dateSelect.value} : ${time} on court ${court}`;
 
-    setJobStatus(`${getJobStatusInfo(jobRunMoment as string)} om ${time} op baan ${court} ${config.isTest ? 'IS A TEST' : ''}`);
+    setJobStatus(`${getJobStatusInfo(jobRunMoment as string, time as string)} om ${time} op baan ${court} ${config.isTest ? 'IS A TEST' : ''}`);
 
     return message
 };

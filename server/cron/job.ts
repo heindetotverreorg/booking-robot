@@ -18,22 +18,16 @@ const getJobStartInfo = (jobStartDayjs : Dayjs) => {
     return jobStartDayjs 
 }
 
-const getJobStatusInfo = (selectedDateString : string) => {
+const getJobStatusInfo = (bookingDate : string, time : string) => {
     const { isWeeklyRepeatedFlow, repeatValue } = config;
 
     if (isWeeklyRepeatedFlow) {
-        const repeatedDate = createRepeatingFlowPayload({ date: selectedDateString }) as string;
+        const repeatedDate = createRepeatingFlowPayload({ date: bookingDate }) as string;
 
         return `${repeatValue}. Eerst volgende boeking aanstaande ${weekdays[dayjs(repeatedDate).day()]}`
     }
 
-    console.log('getJobStatusInfo: ', selectedDateString)
-
-    const selectedDate = dayjs(selectedDateString);
-
-    console.log('selectedDate: ', selectedDate)
-
-    return selectedDate
+    return dayjs(`${bookingDate}T${time}:00`)
 }
 
 const scheduleJob = ({
@@ -73,6 +67,7 @@ const setJob = ({
 }
 
 const setJobStatus = (status: string) => {
+    console.log('job status: ', status)
     jobStatus = status
 }
 
