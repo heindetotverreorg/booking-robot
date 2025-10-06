@@ -9,15 +9,6 @@
         <template #label>Test modus</template>
     </MeshInput>
     <MeshInput
-        id="isApiMethod"
-        name="isApiMethod"
-        type="checkbox"
-        :model-value="isApiMethod"
-        @input="[isApiMethod = !isApiMethod, onInput()]"
-    >
-        <template #label>Is api booking method</template>
-    </MeshInput>
-    <MeshInput
         id="cronTestTime"
         name="cronTestTime"
         type="text"
@@ -72,7 +63,6 @@
     const customCronString = ref('')
     const repeatValueTest = ref('')
     const isTestModeEnbaled = ref(false)
-    const isApiMethod = ref(true)
 
     const emit = defineEmits([
         'set-config',
@@ -83,8 +73,7 @@
             cronTestTime: cronTestTime.value,
             customCronString: customCronString.value,
             repeatValueTest: repeatValueTest.value,
-            isTestModeEnbaled: isTestModeEnbaled.value,
-            isApiMethod: isApiMethod.value
+            isTestModeEnbaled: isTestModeEnbaled.value
         })
     }
 

@@ -5,8 +5,7 @@ const config = {
     repeatValue: '',
     customCronString: '',
     iteration: 0,
-    people: [''],
-    isApiMethod: false
+    people: ['']
 }
 
 const setConfig = ({
@@ -16,8 +15,7 @@ const setConfig = ({
     repeatValue,
     customCronString = '',
     repeatValueTest,
-    people = [],
-    isApiMethod = false
+    people = []
 } : {
     isTest? : boolean,
     cronTestTime? : string,
@@ -25,8 +23,7 @@ const setConfig = ({
     repeatValue? : string,
     customCronString? : string,
     repeatValueTest? : string,
-    people? : string[],
-    isApiMethod? : boolean
+    people? : string[]
 }) => {
     if (repeatValue) config.repeatValue = repeatValue
     if (repeatValueTest) config.repeatValue = repeatValueTest
@@ -36,7 +33,6 @@ const setConfig = ({
     config.cronTestTime = cronTestTime
     config.isWeeklyRepeatedFlow = isWeeklyRepeatedFlow as boolean
     config.people = people as string[]
-    config.isApiMethod = isApiMethod as boolean
 
     if (config.isTest) {
         console.log('--- test mode enbabled')
