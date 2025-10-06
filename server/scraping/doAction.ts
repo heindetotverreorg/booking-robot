@@ -34,7 +34,7 @@ export const doAction = async (page: Page, action: Action ) => {
 
     if (action.key === StepNames.confirmBooking && config.isTest) {
         console.log('no booking, is test mode')
-        await doDelay(10000)
+        await doDelay(1000)
         return
     }
 

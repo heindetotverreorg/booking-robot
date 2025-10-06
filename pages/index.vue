@@ -49,7 +49,8 @@
         cronTestTime: '',
         customCronString: '',
         repeatValueTest: '',
-        isTestModeEnbaled: false
+        isTestModeEnbaled: false,
+        isApiMethod: true
     })
 
     onMounted(() => {
@@ -90,7 +91,8 @@
                 isWeeklyRepeatedFlow: form.repeat,
                 repeatValue: form.repeatValue,
                 customCronString: isTest.value ? config.customCronString : '',
-                repeatValueTest: isTest.value ? config.repeatValueTest : ''
+                repeatValueTest: isTest.value ? config.repeatValueTest : '',
+                isApiMethod: config.isApiMethod
             },
             flowParams: {
                 email: {
@@ -144,6 +146,7 @@
         config.customCronString = incomingConfig.customCronString,
         config.repeatValueTest = incomingConfig.repeatValueTest
         config.isTestModeEnbaled = incomingConfig.isTestModeEnbaled
+        config.isApiMethod = incomingConfig.isApiMethod
     }
 
     const stopJob = async () => {

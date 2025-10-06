@@ -28,5 +28,5 @@ export default defineEventHandler(async (event) => {
         return await runDelayedFlow(selectedFlow, flowParams, selectedFlow.bookingThreshold)
     }
 
-    return await runFlow(selectedFlow, flowParams)
+    return await runFlow(selectedFlow, flowParams);
 });
