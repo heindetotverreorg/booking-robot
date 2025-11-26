@@ -11,7 +11,8 @@ env:
 jobs:
   build:
     name: Build/push image
-    runs-on: self-hosted
+    # runs-on: [ self-hosted, linux, x64 ]
+    runs-on: [ self-hosted, linux, arm64 ]
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -26,8 +27,8 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          # both platforms for both builder types that are up
-          platforms: linux/amd64,linux/arm64
+          # platforms: linux/amd64
+          platforms: linux/arm64
           tags: ${{ env.IMAGE_NAME }}
           cache-from: type=registry,ref=${{ env.IMAGE_NAME }}
           cache-to: type=inline
