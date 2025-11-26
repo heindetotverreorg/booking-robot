@@ -1,6 +1,7 @@
 services:
   booking-robot:
     image: heindetotverre/booking-robot:latest
+    platform: linux/amd64
     restart: unless-stopped
     environment:
       - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
