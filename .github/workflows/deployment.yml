@@ -26,7 +26,8 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          platforms: linux/amd64
+          # both platforms for both builder types that are up
+          platforms: linux/amd64,linux/arm64
           tags: ${{ env.IMAGE_NAME }}
           cache-from: type=registry,ref=${{ env.IMAGE_NAME }}
           cache-to: type=inline
