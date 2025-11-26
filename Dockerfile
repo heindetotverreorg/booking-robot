@@ -1,4 +1,3 @@
-# FROM --platform=linux/arm64 node:18 AS build_arm64
 FROM node:18
 
 RUN apt-get update \
