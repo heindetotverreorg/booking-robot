@@ -5,6 +5,11 @@ on:
       - main
       - feature/*
   workflow_dispatch:
+    inputs:
+      deploy_message:
+        description: 'Deployment Message'
+        required: false
+        default: 'Manual deploy triggered'
 env:
   REPO: https://github.com/${{ github.repository }}.git
   IMAGE_NAME: ${{ github.actor }}/booking-robot:latest
