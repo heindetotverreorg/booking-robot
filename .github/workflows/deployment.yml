@@ -11,6 +11,7 @@ env:
 jobs:
   build:
     name: Build/push image
+    # determine the runner arch
     runs-on: [ self-hosted, linux, x64 ]
     steps:
       - name: Checkout Code
